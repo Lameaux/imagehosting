@@ -29,10 +29,10 @@ var upload_files = [];
 var removeThumbnail = function() {
   var id = $(this).data('id');
   upload_files.splice(id,1);
-  $('#preview_' + id).remove();
   if (upload_files.length == 0) {
     $('button#upload_button').addClass('hidden');
   }
+  printTemplates();
 };
 
 function createThumbnail(file, index) {
