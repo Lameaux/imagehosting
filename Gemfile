@@ -21,6 +21,7 @@ gem 'unidecoder', '~> 1.1.2'
 gem 'elasticsearch', '~> 2.0.0'
 gem 'shortuuid', '~> 0.2.0'
 gem 'rmagick', '~> 2.15.4'
+gem 'lightbox-bootstrap-rails', '~> 3.3.0'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'

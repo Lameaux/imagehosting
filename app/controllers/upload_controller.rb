@@ -2,16 +2,16 @@ require 'securerandom'
 require 'shortuuid'
 require 'rmagick'
 require 'open-uri'
+require 'rack/mime'
 
 class UploadController < ApplicationController
 
-  BASE_URL = 'http://0.0.0.0:3000/'
   FILE_SIZE_LIMIT = 500 * 1024
-
 
   def create
 
-    id = ShortUUID.shorten(SecureRandom.uuid)
+    uuid = SecureRandom.uuid
+    id = ShortUUID.shorten(uuid)
     url = "#{BASE_URL}#{id}"
     thumb_url = "#{BASE_URL}#{THUMB_PREFIX}#{id}#{THUMB_SUFFIX}"
     local_file_name = local_upload_path(id)
@@ -41,6 +41,17 @@ class UploadController < ApplicationController
     file_info[:file_name] = params[:file_name] if params[:file_name]
 
     create_thumbnail(local_file_name)
+
+    file_ext = Rack::Mime::MIME_TYPES.invert[file_info[:content_type]]
+
+    File.rename(local_file_name, "#{local_file_name}#{file_ext}")
+
+    image = Image.new({
+      id: uuid,
+      title: file_info[:file_name],
+      file_ext: file_ext,
+                      })
+    image.save!
 
     render json: file_info
   end

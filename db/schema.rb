@@ -10,6 +10,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 0) do
+ActiveRecord::Schema.define(version: 2) do
+
+  create_table "images", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string "id",       limit: 36,    null: false
+    t.text   "title",    limit: 65535
+    t.string "file_ext"
+    t.string "user_id",  limit: 36
+    t.index ["id"], name: "images_id", using: :btree
+    t.index ["user_id"], name: "images_user_id", using: :btree
+  end
+
+  create_table "users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string  "id",       limit: 36,             null: false
+    t.string  "email",                           null: false
+    t.string  "password",                        null: false
+    t.integer "active",              default: 0, null: false
+    t.index ["email"], name: "users_email", unique: true, using: :btree
+    t.index ["id"], name: "users_id", using: :btree
+  end
 
 end
