@@ -3,7 +3,7 @@
 var upload_files = [];
 var upload_results = [];
 
-//!function ($) {
+!function ($) {
   $(function () {
 
     // Check for the various File API support.
@@ -17,16 +17,11 @@ var upload_results = [];
     $("#upload_files").change(function (){
       var files = $(this).prop('files');
       processFiles(files);
-      if (upload_files.length > 0) {
-        $('button#upload_button').removeClass('hidden');
-      } else {
-        $('button#upload_button').addClass('hidden');
-      }
-      printTemplates();
     });
 
     $("#upload_button").click(function(){
-      $('.preview-remove').addClass('hidden');
+
+      $('.thumb_detail').addClass('hidden');
       $('.thumb_status').removeClass('hidden');
 
       $("#upload_files_label").addClass('hidden');
@@ -45,7 +40,7 @@ var upload_results = [];
     $('body').on('drop', '#drop_zone', handleDrop);
 
   });
-//}(jQuery);
+}(jQuery);
 
 function processFiles(files) {
   var imageType = /image.*/;
@@ -57,15 +52,26 @@ function processFiles(files) {
     }
     upload_files.push(file);
   }
+  if (upload_files.length > 0) {
+    $('.upload_button_well').removeClass('hidden');
+  } else {
+    $('.upload_button_well').addClass('hidden');
+  }
+  printTemplates();
 }
 
-function removeThumbnail() {
+function removePreviewThumbnail() {
   var id = $(this).data('id');
   upload_files.splice(id,1);
   if (upload_files.length == 0) {
-    $('button#upload_button').addClass('hidden');
+    $('.upload_button_well').addClass('hidden');
   }
   printTemplates();
+}
+
+function removeUploadedThumbnail() {
+  var id = $(this).data('id');
+  alert(id);
 }
 
 function selectText() {
@@ -80,17 +86,25 @@ function copyToClipboard() {
 
 function createThumbnail(file, index) {
 
-  var thumbnail_html = '<div class="col-md-3 col-sm-4 col-xs-6" id="preview_' + index + '">' +
-      '<div class="thumbnail">' +
-      '<img class="thumb_cover" alt="' + file.name + '" title="' + file.name + ' (' + file.size + ' bytes)" src="/img/1px.gif">' +
-      '</div>' +
-      '<p class="thumb_detail">' +
-      '<button class="btn btn-default btn-xs preview-remove" title="Remove" data-id="' + index + '"><span class="glyphicon glyphicon-trash"></span></button> ' + file.name +
-      '</p>' +
-      '<p class="thumb_status hidden">Pending...</p>' +
+  var thumbnail_html = '' +
+      '<div class="col-md-4 col-sm-6 col-xs-12" id="preview_' + index + '">' +
+        '<div class="thumbnail">' +
+          '<img class="thumb_cover" alt="' + file.name + '" title="' + file.name + ' (' + file.size + ' bytes)" src="/img/1px.gif">' +
+        '</div>' +
+        '<div class="thumb_detail">' +
+          '<div class="input-group ">' +
+            '<span class="input-group-btn">' +
+              '<button class="btn btn-default preview-remove" type="button" title="Remove" data-id="' + index + '">' +
+                '<span class="glyphicon glyphicon-trash"></span>' +
+              '</button> ' +
+            '</span>' +
+            '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Link" value="' + file.name + '">' +
+          '</div>' +
+        '</div>' +
+        '<p class="thumb_status hidden">Pending...</p>' +
       '</div>';
   var thumbnail = $(thumbnail_html);
-  thumbnail.find('.preview-remove').click(removeThumbnail);
+  thumbnail.find('.preview-remove').click(removePreviewThumbnail);
 
   var reader = new FileReader();
   reader.onload = (function(aImg){
@@ -117,31 +131,44 @@ function uploadFile(id) {
 
   var formData = new FormData();
   formData.append('file', upload_files[id]);
+  formData.append('file_name', $('#file_name_' + id).val());
 
   $.ajax({
     url : '/upload',
     type : 'POST',
     data : formData,
-    processData: false,  // tell jQuery not to process the data
-    contentType: false,  // tell jQuery not to set contentType
+    processData: false,
+    contentType: false,
     success : function(data) {
 
       upload_results[id] = data;
 
-      var success_html = $('<div class="input-group">' +
-      '<span class="input-group-addon">Link</span>' +
-      '<input type="text" class="form-control image-url" aria-label="Link" value="' + data.url + '" readonly>' +
-      '<span class="input-group-btn">' +
-          '<button class="btn btn-default clipboard-btn" title="Copy to Clipboard">' +
-            '<span class="glyphicon glyphicon-copy"></span>' +
-          '</button>' +
-      '</span>' +
-      '</div>');
+      var success_html = '' +
+      '<div class="input-group thumb_status_margin">' +
+          '<input type="text" class="form-control" aria-label="Link" value="' + data.file_name + '">' +
+          '<span class="input-group-btn">' +
+            '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-pencil"></span></button>' +
+          '</span>' +
+      '</div>' +
+      '<div class="input-group thumb_status_margin">' +
+          '<span class="input-group-addon">Link</span>' +
+          '<input type="text" class="form-control image-url" aria-label="Link" value="' + data.url + '" readonly>' +
+      '</div>' +
+      '<div>' +
+          '<button class="btn btn-default clipboard-btn" type="button" title="Copy to Clipboard">' +
+          '<span class="glyphicon glyphicon-copy"></span> Copy link' +
+          '</button> ' +
+          '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
+          '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
+      '</div>' +
+      '';
 
-      success_html.find('.image-url').click(selectText);
-      success_html.find('.clipboard-btn').click(copyToClipboard);
+      var success = $(success_html);
 
-      $('#preview_' + id).find('.thumb_status').html(success_html);
+      success.find('.image-url').click(selectText);
+      success.find('.clipboard-btn').click(copyToClipboard);
+
+      $('#preview_' + id).find('.thumb_status').html(success);
       continueUploading();
     },
     error: function() {
@@ -174,5 +201,5 @@ function handleDrop(evt) {
   evt.stopPropagation();
   evt.preventDefault();
   var files = evt.originalEvent.dataTransfer.files;
-  console.log(files);
+  processFiles(files);
 }

@@ -1,13 +1,24 @@
 <h1>Upload Image</h1>
+
 <div>
 
   <form action="/upload" method="post" enctype="multipart/form-data">
+    <div class="well-sm upload_button_well hidden">
+
+      <a href="/" class="btn btn-default hidden" id="new_upload_button">
+        <span class="glyphicon glyphicon-cloud-upload"></span> New Upload
+      </a>
+
+      <button type="submit" class="btn btn-default" id="upload_button">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload
+      </button>
+    </div>
 
     <div class="row" id="preview_files"></div>
 
 
     <div id="drop_zone">
-      <p>Drop files here</p>
+      <p><span class="glyphicon glyphicon-download-alt"></span> Drop files here</p>
       <p>OR</p>
 
       <input type="file" name="file" id="upload_files" class="input_files" accept="image/*" multiple/>
@@ -15,15 +26,9 @@
         Choose files to upload</label>
     </div>
 
-    <button type="submit" class="btn btn-default hidden" id="upload_button">
-      <span class="glyphicon glyphicon-upload"></span> Upload
-    </button>
-
-      <a href="/" class="btn btn-default hidden" id="new_upload_button">
-        <span class="glyphicon glyphicon-upload"></span> New Upload
-      </a>
-
   </form>
+
+
 
 </div>
 

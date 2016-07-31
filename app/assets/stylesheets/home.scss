@@ -12,15 +12,26 @@ div.thumbnail {
 
 img.thumb_cover {
   width: 100%;
-  height: 200px;
+  height: 300px;
   background-size: cover;
   background-position: center;
 }
 
-p.thumb_detail, p.thumb_status {
-  height: 40px;
+.thumb_detail, .thumb_status {
   overflow: hidden;
   font-size: 14px;
+}
+
+.thumb_detail {
+  height: 40px;
+}
+
+.thumb_status {
+  height: 120px;
+}
+
+.thumb_status_margin {
+  margin-bottom: 5px;
 }
 
 .btn.preview-remove {

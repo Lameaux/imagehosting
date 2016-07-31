@@ -20,7 +20,7 @@ gem 'bootstrap-sass', '~> 3.3.6'
 gem 'unidecoder', '~> 1.1.2'
 gem 'elasticsearch', '~> 2.0.0'
 gem 'shortuuid', '~> 0.2.0'
-
+gem 'rmagick', '~> 2.15.4'
 
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
