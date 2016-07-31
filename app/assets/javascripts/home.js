@@ -3,20 +3,20 @@
 var upload_files = [];
 var upload_results = [];
 
-!function ($) {
+//!function ($) {
   $(function () {
+
+    // Check for the various File API support.
+    if (window.File && window.FileReader && window.FileList && window.Blob) {
+      // Great success! All the File APIs are supported.
+    } else {
+      alert('The File APIs are not fully supported in this browser.');
+    }
+
 
     $("#upload_files").change(function (){
       var files = $(this).prop('files');
-      var imageType = /image.*/;
-      var index= 0;
-      for (var i=0; i < files.length; i++) {
-        var file = files[i];
-        if (!file.type.match(imageType)) {
-          continue;
-        }
-        upload_files.push(file);
-      }
+      processFiles(files);
       if (upload_files.length > 0) {
         $('button#upload_button').removeClass('hidden');
       } else {
@@ -31,35 +31,52 @@ var upload_results = [];
 
       $("#upload_files_label").addClass('hidden');
       $(this).addClass('hidden');
+      $('#drop_zone').addClass('hidden');
 
       for (var i = 0; i < upload_files.length; i++) {
         upload_results[i] = false;
       }
       continueUploading();
+      return false;
     });
 
 
-  });
-}(jQuery);
+    $('body').on('dragover', '#drop_zone', handleDragOver);
+    $('body').on('drop', '#drop_zone', handleDrop);
 
-var removeThumbnail = function() {
+  });
+//}(jQuery);
+
+function processFiles(files) {
+  var imageType = /image.*/;
+  var index= 0;
+  for (var i=0; i < files.length; i++) {
+    var file = files[i];
+    if (!file.type.match(imageType)) {
+      continue;
+    }
+    upload_files.push(file);
+  }
+}
+
+function removeThumbnail() {
   var id = $(this).data('id');
   upload_files.splice(id,1);
   if (upload_files.length == 0) {
     $('button#upload_button').addClass('hidden');
   }
   printTemplates();
-};
+}
 
-var selectText = function() {
+function selectText() {
   this.setSelectionRange(0, this.value.length);
-};
+}
 
-var copyToClipboard = function() {
+function copyToClipboard() {
   var image_url = ($(this).parents('.thumb_status').find('.image-url'))[0];
   image_url.setSelectionRange(0, image_url.value.length);
   document.execCommand("copy");
-};
+}
 
 function createThumbnail(file, index) {
 
@@ -143,4 +160,19 @@ function continueUploading() {
       return uploadFile(i);
     }
   }
+  $('#new_upload_button').removeClass('hidden');
+}
+
+
+function handleDragOver(evt) {
+  evt.stopPropagation();
+  evt.preventDefault();
+  evt.originalEvent.dataTransfer.dropEffect = 'copy'; // Explicitly show this is a copy.
+}
+
+function handleDrop(evt) {
+  evt.stopPropagation();
+  evt.preventDefault();
+  var files = evt.originalEvent.dataTransfer.files;
+  console.log(files);
 }

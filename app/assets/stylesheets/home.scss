@@ -35,3 +35,12 @@ p.thumb_detail, p.thumb_status {
   position: absolute;
   z-index: -1;
 }
+
+#drop_zone {
+  border: 2px dashed #bbb;
+  border-radius: 5px;
+  padding: 25px;
+  text-align: center;
+  color: #bbb;
+  font-size: 18px;
+}
