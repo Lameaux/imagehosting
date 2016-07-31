@@ -13,7 +13,7 @@ class UploadController < ApplicationController
 
     id = ShortUUID.shorten(SecureRandom.uuid)
     url = "#{BASE_URL}#{id}"
-    thumb_url = "#{url}#{THUMB_SUFFIX}"
+    thumb_url = "#{BASE_URL}#{THUMB_PREFIX}#{id}#{THUMB_SUFFIX}"
     local_file_name = local_upload_path(id)
 
     file_info = {

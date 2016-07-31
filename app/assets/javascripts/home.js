@@ -230,8 +230,26 @@ function uploadFile(id) {
           '<button class="btn btn-default clipboard-btn" type="button" title="Copy to Clipboard">' +
           '<span class="glyphicon glyphicon-copy"></span> Copy link' +
           '</button> ' +
-          '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
+          '<button class="btn btn-default" type="button" data-toggle="modal" data-target="#embed_code_' + data.id + '"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
           '<button class="btn btn-default delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
+      '</div>' +
+      '<div class="modal fade" id="embed_code_' + data.id + '" role="dialog">' +
+          '<div class="modal-dialog modal-lg">' +
+          '<div class="modal-content">' +
+          '<div class="modal-header">' +
+          '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
+          '<h4 class="modal-title">Embed code</h4>' +
+          '</div>' +
+          '<div class="modal-body">' +
+          '<pre><code>' +
+          $("<div>").text('<a target="_blank" href="' + data.url + '" title="' + data.file_name + '">' + "\r\n\t" + '<img src="' + data.thumb_url + '" alt="' + data.file_name + '">' + "\r\n" + '</a>').html() +
+          '</code></pre>' +
+          '</div>' +
+          '<div class="modal-footer">' +
+          '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+          '</div>' +
+          '</div>' +
+          '</div>' +
       '</div>' +
       '';
 
