@@ -1,5 +1,4 @@
-// http://stackoverflow.com/questions/4459379/preview-an-image-before-it-is-uploaded
-
+var FILE_SIZE_LIMIT = 500 * 1024;
 var upload_files = [];
 var upload_results = [];
 
@@ -67,6 +66,10 @@ function processFiles(files) {
   for (var i=0; i < files.length; i++) {
     var file = files[i];
     if (!file.type.match(imageType)) {
+      continue;
+    }
+    if (file.size > FILE_SIZE_LIMIT) {
+      alert('File ' + file.name + ' is too big (' + file.size + ' bytes).');
       continue;
     }
     upload_files.push(file);
@@ -146,7 +149,7 @@ function createThumbnail(file, index) {
   }
 
   var thumbnail_html = '' +
-      '<div class="col-md-4 col-sm-6 col-xs-12" id="preview_' + index + '">' +
+      '<div class="col-md-4 col-sm-6 col-xs-12 preview" id="preview_' + index + '">' +
         '<div class="thumbnail">' +
           '<img class="thumb_cover" alt="' + file_name + '" title="' + file_name + '" src="/img/1px.gif">' +
         '</div>' +
@@ -181,10 +184,10 @@ function createThumbnail(file, index) {
 }
 
 function printTemplates() {
-  $('#preview_files').html('');
+  $('.preview').remove();
   for (var i=0; i < upload_files.length; i++) {
     var file = upload_files[i];
-    $('#preview_files').append(createThumbnail(file, i));
+    $('#drop_zone').after(createThumbnail(file, i));
   }
 }
 

@@ -50,8 +50,9 @@ class UploadController < ApplicationController
   def download_url(url, file_info, local_file_name)
     img = open(url)
     file_info[:content_type] = img.content_type
+    file_info[:file_name] = url
     bad_request unless img.content_type.start_with?('image')
-    IO.copy_stream(img, local_file_name)
+    IO.copy_stream(img, local_file_name, FILE_SIZE_LIMIT)
   end
 
   def process_upload(uploaded_io, file_info, local_file_name)
@@ -68,7 +69,7 @@ class UploadController < ApplicationController
   def create_thumbnail(img_file_name)
 
     width = 500
-    height = 500
+    height = 400
 
     local_file_name_thumb = "#{img_file_name}#{THUMB_SUFFIX}"
 
