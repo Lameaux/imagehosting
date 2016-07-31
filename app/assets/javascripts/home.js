@@ -103,6 +103,40 @@ function copyToClipboard() {
   document.execCommand("copy");
 }
 
+function editImage() {
+
+  var id = $(this).data('id');
+  var index = $(this).data('index');
+
+  $.ajax({
+    url: '/' + id,
+    type: 'PUT',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+
+    }
+  });
+
+}
+
+function deleteImage() {
+
+  var id = $(this).data('id');
+  var index = $(this).data('index');
+
+  $.ajax({
+    url: '/' + id,
+    type: 'DELETE',
+    processData: false,
+    contentType: false,
+    success: function (data) {
+      $('#preview_' + index).remove();
+    }
+  });
+
+}
+
 function createThumbnail(file, index) {
 
   if (file instanceof File) {
@@ -180,9 +214,9 @@ function uploadFile(id) {
 
       var success_html = '' +
       '<div class="input-group thumb_status_margin">' +
-          '<input type="text" class="form-control" aria-label="Link" value="' + data.file_name + '">' +
+          '<input type="text" class="form-control" id="image_title_' + id + '" aria-label="Image title" value="' + data.file_name + '">' +
           '<span class="input-group-btn">' +
-            '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-pencil"></span></button>' +
+            '<button class="btn btn-default edit-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-pencil"></span></button>' +
           '</span>' +
       '</div>' +
       '<div class="input-group thumb_status_margin">' +
@@ -194,7 +228,7 @@ function uploadFile(id) {
           '<span class="glyphicon glyphicon-copy"></span> Copy link' +
           '</button> ' +
           '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
-          '<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
+          '<button class="btn btn-default delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
       '</div>' +
       '';
 
@@ -202,6 +236,9 @@ function uploadFile(id) {
 
       success.find('.image-url').click(selectText);
       success.find('.clipboard-btn').click(copyToClipboard);
+      success.find('.edit-btn').click(editImage);
+      success.find('.delete-btn').click(deleteImage);
+
 
       $('#preview_' + id).find('.thumb_status').html(success);
       continueUploading();

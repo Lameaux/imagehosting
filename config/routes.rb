@@ -5,5 +5,7 @@ Rails.application.routes.draw do
   post 'upload', to: 'upload#create'
 
   get ':id', to: 'image#show', constraints: { id: /[0-9a-zA-Z]+/ }
+  put ':id', to: 'image#edit', constraints: { id: /[0-9a-zA-Z]+/ }
+  delete ':id', to: 'image#delete', constraints: { id: /[0-9a-zA-Z]+/ }
 
 end

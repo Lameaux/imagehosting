@@ -6,16 +6,15 @@ require 'open-uri'
 class UploadController < ApplicationController
 
   BASE_URL = 'http://0.0.0.0:3000/'
-  THUMB_SUFFIX = '.thumb.jpg'
+  FILE_SIZE_LIMIT = 500 * 1024
+
 
   def create
-
-    bad_request if Random.rand(2) == 0
 
     id = ShortUUID.shorten(SecureRandom.uuid)
     url = "#{BASE_URL}#{id}"
     thumb_url = "#{url}#{THUMB_SUFFIX}"
-    local_file_name = Rails.root.join('public', 'uploads', id)
+    local_file_name = local_upload_path(id)
 
     file_info = {
       id: id,
@@ -35,10 +34,13 @@ class UploadController < ApplicationController
       return
     end
 
-    create_thumbnail(local_file_name)
+
+    file_info[:file_size] = File.size(local_file_name)
+    bad_request if file_info[:file_size] > FILE_SIZE_LIMIT
 
     file_info[:file_name] = params[:file_name] if params[:file_name]
-    file_info[:file_size] = File.size(local_file_name)
+
+    create_thumbnail(local_file_name)
 
     render json: file_info
   end
