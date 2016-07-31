@@ -39,6 +39,25 @@ var upload_results = [];
     $('body').on('dragover', '#drop_zone', handleDragOver);
     $('body').on('drop', '#drop_zone', handleDrop);
 
+
+    $('#paste_url_button').click(function(){
+      var url = $('#paste_url').val();
+      if (!isURL(url)) {
+        alert('Invalid URL: ' + url);
+        return;
+      }
+      $('#paste_url').val('');
+
+      upload_files.push(url);
+      if (upload_files.length > 0) {
+        $('.upload_button_well').removeClass('hidden');
+      } else {
+        $('.upload_button_well').addClass('hidden');
+      }
+      printTemplates();
+
+    });
+
   });
 }(jQuery);
 
@@ -86,10 +105,16 @@ function copyToClipboard() {
 
 function createThumbnail(file, index) {
 
+  if (file instanceof File) {
+    file_name = file.name;
+  } else {
+    file_name = file;
+  }
+
   var thumbnail_html = '' +
       '<div class="col-md-4 col-sm-6 col-xs-12" id="preview_' + index + '">' +
         '<div class="thumbnail">' +
-          '<img class="thumb_cover" alt="' + file.name + '" title="' + file.name + ' (' + file.size + ' bytes)" src="/img/1px.gif">' +
+          '<img class="thumb_cover" alt="' + file_name + '" title="' + file_name + '" src="/img/1px.gif">' +
         '</div>' +
         '<div class="thumb_detail">' +
           '<div class="input-group ">' +
@@ -98,7 +123,7 @@ function createThumbnail(file, index) {
                 '<span class="glyphicon glyphicon-trash"></span>' +
               '</button> ' +
             '</span>' +
-            '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Link" value="' + file.name + '">' +
+            '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Link" value="' + file_name + '">' +
           '</div>' +
         '</div>' +
         '<p class="thumb_status hidden">Pending...</p>' +
@@ -106,13 +131,17 @@ function createThumbnail(file, index) {
   var thumbnail = $(thumbnail_html);
   thumbnail.find('.preview-remove').click(removePreviewThumbnail);
 
-  var reader = new FileReader();
-  reader.onload = (function(aImg){
-    return function(e) {
-      aImg.css('background-image', "url('" + e.target.result + "')");
-    }
-  })(thumbnail.find('img.thumb_cover'));
-  reader.readAsDataURL(file);
+  if (file instanceof File) {
+    var reader = new FileReader();
+    reader.onload = (function (aImg) {
+      return function (e) {
+        aImg.css('background-image', "url('" + e.target.result + "')");
+      }
+    })(thumbnail.find('img.thumb_cover'));
+    reader.readAsDataURL(file);
+  } else {
+    thumbnail.find('img.thumb_cover').css('background-image', "url('" + file + "')")
+  }
 
   return thumbnail;
 }
@@ -130,7 +159,13 @@ function uploadFile(id) {
   $('#preview_' + id).find('.thumb_status').html('Uploading...');
 
   var formData = new FormData();
-  formData.append('file', upload_files[id]);
+
+  if (upload_files[id] instanceof File) {
+    formData.append('file', upload_files[id]);
+  } else {
+    formData.append('file_url', upload_files[id]);
+  }
+
   formData.append('file_name', $('#file_name_' + id).val());
 
   $.ajax({
@@ -173,7 +208,15 @@ function uploadFile(id) {
     },
     error: function() {
       upload_results[id] = 'failed';
-      $('#preview_' + id).find('.thumb_status').html('Failed... Try again');
+
+      var error_html = '<div>Upload Failed... <button type="button" class="btn btn-default try-again hidden">Try again</button></div>';
+      var error = $(error_html);
+      error.find('.try-again').click(function(){
+        upload_results[id] = false;
+        continueUploading();
+      });
+
+      $('#preview_' + id).find('.thumb_status').html(error);
       continueUploading();
     }
 
@@ -188,6 +231,7 @@ function continueUploading() {
     }
   }
   $('#new_upload_button').removeClass('hidden');
+  $('.try-again').removeClass('hidden');
 }
 
 
@@ -202,4 +246,14 @@ function handleDrop(evt) {
   evt.preventDefault();
   var files = evt.originalEvent.dataTransfer.files;
   processFiles(files);
+}
+
+function isURL(str) {
+  var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
+      '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|'+ // domain name
+      '((\\d{1,3}\\.){3}\\d{1,3}))'+ // OR ip (v4) address
+      '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*'+ // port and path
+      '(\\?[;&a-z\\d%_.~+=-]*)?'+ // query string
+      '(\\#[-a-z\\d_]*)?$','i'); // fragment locator
+  return pattern.test(str);
 }
