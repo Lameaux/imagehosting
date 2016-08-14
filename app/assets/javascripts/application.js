@@ -15,3 +15,24 @@
 //= require lightbox-bootstrap
 //= require jquery_ujs
 //= require_tree .
+
+!function ($) {
+  $(function(){
+
+    $('#back-top').fadeOut();
+    $(document).scroll(function () {
+      var y = $(this).scrollTop();
+      if (y > 300) {
+        $('#back-top').fadeIn();
+      } else {
+        $('#back-top').fadeOut();
+      }
+    });
+    $('#back-top').click(function () {
+      $('html, body').animate({scrollTop: 0}, 800);
+      return false;
+    });
+
+  });
+
+}(window.jQuery);

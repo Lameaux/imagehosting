@@ -173,11 +173,15 @@ function createThumbnail(file, index) {
     reader.onload = (function (aImg) {
       return function (e) {
         aImg.css('background-image', "url('" + e.target.result + "')");
+        //aImg.attr('src', e.target.result);
+
       }
     })(thumbnail.find('img.thumb_cover'));
     reader.readAsDataURL(file);
   } else {
     thumbnail.find('img.thumb_cover').css('background-image', "url('" + file + "')")
+    //thumbnail.find('img.thumb_cover').attr('src', file)
+
   }
 
   return thumbnail;

@@ -12,8 +12,8 @@ class UploadController < ApplicationController
 
     uuid = SecureRandom.uuid
     id = ShortUUID.shorten(uuid)
-    url = "#{BASE_URL}#{id}"
-    thumb_url = "#{BASE_URL}#{THUMB_PREFIX}#{id}#{THUMB_SUFFIX}"
+    url = "#{BASE_URL}/#{id}"
+    thumb_url = "#{BASE_URL}/#{THUMB_PREFIX}#{id}#{THUMB_SUFFIX}"
     local_file_name = local_upload_path(id)
 
     file_info = {
@@ -88,8 +88,8 @@ class UploadController < ApplicationController
     img = Magick::Image.read(img_file_name).first
 
     target = Magick::Image.new(width, height) do
-      self.background_color = 'white'
-      self.format = 'JPG'
+      self.background_color = 'transparent'
+      self.format = 'PNG'
     end
     img.resize_to_fit!(width, height)
     target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(local_file_name_thumb)
