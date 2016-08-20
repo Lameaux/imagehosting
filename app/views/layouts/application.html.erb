@@ -44,15 +44,16 @@
         <span class="icon-bar"></span>
         <span class="icon-bar"></span>
       </button>
-      <a class="navbar-brand" href="/" title="#hovnokod"><span class="muted">#hovnokod</span></a>
+      <a class="navbar-brand" href="/" title="image-uploader"><span class="muted">Image Uploader</span></a>
     </div>
     <div class="collapse navbar-collapse menu_xs">
       <ul class="nav navbar-nav top-menu">
-        <li <%= @page.section == '/' ? 'class="active"'.html_safe : '' %>><a href="/">Nejnovější</a></li>
-        <li <%= @page.section == '/top' ? 'class="active"'.html_safe : '' %>><a href="/top">Největší sračky</a></li>
-        <li><a href="/add">Upload</a></li>
+        <li <%= @page.section == '' ? 'class="active"'.html_safe : '' %>><a href="/">Upload Images</a></li>
+        <li <%= @page.section == '/gallery' ? 'class="active"'.html_safe : '' %>><a href="/gallery">Browse Images</a></li>
+
       </ul>
       <ul class="nav navbar-nav navbar-right">
+        <li <%= @page.section == '/my' ? 'class="active"'.html_safe : '' %>><a href="/my">My Images</a></li>
         <li class="dropdown">
           <a data-toggle="dropdown" class="dropdown-toggle" href="#">
             <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
