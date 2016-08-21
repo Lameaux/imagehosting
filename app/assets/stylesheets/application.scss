@@ -44,11 +44,11 @@ img.thumb_cover {
 }
 
 .thumb_detail {
-  height: 40px;
+
 }
 
 .thumb_status {
-  height: 120px;
+
 }
 
 .thumb_status_margin {
@@ -56,7 +56,7 @@ img.thumb_cover {
 }
 
 .btn.preview-remove {
-  border: 0px solid transparent;
+  margin-top: 15px;
 }
 
 .input_files {
@@ -79,11 +79,21 @@ img.thumb_cover {
 #drop_zone {
   border: 2px dashed #bbb;
   border-radius: 5px;
-  padding: 15px;
+  padding: 50px 15px;
   text-align: center;
   color: #bbb;
   font-size: 18px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
+  margin-top:10px;
+}
+
+#collection {
+  margin-bottom:20px;
+}
+
+#collection_link {
+  margin-top:20px;
+  margin-bottom:20px;
 }
 
 #drop_zone .drop-label {
@@ -92,4 +102,27 @@ img.thumb_cover {
   text-align: center;
   padding: 10px 16px;
   font-size: 22px;
+}
+
+.upload_button, #new_upload_button {
+  margin-top: 20px;
+}
+
+.upload_buttons {
+  margin-top: 30px;
+}
+
+.input-group-addon {
+  color: white;
+  background-color: #333;
+  font-weight: bold;
+  border: 0px;
+}
+
+.input-group .form-control:not(:first-child):not(:last-child) {
+  border-radius: 6px;
+}
+
+.input-group-lg > .input-group-addon {
+ padding: 10px 5px;
 }

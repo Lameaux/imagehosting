@@ -50,6 +50,8 @@ class UploadController < ApplicationController
       id: uuid,
       title: file_info[:file_name],
       file_ext: file_ext,
+      file_size: file_info[:file_size],
+      collection_id: ShortUUID.expand(params[:collection_id])
                       })
     image.save!
 
@@ -58,17 +60,21 @@ class UploadController < ApplicationController
 
   private
 
+  def supported_content_type(content_type)
+    %w(image/png image/jpg image/jpeg image/gif).include? content_type
+  end
+
   def download_url(url, file_info, local_file_name)
     img = open(url)
     file_info[:content_type] = img.content_type
     file_info[:file_name] = url
-    bad_request unless img.content_type.start_with?('image')
+    bad_request unless supported_content_type img.content_type
     IO.copy_stream(img, local_file_name, FILE_SIZE_LIMIT)
   end
 
   def process_upload(uploaded_io, file_info, local_file_name)
     bad_request unless uploaded_io.is_a? ActionDispatch::Http::UploadedFile
-    bad_request unless uploaded_io.content_type.start_with?('image')
+    bad_request unless supported_content_type uploaded_io.content_type
 
     File.open(local_file_name, 'wb') do |file|
       file.write(uploaded_io.read)

@@ -18,13 +18,13 @@ var upload_results = [];
       processFiles(files);
     });
 
-    $("#upload_button").click(function(){
+    $(".upload_button").click(function(){
 
       $('.thumb_detail').addClass('hidden');
       $('.thumb_status').removeClass('hidden');
 
       $("#upload_files_label").addClass('hidden');
-      $(this).addClass('hidden');
+      $(".upload_button").addClass('hidden');
       $('#drop_zone').addClass('hidden');
 
       for (var i = 0; i < upload_files.length; i++) {
@@ -49,9 +49,11 @@ var upload_results = [];
 
       upload_files.push(url);
       if (upload_files.length > 0) {
-        $('.upload_button_well').removeClass('hidden');
+        $('.upload_buttons').removeClass('hidden');
+        $('#collection').removeClass('hidden');
       } else {
-        $('.upload_button_well').addClass('hidden');
+        $('.upload_buttons').addClass('hidden');
+        $('#collection').addClass('hidden');
       }
       printTemplates();
 
@@ -75,9 +77,11 @@ function processFiles(files) {
     upload_files.push(file);
   }
   if (upload_files.length > 0) {
-    $('.upload_button_well').removeClass('hidden');
+    $('.upload_buttons').removeClass('hidden');
+    $('#collection').removeClass('hidden');
   } else {
-    $('.upload_button_well').addClass('hidden');
+    $('.upload_buttons').addClass('hidden');
+    $('#collection').addClass('hidden');
   }
   printTemplates();
 }
@@ -86,7 +90,8 @@ function removePreviewThumbnail() {
   var id = $(this).data('id');
   upload_files.splice(id,1);
   if (upload_files.length == 0) {
-    $('.upload_button_well').addClass('hidden');
+    $('.upload_buttons').addClass('hidden');
+    $('#collection').addClass('hidden');
   }
   printTemplates();
 }
@@ -111,13 +116,16 @@ function editImage() {
   var id = $(this).data('id');
   var index = $(this).data('index');
 
+  var formData = new FormData();
+  formData.append('title', $('#image_title_' + index).val());
+
   $.ajax({
     url: '/' + id,
     type: 'PUT',
+    data: formData,
     processData: false,
     contentType: false,
     success: function (data) {
-
     }
   });
 
@@ -149,21 +157,24 @@ function createThumbnail(file, index) {
   }
 
   var thumbnail_html = '' +
-      '<div class="col-md-4 col-sm-6 col-xs-12 preview" id="preview_' + index + '">' +
-        '<div class="thumbnail">' +
+      '<div class="col-xs-12 preview" id="preview_' + index + '">' +
+        '<div class="col-sm-4 col-xs-12 thumbnail">' +
           '<img class="thumb_cover" alt="' + file_name + '" title="' + file_name + '" src="/img/1px.gif">' +
         '</div>' +
-        '<div class="thumb_detail">' +
-          '<div class="input-group ">' +
-            '<span class="input-group-btn">' +
-              '<button class="btn btn-danger preview-remove" type="button" title="Remove" data-id="' + index + '">' +
-                '<span class="glyphicon glyphicon-trash"></span>' +
-              '</button> ' +
-            '</span>' +
-            '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Link" value="' + file_name + '">' +
+        '<div class="col-sm-8 col-xs-12">' +
+          '<div class="thumb_detail">' +
+            '<div class="input-group">' +
+              '<span class="input-group-addon success">Image title:</span>' +
+              '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Title" value="' + file_name + '">' +
+            '</div>' +
+
+            '<button class="btn btn-danger preview-remove" type="button" title="Remove" data-id="' + index + '">' +
+              '<span class="glyphicon glyphicon-trash"></span> Delete' +
+            '</button> ' +
+
           '</div>' +
+          '<p class="thumb_status hidden">Pending...</p>' +
         '</div>' +
-        '<p class="thumb_status hidden">Pending...</p>' +
       '</div>';
   var thumbnail = $(thumbnail_html);
   thumbnail.find('.preview-remove').click(removePreviewThumbnail);
@@ -191,7 +202,7 @@ function printTemplates() {
   $('.preview').remove();
   for (var i=0; i < upload_files.length; i++) {
     var file = upload_files[i];
-    $('#preview_files').append(createThumbnail(file, i));
+    $('#preview_files').prepend(createThumbnail(file, i));
   }
 }
 
@@ -208,6 +219,7 @@ function uploadFile(id) {
   }
 
   formData.append('file_name', $('#file_name_' + id).val());
+  formData.append('collection_id', $('#collection').data('collection-id'));
 
   $.ajax({
     url : '/upload',
@@ -221,21 +233,23 @@ function uploadFile(id) {
 
       var success_html = '' +
       '<div class="input-group thumb_status_margin">' +
-          '<input type="text" class="form-control" id="image_title_' + id + '" aria-label="Image title" value="' + data.file_name + '">' +
-          '<span class="input-group-btn">' +
-            '<button class="btn btn-default edit-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-pencil"></span></button>' +
-          '</span>' +
+          '<span class="input-group-addon">Image title:</span>' +
+          '<input type="text" class="form-control" id="image_title_' + id + '" aria-label="Image title" value="' + data.file_name + '"  data-id="' + data.id + '" data-index="' + id + '">' +
       '</div>' +
       '<div class="input-group thumb_status_margin">' +
-          '<span class="input-group-addon">Link</span>' +
           '<input type="text" class="form-control image-url" aria-label="Link" value="' + data.url + '" readonly>' +
+          '<span class="input-group-btn">' +
+          '<button class="btn btn-primary clipboard-btn" type="button" title="Copy to Clipboard">' +
+          '<span class="glyphicon glyphicon-copy"></span> Copy link' +
+          '</button>' +
+          '</span>' +
       '</div>' +
       '<div>' +
-          '<button class="btn btn-default clipboard-btn" type="button" title="Copy to Clipboard">' +
+          '<button class="btn btn-primary clipboard-btn" type="button" title="Copy to Clipboard">' +
           '<span class="glyphicon glyphicon-copy"></span> Copy link' +
           '</button> ' +
-          '<button class="btn btn-default" type="button" data-toggle="modal" data-target="#embed_code_' + data.id + '"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
-          '<button class="btn btn-default delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
+          '<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#embed_code_' + data.id + '"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
+          '<button class="btn btn-danger delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
       '</div>' +
       '<div class="modal fade" id="embed_code_' + data.id + '" role="dialog">' +
           '<div class="modal-dialog modal-lg">' +
@@ -250,7 +264,7 @@ function uploadFile(id) {
           '</code></pre>' +
           '</div>' +
           '<div class="modal-footer">' +
-          '<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>' +
+          '<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>' +
           '</div>' +
           '</div>' +
           '</div>' +
@@ -293,6 +307,9 @@ function continueUploading() {
     }
   }
   $('#new_upload_button').removeClass('hidden');
+  if (upload_files.length > 1) {
+    $('#collection_link').removeClass('hidden');
+  }
   $('.try-again').removeClass('hidden');
 }
 

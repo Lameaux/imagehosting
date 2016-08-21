@@ -42,10 +42,9 @@
     <div class="container">
       <h1 class="masthead-brand">Image Uploader</h1>
       <ul class="nav masthead-nav">
-        <li <%= @page.section == '' ? 'class="active"'.html_safe : '' %>><a href="/">Upload Image</a></li>
-        <li><a href="#">Browse Images</a></li>
-        <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</a></li>
-        <li><a href="#">Register</a></li>
+        <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/">Upload</a></li>
+        <li <%= @page.section == 'browse' ? 'class="active"'.html_safe : '' %>><a href="/browse">Browse</a></li>
+        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> My Uploads</a></li>
       </ul>
     </div>
   </div>
@@ -56,10 +55,11 @@
   <div>
     <a id="back-top" href="#top" title="Back to top"><img src="/img/up.png" alt="Back to top"></a>
     <div class="inner">
+      <h2>Upload JPG, GIF and PNG images.</h2>
+      <h3>Drag and Drop, browse or upload images from the web.</h3>
       <p>&copy; Lameaux 2016</p>
       <p>
         <a href="/conditions">Terms and conditions</a> |
-        <a href="/report">Report abuse</a> |
         Follow us: <a href="/rss"><img alt="RSS" src="/img/rss.png" /></a>
         <a href="https://www.facebook.com/HovnoKod"><img alt="Facebook" src="/img/facebook.png" /></a>
         <a href="https://twitter.com/#!/HovnoKod"><img alt="Twitter" src="/img/twitter.png" /></a>

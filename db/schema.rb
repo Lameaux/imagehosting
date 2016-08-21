@@ -10,22 +10,39 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2) do
+ActiveRecord::Schema.define(version: 3) do
+
+  create_table "collections", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.string   "id",         limit: 36,                                      null: false
+    t.string   "title"
+    t.string   "user_id",    limit: 36
+    t.datetime "created_at",            default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                                 null: false
+    t.index ["id"], name: "collections_id", using: :btree
+  end
 
   create_table "images", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string "id",       limit: 36,    null: false
-    t.text   "title",    limit: 65535
-    t.string "file_ext"
-    t.string "user_id",  limit: 36
+    t.string   "id",            limit: 36,                                      null: false
+    t.string   "title"
+    t.string   "file_ext"
+    t.integer  "file_size"
+    t.string   "user_id",       limit: 36
+    t.string   "collection_id", limit: 36
+    t.datetime "created_at",               default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                                    null: false
+    t.index ["collection_id"], name: "images_collection_id", using: :btree
+    t.index ["created_at"], name: "images_created_at", using: :btree
     t.index ["id"], name: "images_id", using: :btree
     t.index ["user_id"], name: "images_user_id", using: :btree
   end
 
   create_table "users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string  "id",       limit: 36,             null: false
-    t.string  "email",                           null: false
-    t.string  "password",                        null: false
-    t.integer "active",              default: 0, null: false
+    t.string   "id",         limit: 36,                                      null: false
+    t.string   "email",                                                      null: false
+    t.string   "password",                                                   null: false
+    t.integer  "active",                default: 0,                          null: false
+    t.datetime "created_at",            default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                                 null: false
     t.index ["email"], name: "users_email", unique: true, using: :btree
     t.index ["id"], name: "users_id", using: :btree
   end

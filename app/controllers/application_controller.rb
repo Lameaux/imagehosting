@@ -13,8 +13,8 @@ class ApplicationController < ActionController::Base
     @page.url = request.original_fullpath
     @page.site_name = 'SITENAME'
     @page.title = 'Image Hosting - SITENAME'
-    @page.keywords = 'image, hosting, free, share'
-    @page.description = 'Upload and share your images for free'
+    @page.keywords = 'image, hosting, free, share, jpg, png, gif'
+    @page.description = 'Upload JPG, GIF and PNG images. Drag and Drop, browse or upload images from the web.'
     @page.section = ''
     @page.category = nil
     @page.author = 'image-hosting'

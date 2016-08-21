@@ -5,7 +5,9 @@ class CreateUsers < ActiveRecord::Migration
       id char(36) not null,
       email varchar(255) not null,
       password varchar(255) not null,
-      active int not null default 0
+      active int not null default 0,
+      created_at timestamp default CURRENT_TIMESTAMP,
+      updated_at timestamp
     );
     SQL
     execute 'CREATE INDEX users_id ON users (id);'

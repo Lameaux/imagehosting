@@ -2,25 +2,37 @@
 
   <form action="/upload" method="post" enctype="multipart/form-data">
 
+    <div id="collection" class="hidden" data-collection-id="<%= @collection_id %>">
+      <button type="submit" class="upload_button btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
+      </button>
+    </div>
 
     <%= render partial: 'shared/dropzone' %>
 
     <div class="row" id="preview_files"></div>
 
-    <div class="well-sm upload_button_well hidden">
+    <div id="collection_link" class="hidden">
+      <h3>Link to collection:
+      <span class="label label-primary">
+        <a href="<%= ApplicationController::BASE_URL %>/c/<%= @collection_id %>"><%= ApplicationController::BASE_URL %>/c/<%= @collection_id %></a>
+      </span>
+      </h3>
+    </div>
 
+
+
+    <div class="upload_buttons hidden">
       <a href="/" class="btn btn-primary btn-lg hidden" id="new_upload_button">
         <span class="glyphicon glyphicon-cloud-upload"></span> New Upload
       </a>
-
-      <button type="submit" class="btn btn-success btn-lg" id="upload_button">
-        <span class="glyphicon glyphicon-cloud-upload"></span> Upload
+      <button type="submit" class="upload_button btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
       </button>
     </div>
 
 
   </form>
-
 
 
 </div>
