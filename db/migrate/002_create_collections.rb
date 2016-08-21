@@ -10,6 +10,8 @@ class CreateCollections < ActiveRecord::Migration
     );
     SQL
     execute 'CREATE INDEX collections_id ON collections (id);'
+    execute 'CREATE INDEX collections_user_id ON collections (user_id);'
+    execute 'CREATE INDEX collections_created_at ON collections (created_at);'
   end
 
   def down

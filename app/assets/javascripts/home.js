@@ -163,12 +163,10 @@ function createThumbnail(file, index) {
         '</div>' +
         '<div class="col-sm-8 col-xs-12">' +
           '<div class="thumb_detail">' +
-            '<div class="input-group">' +
-              '<span class="input-group-addon success">Image title:</span>' +
-              '<input type="text" id="file_name_' + index + '" class="form-control" aria-label="Title" value="' + file_name + '">' +
+            '<div>' +
+              '<input type="text" placeholder="Title" id="file_name_' + index + '" class="form-control input-lg" aria-label="Title" value="' + file_name + '">' +
             '</div>' +
-
-            '<button class="btn btn-danger preview-remove" type="button" title="Remove" data-id="' + index + '">' +
+            '<button class="btn btn-danger btn-lg preview-remove" type="button" title="Remove" data-id="' + index + '">' +
               '<span class="glyphicon glyphicon-trash"></span> Delete' +
             '</button> ' +
 
@@ -232,26 +230,21 @@ function uploadFile(id) {
       upload_results[id] = data;
 
       var success_html = '' +
-      '<div class="input-group thumb_status_margin">' +
-          '<span class="input-group-addon">Image title:</span>' +
-          '<input type="text" class="form-control" id="image_title_' + id + '" aria-label="Image title" value="' + data.file_name + '"  data-id="' + data.id + '" data-index="' + id + '">' +
-      '</div>' +
-      '<div class="input-group thumb_status_margin">' +
-          '<input type="text" class="form-control image-url" aria-label="Link" value="' + data.url + '" readonly>' +
+      '<h3>' + data.file_name + '</h3>' +
+      '<div class="thumb_status_margin input-group input-group-lg">' +
+          '<span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>' +
+          '<input type="text" class="form-control" value="' + data.url + '">' +
           '<span class="input-group-btn">' +
-          '<button class="btn btn-primary clipboard-btn" type="button" title="Copy to Clipboard">' +
-          '<span class="glyphicon glyphicon-copy"></span> Copy link' +
-          '</button>' +
+            '<a title="Link" class="btn btn-primary" href="' + data.url + '"><span class="glyphicon glyphicon-share-alt"></span></a>' +
           '</span>' +
       '</div>' +
-      '<div>' +
-          '<button class="btn btn-primary clipboard-btn" type="button" title="Copy to Clipboard">' +
-          '<span class="glyphicon glyphicon-copy"></span> Copy link' +
-          '</button> ' +
-          '<button class="btn btn-primary" type="button" data-toggle="modal" data-target="#embed_code_' + data.id + '"><span class="glyphicon glyphicon-link"></span> Embed code</button> ' +
-          '<button class="btn btn-danger delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
+      '<div class="thumb_status_margin">' +
+          '<button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#share_' + data.id + '"><span class="glyphicon glyphicon-share"></span> Share image</button> ' +
+          '<a title="Edit" class="btn btn-warning btn-lg" href="' + data.url + '"><span class="glyphicon glyphicon-edit"></span> Edit</a> ' +
+          '<button class="btn btn-danger btn-lg delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
       '</div>' +
-      '<div class="modal fade" id="embed_code_' + data.id + '" role="dialog">' +
+
+      '<div class="modal fade" id="share_' + data.id + '" role="dialog">' +
           '<div class="modal-dialog modal-lg">' +
           '<div class="modal-content">' +
           '<div class="modal-header">' +
