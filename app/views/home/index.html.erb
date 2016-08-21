@@ -1,24 +1,23 @@
-<h1>Upload Image</h1>
-
 <div>
 
   <form action="/upload" method="post" enctype="multipart/form-data">
+
+
+    <%= render partial: 'shared/dropzone' %>
+
+    <div class="row" id="preview_files"></div>
+
     <div class="well-sm upload_button_well hidden">
 
-      <a href="/" class="btn btn-default btn-lg hidden" id="new_upload_button">
+      <a href="/" class="btn btn-primary btn-lg hidden" id="new_upload_button">
         <span class="glyphicon glyphicon-cloud-upload"></span> New Upload
       </a>
 
-      <button type="submit" class="btn btn-default btn-lg" id="upload_button">
-        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
+      <button type="submit" class="btn btn-success btn-lg" id="upload_button">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload
       </button>
     </div>
 
-    <div class="row" id="preview_files">
-
-      <%= render partial: 'shared/dropzone' %>
-
-    </div>
 
   </form>
 

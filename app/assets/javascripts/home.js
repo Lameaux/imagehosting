@@ -156,7 +156,7 @@ function createThumbnail(file, index) {
         '<div class="thumb_detail">' +
           '<div class="input-group ">' +
             '<span class="input-group-btn">' +
-              '<button class="btn btn-default preview-remove" type="button" title="Remove" data-id="' + index + '">' +
+              '<button class="btn btn-danger preview-remove" type="button" title="Remove" data-id="' + index + '">' +
                 '<span class="glyphicon glyphicon-trash"></span>' +
               '</button> ' +
             '</span>' +
@@ -191,7 +191,7 @@ function printTemplates() {
   $('.preview').remove();
   for (var i=0; i < upload_files.length; i++) {
     var file = upload_files[i];
-    $('#drop_zone').after(createThumbnail(file, i));
+    $('#preview_files').append(createThumbnail(file, i));
   }
 }
 

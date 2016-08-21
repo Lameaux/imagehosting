@@ -35,59 +35,38 @@
 
 <body>
 
-<div class="navbar navbar-inverse" role="navigation">
-  <div class="container-fluid">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".menu_xs">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <a class="navbar-brand" href="/" title="image-uploader"><span class="muted">Image Uploader</span></a>
-    </div>
-    <div class="collapse navbar-collapse menu_xs">
-      <ul class="nav navbar-nav top-menu">
-        <li <%= @page.section == '' ? 'class="active"'.html_safe : '' %>><a href="/">Upload Images</a></li>
-        <li <%= @page.section == '/gallery' ? 'class="active"'.html_safe : '' %>><a href="/gallery">Browse Images</a></li>
 
-      </ul>
-      <ul class="nav navbar-nav navbar-right">
-        <li <%= @page.section == '/my' ? 'class="active"'.html_safe : '' %>><a href="/my">My Images</a></li>
-        <li class="dropdown">
-          <a data-toggle="dropdown" class="dropdown-toggle" href="#">
-            <span class="glyphicon glyphicon-user" aria-hidden="true"></span>
-            User
-            <b class="caret"></b>
-          </a>
-          <ul class="dropdown-menu">
-            <li>
-              <a href="/logout">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span> Odhlásit se
-              </a>
-            </li>
-          </ul>
-        </li>
-      </ul>
-    </div>
 
-  </div>
-</div>
 <div class="container">
+  <div class="navbar" role="navigation">
+    <div class="container">
+      <h1 class="masthead-brand">Image Uploader</h1>
+      <ul class="nav masthead-nav">
+        <li <%= @page.section == '' ? 'class="active"'.html_safe : '' %>><a href="/">Upload Image</a></li>
+        <li><a href="#">Browse Images</a></li>
+        <li><a href="#"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> Login</a></li>
+        <li><a href="#">Register</a></li>
+      </ul>
+    </div>
+  </div>
+
+
   <%= yield %>
 
-  <hr>
-  <footer>
+  <div>
     <a id="back-top" href="#top" title="Back to top"><img src="/img/up.png" alt="Back to top"></a>
-    <p>&copy; Lameaux 2016</p>
-    <p>
-      <a href="/conditions">Terms and conditions</a>
-      | Follow us: <a href="/rss"><img alt="RSS" src="/img/rss.png" /></a>
-      <a href="https://www.facebook.com/HovnoKod"><img alt="Facebook" src="/img/facebook.png" /></a>
-      <a href="https://twitter.com/#!/HovnoKod"><img alt="Twitter" src="/img/twitter.png" /></a>
-      <a href="https://plus.google.com/114709831347557420918"><img alt="Google+" src="/img/google.png" /></a>
-    </p>
-  </footer>
+    <div class="inner">
+      <p>&copy; Lameaux 2016</p>
+      <p>
+        <a href="/conditions">Terms and conditions</a> |
+        <a href="/report">Report abuse</a> |
+        Follow us: <a href="/rss"><img alt="RSS" src="/img/rss.png" /></a>
+        <a href="https://www.facebook.com/HovnoKod"><img alt="Facebook" src="/img/facebook.png" /></a>
+        <a href="https://twitter.com/#!/HovnoKod"><img alt="Twitter" src="/img/twitter.png" /></a>
+        <a href="https://plus.google.com/114709831347557420918"><img alt="Google+" src="/img/google.png" /></a>
+      </p>
+    </div>
+  </div>
 
 </div>
 
