@@ -6,10 +6,7 @@ class ImageController < ApplicationController
   def show
     find_by_id
 
-    @title = @image.title
-    @thumb_url = thumb_url(@id)
-    @img_url = img_url(@id, @image.file_ext)
-
+    @page.title = "#{@image.title} on #{@page.site_name}"
     render :show
   end
 

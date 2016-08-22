@@ -6,100 +6,82 @@ require 'rack/mime'
 
 class UploadController < ApplicationController
 
-  FILE_SIZE_LIMIT = 500 * 1024
+  FILE_SIZE_LIMIT = 1 * 1024 * 1024
+
+  MIME_TYPES = {
+    'image/gif' => 'gif',
+    'image/jpeg' => 'jpg',
+    'image/png' => 'png',
+  }
 
   def create
 
     uuid = SecureRandom.uuid
-    id = ShortUUID.shorten(uuid)
-    url = "#{BASE_URL}/#{id}"
-    thumb_url = "#{BASE_URL}/#{THUMB_PREFIX}#{id}#{THUMB_SUFFIX}"
-    local_file_name = local_upload_path(id)
-
-    file_info = {
-      id: id,
-      url: url,
-      thumb_url: thumb_url,
-      content_type: 'image/jpg',
-      file_name: '',
-      file_size: 0,
-    }
+    @id = ShortUUID.shorten(uuid)
+    @image = Image.new(id: uuid)
 
     if params[:file_url]
-      download_url(params[:file_url], file_info, local_file_name)
+      download_url(params[:file_url])
     elsif params[:file]
-      process_upload(params[:file], file_info, local_file_name)
+      process_upload(params[:file])
     else
       bad_request
-      return
     end
 
+    bad_request if File.size(@image.local_file_path) > FILE_SIZE_LIMIT
+    @image.file_size = File.size(@image.local_file_path)
+    @image.title = params[:file_name] if params[:file_name]
+    @image.collection_id = ShortUUID.expand(params[:collection_id]) if params[:collection_id]
+    @image.save!
 
-    file_info[:file_size] = File.size(local_file_name)
-    bad_request if file_info[:file_size] > FILE_SIZE_LIMIT
+    create_thumbnail(@image) unless params[:skip_thumbnail]
 
-    file_info[:file_name] = params[:file_name] if params[:file_name]
+    image_hash = @image.as_json
+    image_hash[:id] = @image.short_id
+    image_hash[:url] = "#{BASE_URL}/#{@image.short_id}"
+    image_hash[:thumb_url] = "#{BASE_URL}#{@image.web_thumb_path}"
 
-    create_thumbnail(local_file_name)
-
-    file_ext = Rack::Mime::MIME_TYPES.invert[file_info[:content_type]]
-
-    File.rename(local_file_name, "#{local_file_name}#{file_ext}")
-
-    image = Image.new({
-      id: uuid,
-      title: file_info[:file_name],
-      file_ext: file_ext,
-      file_size: file_info[:file_size],
-      collection_id: ShortUUID.expand(params[:collection_id])
-                      })
-    image.save!
-
-    render json: file_info
+    render json: image_hash.to_json
   end
 
   private
 
   def supported_content_type(content_type)
-    %w(image/png image/jpg image/jpeg image/gif).include? content_type
+    MIME_TYPES.keys.include? content_type
   end
 
-  def download_url(url, file_info, local_file_name)
-    img = open(url)
-    file_info[:content_type] = img.content_type
-    file_info[:file_name] = url
-    bad_request unless supported_content_type img.content_type
-    IO.copy_stream(img, local_file_name, FILE_SIZE_LIMIT)
+  def download_url(url)
+    io = open(url)
+    bad_request unless supported_content_type io.content_type
+
+    @image.file_ext = MIME_TYPES[io.content_type]
+    @image.title = url
+    IO.copy_stream(io, @image.local_file_path, FILE_SIZE_LIMIT)
   end
 
-  def process_upload(uploaded_io, file_info, local_file_name)
-    bad_request unless uploaded_io.is_a? ActionDispatch::Http::UploadedFile
-    bad_request unless supported_content_type uploaded_io.content_type
+  def process_upload(io)
+    bad_request unless io.is_a? ActionDispatch::Http::UploadedFile
+    bad_request unless supported_content_type io.content_type
 
-    File.open(local_file_name, 'wb') do |file|
-      file.write(uploaded_io.read)
-    end
-    file_info[:content_type] = uploaded_io.content_type
-    file_info[:file_name] = uploaded_io.original_filename
+    @image.file_ext = MIME_TYPES[io.content_type]
+    @image.title = io.original_filename
+    IO.copy_stream(io.tempfile, @image.local_file_path, FILE_SIZE_LIMIT)
   end
 
-  def create_thumbnail(img_file_name)
-
-    width = 500
-    height = 400
-
-    local_file_name_thumb = "#{img_file_name}#{THUMB_SUFFIX}"
+  def create_thumbnail(image)
+    width = 350
+    height = 200
 
     # create thumbnail
-    img = Magick::Image.read(img_file_name).first
+    img = Magick::Image.read(image.local_file_path).first
 
     target = Magick::Image.new(width, height) do
       self.background_color = 'transparent'
-      self.format = 'PNG'
+      self.format = image.file_ext
     end
+
     img.resize_to_fit!(width, height)
-    target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(local_file_name_thumb)
-    local_file_name_thumb
+    target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(image.local_thumb_path)
   end
 
 end

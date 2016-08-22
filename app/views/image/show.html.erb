@@ -1,6 +1,17 @@
-<h1><%= @title %></h1>
+<div class="row">
 
-<a href="<%= @img_url %>" data-toggle="lightbox" data-title="<%= @title %>">
-  <img src="<%= @thumb_url %>" alt="<%= @title %>">
-</a>
+<div class="col-sm-6 col-xs-12">
+  <div class="thumbnail">
+    <a href="<%= @image.web_file_path %>" data-toggle="lightbox" data-title="<%= @image.title %>">
+      <img class="zoom-in" src="<%= @image.web_file_path %>" alt="<%= @image.title %>">
+    </a>
+  </div>
+</div>
 
+<div class="col-sm-6 col-xs-12">
+  <h2><%= @image.title %></h2>
+</div>
+
+
+
+</div>

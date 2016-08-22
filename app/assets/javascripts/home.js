@@ -63,7 +63,7 @@ var upload_results = [];
 }(jQuery);
 
 function processFiles(files) {
-  var imageType = /image.*/;
+  var imageType = /image\/(gif|jpeg|png)/;
   var index= 0;
   for (var i=0; i < files.length; i++) {
     var file = files[i];
@@ -230,7 +230,7 @@ function uploadFile(id) {
       upload_results[id] = data;
 
       var success_html = '' +
-      '<h3>' + data.file_name + '</h3>' +
+      '<h3>' + data.title + '</h3>' +
       '<div class="thumb_status_margin input-group input-group-lg">' +
           '<span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>' +
           '<input type="text" class="form-control" value="' + data.url + '">' +
@@ -253,7 +253,7 @@ function uploadFile(id) {
           '</div>' +
           '<div class="modal-body">' +
           '<pre><code>' +
-          $("<div>").text('<a target="_blank" href="' + data.url + '" title="' + data.file_name + '">' + "\r\n\t" + '<img src="' + data.thumb_url + '" alt="' + data.file_name + '">' + "\r\n" + '</a>').html() +
+          $("<div>").text('<a target="_blank" href="' + data.url + '" title="' + data.title + '">' + "\r\n\t" + '<img src="' + data.thumb_url + '" alt="' + data.title + '">' + "\r\n" + '</a>').html() +
           '</code></pre>' +
           '</div>' +
           '<div class="modal-footer">' +
@@ -273,12 +273,14 @@ function uploadFile(id) {
 
 
       $('#preview_' + id).find('.thumb_status').html(success);
+      $('#preview_' + id).find('img.thumb_cover').css('background-image', "url('" + data.thumb_url + "')");
+
       continueUploading();
     },
     error: function() {
       upload_results[id] = 'failed';
 
-      var error_html = '<div>Upload Failed... <button type="button" class="btn btn-default try-again hidden">Try again</button></div>';
+      var error_html = '<div>Upload Failed... <button type="button" class="btn btn-primary try-again hidden">Try again</button></div>';
       var error = $(error_html);
       error.find('.try-again').click(function(){
         upload_results[id] = false;

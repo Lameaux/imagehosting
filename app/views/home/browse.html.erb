@@ -1,0 +1,14 @@
+<div class="row">
+
+  <% @images.each do |image| %>
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="thumbnail">
+      <a href="<%= image.short_id %>" title="<%= image.title %>">
+        <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+      </a>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+

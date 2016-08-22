@@ -16,7 +16,7 @@
   <meta property="og:image" content="<%= @page.image %>"/>
 
   <meta property="twitter:card" content="summary"/>
-  <meta property="twitter:site" content="<%= @page.twitter %>"/>
+  <meta property="twitter:site" content="@<%= @page.twitter %>"/>
   <meta property="twitter:url" content="<%= @page.base_url %><%= @page.url %>"/>
   <meta property="twitter:title" content="<%= @page.title %>"/>
   <meta property="twitter:description" content="<%= @page.description %>"/>
@@ -61,9 +61,7 @@
       <p>
         <a href="/conditions">Terms and conditions</a> |
         Follow us: <a href="/rss"><img alt="RSS" src="/img/rss.png" /></a>
-        <a href="https://www.facebook.com/HovnoKod"><img alt="Facebook" src="/img/facebook.png" /></a>
-        <a href="https://twitter.com/#!/HovnoKod"><img alt="Twitter" src="/img/twitter.png" /></a>
-        <a href="https://plus.google.com/114709831347557420918"><img alt="Google+" src="/img/google.png" /></a>
+        <a href="https://twitter.com/<%= @page.twitter %>"><img alt="Twitter" src="/img/twitter.png" /></a>
       </p>
     </div>
   </div>
