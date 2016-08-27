@@ -46,11 +46,11 @@
 <div class="container">
   <div class="navbar" role="navigation">
     <div class="container">
-      <h1 class="masthead-brand"><b>pn</b><b>gif</b>.com</h1>
+      <a title="<%= @page.site_name %>" href="/"><h1 class="masthead-brand"><b>pngif</b>.com</h1></a>
       <ul class="nav masthead-nav">
         <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/">Upload</a></li>
         <li <%= @page.section == 'browse' ? 'class="active"'.html_safe : '' %>><a href="/browse">Browse</a></li>
-        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> My Uploads</a></li>
+        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my">My Images</a></li>
       </ul>
     </div>
   </div>
@@ -60,24 +60,17 @@
 
   <div class="text-center">
     <a id="back-top" href="#top" title="Back to top"><img src="/img/up.png" alt="Back to top"></a>
+
     <div class="inner">
-      <h2>Upload PNG, GIF, JPEG images.</h2>
-      <h3>Drag & Drop, paste, browse or upload images from the web.</h3>
-      <h2>See what’s trending now</h2>
-
-
       <p>
-        <a href="/about">About <%= @page.site_name %></a> |
-        <a href="/rss">Subscribe to RSS feed</a> |
+        <a href="/about">About</a> |
+        Subscribe to <a href="/rss">RSS feed</a> |
         Follow us on
         <a href="https://twitter.com/<%= @page.twitter %>">Twitter</a> and
         <a href="https://facebook.com/<%= @page.facebook %>">Facebook</a>
       </p>
-
-
     </div>
   </div>
-
 
 </div>
 

@@ -5,13 +5,16 @@ class CreateImages < ActiveRecord::Migration
       id char(36) not null,
       title varchar(255),
       tags varchar(255),
-      file_ext varchar(255),
+      description text,
+      file_ext char(3),
       file_size int,
       width int,
       height int,
       user_id char(36),
       album_id char(36),
-      hidden integer default 0,
+      hidden int default 0,
+      views int default 0,
+      likes int default 0,
       created_at timestamp default CURRENT_TIMESTAMP,
       updated_at timestamp
     );
