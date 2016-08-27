@@ -14,13 +14,19 @@
   <meta property="og:type" content="article"/>
   <meta property="og:url" content="<%= @page.base_url %><%= @page.url %>"/>
   <meta property="og:image" content="<%= @page.image %>"/>
+  <meta property="og:image:width"  content="<%= @page.image_width %>" />
+  <meta property="og:image:height" content="<%= @page.image_height %>" />
+  <meta property="article:publisher" content="https://www.facebook.com/<%= @page.facebook %>">
 
-  <meta property="twitter:card" content="summary"/>
+  <meta property="twitter:card" content="summary_large_image"/>
   <meta property="twitter:site" content="@<%= @page.twitter %>"/>
+  <meta property="twitter:domain" content="<%= @page.site_domain %>" />
   <meta property="twitter:url" content="<%= @page.base_url %><%= @page.url %>"/>
   <meta property="twitter:title" content="<%= @page.title %>"/>
   <meta property="twitter:description" content="<%= @page.description %>"/>
   <meta property="twitter:image" content="<%= @page.image %>"/>
+
+  <link rel="image_src" href="<%= @page.image %>"/>
 
   <title><%= @page.title %></title>
   <%= csrf_meta_tags %>
@@ -40,7 +46,7 @@
 <div class="container">
   <div class="navbar" role="navigation">
     <div class="container">
-      <h1 class="masthead-brand">Image Uploader</h1>
+      <h1 class="masthead-brand"><b>pn</b><b>gif</b>.com</h1>
       <ul class="nav masthead-nav">
         <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/">Upload</a></li>
         <li <%= @page.section == 'browse' ? 'class="active"'.html_safe : '' %>><a href="/browse">Browse</a></li>
@@ -55,16 +61,23 @@
   <div class="text-center">
     <a id="back-top" href="#top" title="Back to top"><img src="/img/up.png" alt="Back to top"></a>
     <div class="inner">
-      <h2>Upload JPG, GIF and PNG images.</h2>
-      <h3>Drag and Drop, browse or upload images from the web.</h3>
-      <p>&copy; Lameaux 2016</p>
+      <h2>Upload PNG, GIF, JPEG images.</h2>
+      <h3>Drag & Drop, paste, browse or upload images from the web.</h3>
+      <h2>See what’s trending now</h2>
+
+
       <p>
-        <a href="/conditions">Terms and conditions</a> |
-        Follow us: <a href="/rss"><img alt="RSS" src="/img/rss.png" /></a>
-        <a href="https://twitter.com/<%= @page.twitter %>"><img alt="Twitter" src="/img/twitter.png" /></a>
+        <a href="/about">About <%= @page.site_name %></a> |
+        <a href="/rss">Subscribe to RSS feed</a> |
+        Follow us on
+        <a href="https://twitter.com/<%= @page.twitter %>">Twitter</a> and
+        <a href="https://facebook.com/<%= @page.facebook %>">Facebook</a>
       </p>
+
+
     </div>
   </div>
+
 
 </div>
 

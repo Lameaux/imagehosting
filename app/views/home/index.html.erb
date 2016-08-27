@@ -1,8 +1,8 @@
 <div>
 
-  <form action="/upload" method="post" enctype="multipart/form-data">
+  <form class="upload_form" action="/upload" method="post" enctype="multipart/form-data">
 
-    <div id="collection" class="text-center hidden" data-collection-id="<%= @collection_id %>">
+    <div id="album" class="text-center hidden" data-album-id="<%= @album_id %>">
       <button type="submit" class="upload_button btn btn-success btn-lg">
         <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
       </button>
@@ -12,20 +12,18 @@
 
     <div class="row" id="preview_files"></div>
 
-    <div id="collection_link" class="text-center hidden">
+    <div id="album_link" class="text-center hidden">
+      <h2 class="visible-xs">Link to album:</h2>
       <div class="input-group input-group-lg">
         <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
-        <span class="hidden-xs">Link to collection:</span>
+        <span class="hidden-xs">Link to album:</span>
         </span>
-        <input type="text" class="form-control" value="<%= ApplicationController::BASE_URL %>/c/<%= @collection_id %>">
+        <input type="text" class="form-control" value="<%= ApplicationController::BASE_URL %>/album/<%= @album_id %>">
         <span class="input-group-btn">
-          <a title="Link" href="<%= ApplicationController::BASE_URL %>/c/<%= @collection_id %>" class="btn btn-primary"><span class="glyphicon glyphicon-share-alt"></span></a>
+          <a title="Link" href="<%= ApplicationController::BASE_URL %>/album/<%= @album_id %>" class="btn btn-primary"><span class="glyphicon glyphicon-share-alt"></span></a>
         </span>
       </div>
-
     </div>
-
-
 
     <div class="upload_buttons hidden text-center">
       <a href="/" class="btn btn-primary btn-lg hidden" id="new_upload_button">
@@ -36,9 +34,7 @@
       </button>
     </div>
 
-
   </form>
-
 
 </div>
 

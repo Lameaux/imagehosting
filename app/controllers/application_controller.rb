@@ -1,22 +1,30 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
-  before_action :set_default_page
+  before_action :set_user, :set_default_page
 
   BASE_URL = 'http://0.0.0.0:3000'
 
+  def set_user
+    session[:user_id] = session[:user_id] || SecureRandom.uuid
+  end
+
   def set_default_page
     @page = Page.new
-    @page.image = 'http://0.0.0.0:3000/image.png'
+    @page.image = "#{BASE_URL}/image.png"
+    @page.image_width = 600
+    @page.image_height = 315
     @page.url = request.original_fullpath
-    @page.site_name = 'SITENAME'
-    @page.title = 'Image Hosting'
-    @page.keywords = 'image, hosting, free, share, jpg, png, gif'
-    @page.description = 'Upload JPG, GIF and PNG images. Drag and Drop, browse or upload images from the web.'
+    @page.site_name = 'pngif.com'
+    @page.site_domain = 'pngif.com'
+    @page.title = 'Upload PNG, GIF, JPEG images and share'
+    @page.keywords = 'image, png, gif, jpeg, share, hosting'
+    @page.description = 'Upload PNG, GIF, JPEG images. Drag & Drop, paste, browse or upload images from the web.'
     @page.section = ''
     @page.category = nil
-    @page.author = 'image-hosting'
-    @page.twitter = 'rsstw_it'
+    @page.author = 'pngif.com'
+    @page.twitter = 'pngif_com'
+    @page.facebook = 'pngif_com'
     @page.base_url = BASE_URL
   end
 

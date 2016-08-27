@@ -12,25 +12,29 @@
 
 ActiveRecord::Schema.define(version: 3) do
 
-  create_table "collections", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+  create_table "albums", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string   "id",         limit: 36,                                      null: false
     t.string   "title"
     t.string   "user_id",    limit: 36
     t.datetime "created_at",            default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at",                                                 null: false
-    t.index ["id"], name: "collections_id", using: :btree
+    t.index ["created_at"], name: "albums_created_at", using: :btree
+    t.index ["id"], name: "albums_id", using: :btree
+    t.index ["user_id"], name: "albums_user_id", using: :btree
   end
 
   create_table "images", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "id",            limit: 36,                                      null: false
+    t.string   "id",         limit: 36,                                      null: false
     t.string   "title"
+    t.string   "tags"
     t.string   "file_ext"
     t.integer  "file_size"
-    t.string   "user_id",       limit: 36
-    t.string   "collection_id", limit: 36
-    t.datetime "created_at",               default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at",                                                    null: false
-    t.index ["collection_id"], name: "images_collection_id", using: :btree
+    t.string   "user_id",    limit: 36
+    t.string   "album_id",   limit: 36
+    t.integer  "hidden",                default: 0
+    t.datetime "created_at",            default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                                 null: false
+    t.index ["album_id"], name: "images_album_id", using: :btree
     t.index ["created_at"], name: "images_created_at", using: :btree
     t.index ["id"], name: "images_id", using: :btree
     t.index ["user_id"], name: "images_user_id", using: :btree

@@ -33,7 +33,7 @@ div.thumbnail {
 
 img.thumb_cover {
   width: 100%;
-  height: 200px;
+  height: 240px;
   background-size: cover;
   background-position: center;
 }
@@ -43,15 +43,7 @@ img.thumb_cover {
   font-size: 14px;
 }
 
-.thumb_detail {
-
-}
-
-.thumb_status {
-
-}
-
-.thumb_status_margin {
+.thumb_status_margin, .thumb_detail_margin {
   margin-top: 15px;
   margin-bottom: 15px;
 }
@@ -88,11 +80,11 @@ img.thumb_cover {
   margin-top:10px;
 }
 
-#collection {
+#album {
   margin-bottom:20px;
 }
 
-#collection_link {
+#album_link {
   margin-top:20px;
   margin-bottom:20px;
 }

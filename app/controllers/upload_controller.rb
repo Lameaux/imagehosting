@@ -6,7 +6,7 @@ require 'rack/mime'
 
 class UploadController < ApplicationController
 
-  FILE_SIZE_LIMIT = 1 * 1024 * 1024
+  FILE_SIZE_LIMIT = 10 * 1024 * 1024
 
   MIME_TYPES = {
     'image/gif' => 'gif',
@@ -19,6 +19,7 @@ class UploadController < ApplicationController
     uuid = SecureRandom.uuid
     @id = ShortUUID.shorten(uuid)
     @image = Image.new(id: uuid)
+    @image.user_id = session[:user_id]
 
     if params[:file_url]
       download_url(params[:file_url])
@@ -31,10 +32,12 @@ class UploadController < ApplicationController
     bad_request if File.size(@image.local_file_path) > FILE_SIZE_LIMIT
     @image.file_size = File.size(@image.local_file_path)
     @image.title = params[:file_name] if params[:file_name]
-    @image.collection_id = ShortUUID.expand(params[:collection_id]) if params[:collection_id]
+    @image.tags = params[:tags] if params[:tags]
+    @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
+    @image.hidden = 1 if params[:hidden]
     @image.save!
 
-    create_thumbnail(@image) unless params[:skip_thumbnail]
+    create_thumbnail(@image) unless params[:hidden]
 
     image_hash = @image.as_json
     image_hash[:id] = @image.short_id

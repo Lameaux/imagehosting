@@ -1,4 +1,4 @@
-var FILE_SIZE_LIMIT = 500 * 1024;
+var FILE_SIZE_LIMIT = 10 * 1024 * 1024;
 var upload_files = [];
 var upload_results = [];
 
@@ -16,6 +16,7 @@ var upload_results = [];
     $("#upload_files").change(function (){
       var files = $(this).prop('files');
       processFiles(files);
+      $(".upload_form").trigger("reset");
     });
 
     $(".upload_button").click(function(){
@@ -50,10 +51,10 @@ var upload_results = [];
       upload_files.push(url);
       if (upload_files.length > 0) {
         $('.upload_buttons').removeClass('hidden');
-        $('#collection').removeClass('hidden');
+        $('#album').removeClass('hidden');
       } else {
         $('.upload_buttons').addClass('hidden');
-        $('#collection').addClass('hidden');
+        $('#album').addClass('hidden');
       }
       printTemplates();
 
@@ -78,10 +79,10 @@ function processFiles(files) {
   }
   if (upload_files.length > 0) {
     $('.upload_buttons').removeClass('hidden');
-    $('#collection').removeClass('hidden');
+    $('#album').removeClass('hidden');
   } else {
     $('.upload_buttons').addClass('hidden');
-    $('#collection').addClass('hidden');
+    $('#album').addClass('hidden');
   }
   printTemplates();
 }
@@ -91,7 +92,7 @@ function removePreviewThumbnail() {
   upload_files.splice(id,1);
   if (upload_files.length == 0) {
     $('.upload_buttons').addClass('hidden');
-    $('#collection').addClass('hidden');
+    $('#album').addClass('hidden');
   }
   printTemplates();
 }
@@ -164,12 +165,16 @@ function createThumbnail(file, index) {
         '<div class="col-sm-8 col-xs-12">' +
           '<div class="thumb_detail">' +
             '<div>' +
-              '<input type="text" placeholder="Title" id="file_name_' + index + '" class="form-control input-lg" aria-label="Title" value="' + file_name + '">' +
+              '<label for="file_name_' + index + '">Title</label> <input type="text" placeholder="Add Title" id="file_name_' + index + '" class="form-control input-lg" aria-label="Title" value="' + file_name + '">' +
             '</div>' +
-            '<button class="btn btn-danger btn-lg preview-remove" type="button" title="Remove" data-id="' + index + '">' +
-              '<span class="glyphicon glyphicon-trash"></span> Delete' +
-            '</button> ' +
-
+            '<div class="thumb_detail_margin">' +
+              '<label for="tags_' + index + '">Tags</label> <input type="text" placeholder="Add Tags" id="tags_' + index + '" class="form-control input-lg" aria-label="Tags" value="">' +
+            '</div>' +
+            '<div class="thumb_detail_margin">' +
+              '<button class="btn btn-danger btn-lg preview-remove" type="button" title="Remove" data-id="' + index + '">' +
+                '<span class="glyphicon glyphicon-trash"></span> Delete' +
+              '</button> ' +
+            '</div>' +
           '</div>' +
           '<p class="thumb_status hidden">Pending...</p>' +
         '</div>' +
@@ -217,7 +222,8 @@ function uploadFile(id) {
   }
 
   formData.append('file_name', $('#file_name_' + id).val());
-  formData.append('collection_id', $('#collection').data('collection-id'));
+  formData.append('tags', $('#tags_' + id).val());
+  formData.append('album_id', $('#album').data('album-id'));
 
   $.ajax({
     url : '/upload',
@@ -229,8 +235,11 @@ function uploadFile(id) {
 
       upload_results[id] = data;
 
-      var success_html = '' +
-      '<h3>' + data.title + '</h3>' +
+      var success_html = '<h3>' + data.title + '</h3>';
+      if (data.tags && data.tags.length > 0) {
+        success_html = success_html + '<h4>' + data.tags + '</h4>';
+      }
+      success_html = success_html +
       '<div class="thumb_status_margin input-group input-group-lg">' +
           '<span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>' +
           '<input type="text" class="form-control" value="' + data.url + '">' +
@@ -303,7 +312,7 @@ function continueUploading() {
   }
   $('#new_upload_button').removeClass('hidden');
   if (upload_files.length > 1) {
-    $('#collection_link').removeClass('hidden');
+    $('#album_link').removeClass('hidden');
   }
   $('.try-again').removeClass('hidden');
 }
