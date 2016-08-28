@@ -160,10 +160,10 @@ function createThumbnail(file, index) {
 
   console.log(file);
 
-  if (file instanceof Blob) {
-    file_name = 'Pasted from clipboard';
-  } else if (file instanceof File) {
+  if (file instanceof File) {
     file_name = file.name;
+  } else if (file instanceof Blob) {
+    file_name = 'Pasted from clipboard';
   } else {
     file_name = file;
   }
@@ -193,7 +193,7 @@ function createThumbnail(file, index) {
   var thumbnail = $(thumbnail_html);
   thumbnail.find('.preview-remove').click(removePreviewThumbnail);
 
-  if (file instanceof File || file instanceof Blob) {
+  if (file instanceof Blob) {
     var reader = new FileReader();
     reader.onload = (function (aImg) {
       return function (e) {
@@ -222,7 +222,7 @@ function uploadFile(id) {
 
   var formData = new FormData();
 
-  if (upload_files[id] instanceof File || upload_files[id] instanceof Blob) {
+  if (upload_files[id] instanceof Blob) {
     formData.append('file', upload_files[id]);
   } else {
     formData.append('file_url', upload_files[id]);
