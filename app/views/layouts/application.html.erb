@@ -50,7 +50,11 @@
       <ul class="nav masthead-nav">
         <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/">Upload</a></li>
         <li <%= @page.section == 'browse' ? 'class="active"'.html_safe : '' %>><a href="/browse">Browse</a></li>
-        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my">My Images</a></li>
+        <% unless session[:my_images].nil? || session[:my_images].empty? %>
+        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my">My Uploads</a></li>
+        <% end %>
+        <li <%= @page.section == 'login' ? 'class="active"'.html_safe : '' %>><a href="/login">Login</a></li>
+        <li <%= @page.section == 'register' ? 'class="active hidden-xs"'.html_safe : 'class="hidden-xs"'.html_safe %>><a href="/register">Register</a></li>
       </ul>
     </div>
   </div>
