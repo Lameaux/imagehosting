@@ -3,6 +3,7 @@ Rails.application.routes.draw do
 
   root 'home#index'
   get 'browse', to: 'home#browse'
+  get 'my', to: 'home#my'
 
   post 'upload', to: 'upload#create'
 

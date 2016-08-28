@@ -33,6 +33,10 @@
 # Ignore RSpec
 /coverage
 
-#public uploads
-/public/uploads/*
-!/public/uploads/.keep
+#public original
+/public/original/*
+!/public/original/.keep
+
+#public thumbnail
+/public/thumbnail/*
+!/public/thumbnail/.keep

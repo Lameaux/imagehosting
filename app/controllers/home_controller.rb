@@ -17,4 +17,13 @@ class HomeController < ApplicationController
     render :browse
   end
 
+  def my
+    @page.section = 'my'
+    @page.title = "My images on #{@page.site_name}"
+
+    @images = Image.where(user_id: session[:user_id]).order(created_at: :desc)
+
+    render :my
+  end
+
 end

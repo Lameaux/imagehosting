@@ -1,10 +1,11 @@
-require 'shortuuid'
-require 'rack/mime'
-
 class ImageController < ApplicationController
 
   def show
     find_by_id
+
+    @page.image = "#{BASE_URL}#{@image.web_thumb_path}"
+    @page.image_width = Image::THUMBNAIL_WIDTH
+    @page.image_height = Image::THUMBNAIL_HEIGHT
 
     @page.title = "#{@image.title} on #{@page.site_name}"
     render :show
@@ -20,8 +21,8 @@ class ImageController < ApplicationController
     find_by_id
     @image.destroy!
 
-    File.delete("#{local_upload_path(@id)}#{@image.file_ext}")
-    File.delete("#{local_upload_path(@id)}#{THUMB_SUFFIX}")
+    File.delete(@image.local_file_path)
+    File.delete(@image.local_thumb_path)
     render plain: 'OK'
   end
 

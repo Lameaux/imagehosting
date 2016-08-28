@@ -8,6 +8,7 @@ class UploadController < ApplicationController
 
   FILE_SIZE_LIMIT = 10 * 1024 * 1024
 
+
   MIME_TYPES = {
     'image/gif' => 'gif',
     'image/jpeg' => 'jpg',
@@ -35,6 +36,7 @@ class UploadController < ApplicationController
     @image.tags = params[:tags] if params[:tags]
     @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
     @image.hidden = 1 if params[:hidden]
+    set_image_dimensions!(@image)
     @image.save!
 
     create_thumbnail(@image) unless params[:hidden]
@@ -71,19 +73,21 @@ class UploadController < ApplicationController
     IO.copy_stream(io.tempfile, @image.local_file_path, FILE_SIZE_LIMIT)
   end
 
-  def create_thumbnail(image)
-    width = 350
-    height = 200
+  def set_image_dimensions!(image)
+    img = Magick::Image.ping(image.local_file_path).first
+    image.width = img.columns
+    image.height = img.rows
+  end
 
-    # create thumbnail
+  def create_thumbnail(image)
     img = Magick::Image.read(image.local_file_path).first
 
-    target = Magick::Image.new(width, height) do
+    target = Magick::Image.new(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT) do
       self.background_color = 'transparent'
       self.format = image.file_ext
     end
 
-    img.resize_to_fit!(width, height)
+    img.resize_to_fit!(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT)
     target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(image.local_thumb_path)
   end
 
