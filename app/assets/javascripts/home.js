@@ -158,8 +158,6 @@ function deleteImage() {
 
 function createThumbnail(file, index) {
 
-  console.log(file);
-
   if (file instanceof File) {
     file_name = file.name;
   } else if (file instanceof Blob) {
