@@ -255,28 +255,7 @@ function uploadFile(id) {
           '</span>' +
       '</div>' +
       '<div class="thumb_status_margin">' +
-          '<button class="btn btn-primary btn-lg" type="button" data-toggle="modal" data-target="#share_' + data.id + '"><span class="glyphicon glyphicon-share"></span> Share image</button> ' +
-          '<a title="Edit" class="btn btn-warning btn-lg" href="' + data.url + '"><span class="glyphicon glyphicon-edit"></span> Edit</a> ' +
           '<button class="btn btn-danger btn-lg delete-btn" type="button" data-id="' + data.id + '" data-index="' + id + '"><span class="glyphicon glyphicon-trash"></span> Delete</button>' +
-      '</div>' +
-
-      '<div class="modal fade" id="share_' + data.id + '" role="dialog">' +
-          '<div class="modal-dialog modal-lg">' +
-          '<div class="modal-content">' +
-          '<div class="modal-header">' +
-          '<button type="button" class="close" data-dismiss="modal">&times;</button>' +
-          '<h4 class="modal-title">Embed code</h4>' +
-          '</div>' +
-          '<div class="modal-body">' +
-          '<pre><code>' +
-          $("<div>").text('<a target="_blank" href="' + data.url + '" title="' + data.title + '">' + "\r\n\t" + '<img src="' + data.thumb_url + '" alt="' + data.title + '">' + "\r\n" + '</a>').html() +
-          '</code></pre>' +
-          '</div>' +
-          '<div class="modal-footer">' +
-          '<button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>' +
-          '</div>' +
-          '</div>' +
-          '</div>' +
       '</div>' +
       '';
 
@@ -323,7 +302,7 @@ function continueUploading() {
   }
   $('.try-again').removeClass('hidden');
 
-  // redirect to page
+  // redirect to album
   var redirect_url = '/album/' + $('#album').data('album-id');
   window.location.href = redirect_url;
 }
