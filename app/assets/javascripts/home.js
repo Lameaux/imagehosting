@@ -1,6 +1,7 @@
 var FILE_SIZE_LIMIT = 10 * 1024 * 1024;
 var upload_files = [];
 var upload_results = [];
+var IMAGE_TYPE = /image\/(gif|jpeg|png)/;
 
 !function ($) {
   $(function () {
@@ -39,6 +40,8 @@ var upload_results = [];
     $('body').on('dragover', '#drop_zone', handleDragOver);
     $('body').on('drop', '#drop_zone', handleDrop);
 
+    $('body').on('paste', '.container', handlePaste);
+
 
     $('#paste_url_button').click(function(){
       var url = $('#paste_url').val();
@@ -66,11 +69,10 @@ var upload_results = [];
 }(jQuery);
 
 function processFiles(files) {
-  var imageType = /image\/(gif|jpeg|png)/;
   var index= 0;
   for (var i=0; i < files.length; i++) {
     var file = files[i];
-    if (!file.type.match(imageType)) {
+    if (!file.type.match(IMAGE_TYPE)) {
       continue;
     }
     if (file.size > FILE_SIZE_LIMIT) {
@@ -156,7 +158,11 @@ function deleteImage() {
 
 function createThumbnail(file, index) {
 
-  if (file instanceof File) {
+  console.log(file);
+
+  if (file instanceof Blob) {
+    file_name = 'Pasted from clipboard';
+  } else if (file instanceof File) {
     file_name = file.name;
   } else {
     file_name = file;
@@ -187,7 +193,7 @@ function createThumbnail(file, index) {
   var thumbnail = $(thumbnail_html);
   thumbnail.find('.preview-remove').click(removePreviewThumbnail);
 
-  if (file instanceof File) {
+  if (file instanceof File || file instanceof Blob) {
     var reader = new FileReader();
     reader.onload = (function (aImg) {
       return function (e) {
@@ -216,7 +222,7 @@ function uploadFile(id) {
 
   var formData = new FormData();
 
-  if (upload_files[id] instanceof File) {
+  if (upload_files[id] instanceof File || upload_files[id] instanceof Blob) {
     formData.append('file', upload_files[id]);
   } else {
     formData.append('file_url', upload_files[id]);
@@ -331,6 +337,24 @@ function handleDrop(evt) {
   var files = evt.originalEvent.dataTransfer.files;
   processFiles(files);
 }
+
+function handlePaste(event) {
+  var pastedFiles = [];
+  var items = (event.clipboardData || event.originalEvent.clipboardData).items;
+  for (index in items) {
+    var pastedFile = items[index];
+    if (pastedFile.kind === 'file' && pastedFile.type.match(IMAGE_TYPE)) {
+      pastedFiles.push(pastedFile.getAsFile());
+    }
+  }
+
+  if (pastedFiles.length > 0) {
+    event.stopPropagation();
+    event.preventDefault();
+    processFiles(pastedFiles);
+  }
+}
+
 
 function isURL(str) {
   var pattern = new RegExp('^(https?:\\/\\/)?'+ // protocol
