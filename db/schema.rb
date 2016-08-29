@@ -36,6 +36,8 @@ ActiveRecord::Schema.define(version: 3) do
     t.string   "user_id",     limit: 36
     t.string   "album_id",    limit: 36
     t.integer  "hidden",                    default: 0
+    t.integer  "views",                     default: 0
+    t.integer  "likes",                     default: 0
     t.datetime "created_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at",                                                     null: false
     t.index ["album_id"], name: "images_album_id", using: :btree
@@ -45,14 +47,18 @@ ActiveRecord::Schema.define(version: 3) do
   end
 
   create_table "users", id: false, force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
-    t.string   "id",         limit: 36,                                      null: false
-    t.string   "email",                                                      null: false
-    t.string   "password",                                                   null: false
-    t.integer  "active",                default: 0,                          null: false
-    t.datetime "created_at",            default: -> { "CURRENT_TIMESTAMP" }, null: false
-    t.datetime "updated_at",                                                 null: false
+    t.string   "id",              limit: 36,                                      null: false
+    t.string   "username",                                                        null: false
+    t.string   "email",                                                           null: false
+    t.string   "password_digest"
+    t.string   "activation_code", limit: 36
+    t.string   "reset_code",      limit: 36
+    t.integer  "active",                     default: 0
+    t.datetime "created_at",                 default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at",                                                      null: false
     t.index ["email"], name: "users_email", unique: true, using: :btree
     t.index ["id"], name: "users_id", using: :btree
+    t.index ["username"], name: "users_username", unique: true, using: :btree
   end
 
 end

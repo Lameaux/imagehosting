@@ -1,0 +1,36 @@
+<div class="text-center">
+  <h2>See what’s trending now</h2>
+  <div class="row browse_filter">
+    <div class="col-sm-4">
+      <span class="label label-success">Popular</span>
+      <span class="label label-default">Recent</span>
+    </div>
+    <div class="col-sm-4">
+      <span class="label label-success">all types</span>
+      <span class="label label-default">png</span>
+      <span class="label label-default">gif</span>
+      <span class="label label-default">jpg</span>
+    </div>
+    <div class="col-sm-4">
+      <span class="label label-success">all sizes</span>
+      <span class="label label-default">small</span>
+      <span class="label label-default">middle</span>
+      <span class="label label-default">big</span>
+    </div>
+  </div>
+</div>
+
+<div class="row">
+
+  <% @images.each do |image| %>
+    <div class="col-md-3 col-sm-4 col-xs-6">
+      <div class="thumbnail browse_thumbnail">
+      <a href="<%= image.short_id %>" title="<%= image.title %>">
+        <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+      </a>
+      </div>
+    </div>
+  <% end %>
+
+</div>
+

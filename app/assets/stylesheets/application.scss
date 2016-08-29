@@ -18,6 +18,14 @@
 @import "cover";
 
 
+.logo-icon {
+  color: greenyellow;
+}
+
+.footer {
+  padding: 50px 0px 50px 0px;
+}
+
 #back-top {
   position:fixed;
   bottom:10px;
@@ -129,4 +137,8 @@
   padding-top: 20px;
   padding-bottom: 20px;
   font-size: 20px;
+}
+
+.or-facebook {
+  padding: 20px;
 }

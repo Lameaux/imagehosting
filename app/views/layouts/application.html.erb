@@ -46,9 +46,9 @@
 <div class="container">
   <div class="navbar" role="navigation">
     <div class="container">
-      <a title="<%= @page.site_name %>" href="/"><h1 class="masthead-brand"><span class="glyphicon glyphicon-picture"></span> <b>pngif</b>.com</h1></a>
+      <a title="<%= @page.site_name %>" href="/"><h1 class="masthead-brand"><span class="glyphicon glyphicon-cloud-upload logo-icon"></span> <b>pngif</b>.com</h1></a>
       <ul class="nav masthead-nav">
-        <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/"><span class="glyphicon glyphicon-cloud-upload"></span> Upload</a></li>
+        <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/"><span class="glyphicon glyphicon-upload"></span> Upload</a></li>
         <li <%= @page.section == 'browse' ? 'class="active"'.html_safe : '' %>><a href="/browse"><span class="glyphicon glyphicon-list"></span> Browse</a></li>
         <li <%= @page.section == 'search' ? 'class="active"'.html_safe : '' %>><a href="/search"><span class="glyphicon glyphicon-search"></span> Search</a></li>
         <% unless session[:my_images].nil? || session[:my_images].empty? %>
@@ -65,9 +65,9 @@
   <div class="text-center">
     <a id="back-top" href="#top" title="Back to top"><img src="/img/up.png" alt="Back to top"></a>
 
-    <div class="inner">
+    <div class="footer">
       <p>
-        <a href="/about">About</a> |
+        <a href="/terms">Terms of service</a> |
         Subscribe to <a href="/rss">RSS feed</a> |
         Follow us on
         <a href="https://twitter.com/<%= @page.twitter %>">Twitter</a> and
