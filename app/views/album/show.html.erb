@@ -1,6 +1,32 @@
-<div class="row">
+<div class="album-header">
+  <h1>
+    <% if @album.title.nil? %>
+      Untitled album
+    <% else %>
+      <%= @album.title %>
+    <% end %>
+    <button class="btn btn-xs btn-primary">Edit title</button>
+  </h1>
+  <p>
+    <%= @album.description %>
+    <button class="btn btn-xs btn-primary">Edit description</button>
+  </p>
 
-  <h1 class="text-center">Album <%= @album.title %></h1>
-
-
+  <p>
+    <time datetime="<%= @album.updated_at.to_time.iso8601 %>" title="<%= @album.updated_at.to_time.iso8601 %>">
+      <%= distance_of_time_in_words @album.updated_at.to_time.to_i, Time.now.to_i %> ago
+    </time>
+    by
+    <b>
+      <% if @album.user %>
+        <a href="/user/<%= @album.user.username %>"><%= @album.user.username %></a>
+      <% else %>
+        Anonymous
+      <% end %>
+    </b>
+  </p>
 </div>
+<% @images.each do | image | @image = image %>
+   <%= render 'shared/image' %>
+<% end %>
+

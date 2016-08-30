@@ -9,6 +9,23 @@ class ApplicationController < ActionController::Base
     session[:user_id] = session[:user_id] || SecureRandom.uuid
   end
 
+  def current_user
+    session[:user]
+  end
+  helper_method :current_user
+
+  def current_user_id
+    session[:user_id]
+  end
+  helper_method :current_user_id
+
+
+  def logged_in?
+    !session[:user].nil?
+  end
+  helper_method :logged_in?
+
+
   def set_default_page
     @page = Page.new
     @page.image = "#{BASE_URL}/image.png"

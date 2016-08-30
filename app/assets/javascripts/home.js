@@ -177,7 +177,7 @@ function createThumbnail(file, index) {
               '<label for="file_name_' + index + '">Title</label> <input type="text" placeholder="Add Title" id="file_name_' + index + '" class="form-control input-lg" aria-label="Title" value="' + file_name + '">' +
             '</div>' +
             '<div class="thumb_detail_margin">' +
-              '<label for="tags_' + index + '">Description, keywords, tags</label> <input type="text" placeholder="Add description, keywords, tags" id="tags_' + index + '" class="form-control input-lg" aria-label="Tags" value="">' +
+            '<label for="tags_' + index + '">Tags, keywords</label> <input type="text" placeholder="Add tags, keywords" id="tags_' + index + '" class="form-control input-lg" aria-label="Tags" value="">' +
             '</div>' +
             '<div class="thumb_detail_margin">' +
               '<button class="btn btn-danger btn-lg preview-remove" type="button" title="Remove" data-id="' + index + '">' +
@@ -210,7 +210,7 @@ function printTemplates() {
   $('.preview').remove();
   for (var i=0; i < upload_files.length; i++) {
     var file = upload_files[i];
-    $('#preview_files').prepend(createThumbnail(file, i));
+    $('#preview_files').append(createThumbnail(file, i));
   }
 }
 

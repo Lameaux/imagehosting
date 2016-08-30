@@ -21,6 +21,7 @@ class UploadController < ApplicationController
     @id = ShortUUID.shorten(uuid)
     @image = Image.new(id: uuid)
     @image.user_id = session[:user_id]
+    @image.album_id = SecureRandom.uuid
 
     if params[:file_url]
       download_url(params[:file_url])

@@ -5,7 +5,7 @@ class CreateAlbums < ActiveRecord::Migration
       id char(36) not null,
       title varchar(255),
       description text,
-      user_id char(36),
+      user_id char(36) not null,
       created_at timestamp default CURRENT_TIMESTAMP,
       updated_at timestamp
     );

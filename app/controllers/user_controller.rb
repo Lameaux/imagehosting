@@ -12,7 +12,7 @@ class UserController < ApplicationController
     user = User.find_by_email(params[:username_email]) || User.find_by_username(params[:username_email])
     if user && user.authenticate(params[:password])
       session[:user_id] = user.id
-      session[:user] = {id: user.id, email: user.email, username: user.username, active: user.active }
+      session[:user] = { id: user.id, email: user.email, username: user.username, active: user.active }
       redirect_to '/'
       # active?
     else
@@ -24,6 +24,7 @@ class UserController < ApplicationController
   def logout
     session[:user] = nil
     session[:user_id] = SecureRandom.uuid
+    session[:my_images] = nil
     redirect_to '/'
   end
 

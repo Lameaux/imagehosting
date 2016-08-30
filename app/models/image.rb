@@ -1,14 +1,22 @@
 class Image < ApplicationRecord
   self.primary_key = 'id'
 
+  belongs_to :user, primary_key: 'id', foreign_key: 'user_id', optional: true
+
   ORIGINAL_DIR = 'original'
   THUMBNAIL_DIR = 'thumbnail'
 
   THUMBNAIL_WIDTH = 350
   THUMBNAIL_HEIGHT = 200
 
+  # separate domain for thumbnails and originals
+
   def short_id
     ShortUUID.shorten(id)
+  end
+
+  def short_album_id
+    ShortUUID.shorten(album_id)
   end
 
   def file_name

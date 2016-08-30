@@ -1,0 +1,20 @@
+<div>
+  <div  class="thumbnail image-detail">
+    <a href="<%= @image.web_file_path %>" data-toggle="lightbox" data-title="<%= @image.title %>">
+      <img class="zoom-in" src="<%= @image.web_file_path %>" alt="<%= @image.title %>" title="<%= @image.title %>">
+    </a>
+  </div>
+  <div class="image-footer">
+      <h2><%= @image.title %> <button class="btn btn-xs btn-primary">Edit title</button></h2>
+
+      <p>
+        <%= @image.description %>
+        <button class="btn btn-xs btn-primary">Edit description</button>
+      </p>
+      <p>
+        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
+        <%= @image.tags %>
+        <button class="btn btn-xs btn-primary">Edit tags</button>
+      </p>
+  </div>
+</div>
