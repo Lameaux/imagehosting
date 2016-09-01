@@ -4,3 +4,10 @@
 require_relative 'config/application'
 
 Rails.application.load_tasks
+
+desc 'Drops all tables'
+task :drop_tables => :environment do
+  ActiveRecord::Base.connection.tables.each do |table|
+    ActiveRecord::Base.connection.execute("drop table #{table} cascade")
+  end
+end

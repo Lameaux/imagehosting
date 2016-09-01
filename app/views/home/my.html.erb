@@ -1,36 +1,34 @@
 <div class="text-center">
-  <h2>Images uploaded by you</h2>
+  <h3>Browse your
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        images
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="/my">images</a></li>
+        <li><a href="/my/albums">albums</a></li>
+      </ul>
+    </div>.
+
+  </h3>
   <div class="row browse_filter">
-    <div class="col-sm-4">
-      <span class="label label-success">Sort by popularity</span>
-      <span class="label label-default">Sort by date</span>
-    </div>
-    <div class="col-sm-4">
-      <span class="label label-success">all types</span>
-      <span class="label label-default">png</span>
-      <span class="label label-default">gif</span>
-      <span class="label label-default">jpg</span>
-    </div>
-    <div class="col-sm-4">
-      <span class="label label-success">all sizes</span>
-      <span class="label label-default">small</span>
-      <span class="label label-default">middle</span>
-      <span class="label label-default">big</span>
-    </div>
+
   </div>
 </div>
 
-<div class="row">
+<div class="row browse-list">
 
   <% @images.each do |image| %>
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
-      <a href="<%= image.short_id %>" title="<%= image.title %>">
-        <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
-      </a>
+        <a href="/album/<%= image.short_album_id %>" title="<%= image.title %>">
+          <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+        </a>
       </div>
     </div>
   <% end %>
 
 </div>
+
 

@@ -6,6 +6,9 @@ class CreateAlbums < ActiveRecord::Migration
       title varchar(255),
       description text,
       user_id char(36) not null,
+      hidden int default 0,
+      views int default 0,
+      likes int default 0,
       created_at timestamp default CURRENT_TIMESTAMP,
       updated_at timestamp
     );

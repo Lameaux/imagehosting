@@ -1,15 +1,19 @@
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
-  root 'home#index'
+  root 'home#browse'
 
+  get '/upload', to: 'home#upload'
   post '/upload', to: 'upload#create'
 
-  get '/browse', to: 'home#browse'
+  get '/browse(/:sort/:type/:size)', to: 'home#browse', defaults: { sort: 'popular', type: 'all', size: 'all' }
+
   get '/search', to: 'home#search'
   get '/my', to: 'home#my'
 
   get '/terms', to: 'home#terms'
+  get '/rss', to: 'home#rss'
+  get '/sitemap.xml', to: 'home#sitemap'
 
   get '/login', to: 'user#login'
   post '/login', to: 'user#login_post'

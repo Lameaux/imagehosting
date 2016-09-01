@@ -300,6 +300,12 @@ function continueUploading() {
   }
   $('.try-again').removeClass('hidden');
 
+  for (var i = 0; i < upload_results.length; i++) {
+    if (upload_results[i] == 'failed') {
+      return;
+    }
+  }
+
   // redirect to album
   var redirect_url = '/album/' + $('#album').data('album-id');
   window.location.href = redirect_url;

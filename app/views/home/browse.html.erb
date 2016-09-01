@@ -1,26 +1,49 @@
 <div class="text-center">
-  <h2>See what’s trending now</h2>
+  <h3>Browse
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        popular
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="/browse/popular/<%= params[:type] %>/<%= params[:size] %>">popular</a></li>
+        <li><a href="/browse/recent/<%= params[:type] %>/<%= params[:size] %>">recently added</a></li>
+      </ul>
+    </div> images,
+    show
+    <div class="btn-group">
+      <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+       all types
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="/browse/<%= params[:sort] %>/all/<%= params[:size] %>">all types</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/png/<%= params[:size] %>">only png</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/gif/<%= params[:size] %>">only gif</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/jpg/<%= params[:size] %>">only jpg</a></li>
+      </ul>
+    </div>
+
+    and
+
+    <div class="btn-group">
+      <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        all sizes
+      </button>
+      <ul class="dropdown-menu">
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/all">all sizes</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/small">only small</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/middle">only middle</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/big">only big</a></li>
+      </ul>
+    </div>.
+
+  </h3>
   <div class="row browse_filter">
-    <div class="col-sm-4">
-      <span class="label label-success">Popular</span>
-      <span class="label label-default">Recent</span>
-    </div>
-    <div class="col-sm-4">
-      <span class="label label-success">all types</span>
-      <span class="label label-default">png</span>
-      <span class="label label-default">gif</span>
-      <span class="label label-default">jpg</span>
-    </div>
-    <div class="col-sm-4">
-      <span class="label label-success">all sizes</span>
-      <span class="label label-default">small</span>
-      <span class="label label-default">middle</span>
-      <span class="label label-default">big</span>
-    </div>
+
   </div>
 </div>
 
-<div class="row">
+<div class="row browse-list">
 
   <% @images.each do |image| %>
     <div class="col-md-3 col-sm-4 col-xs-6">
@@ -32,5 +55,8 @@
     </div>
   <% end %>
 
+</div>
+<div class="text-center">
+  <button class="btn btn-lg btn-success show-more">Show more images</button>
 </div>
 

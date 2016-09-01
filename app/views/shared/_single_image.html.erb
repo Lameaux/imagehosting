@@ -1,0 +1,36 @@
+<div>
+  <div class="image-footer">
+    <h2><%= @image.title %> <button class="btn btn-xs btn-primary">Edit title</button></h2>
+    <p>
+      <time datetime="<%= @image.created_at.to_time.iso8601 %>" title="<%= @image.created_at.to_time.iso8601 %>">
+        <%= distance_of_time_in_words @image.created_at.to_time.to_i, Time.now.to_i %> ago
+      </time>
+      by
+      <b>
+        <% if @image.user %>
+          <a href="/user/<%= @image.user.username %>"><%= @image.user.username %></a>
+        <% else %>
+          Anonymous
+        <% end %>
+      </b>
+    </p>
+  </div>
+
+  <div  class="thumbnail image-detail">
+    <a href="<%= @image.web_file_path %>" data-toggle="lightbox" data-title="<%= @image.title %>">
+      <img class="zoom-in" src="<%= @image.web_file_path %>" alt="<%= @image.title %>" title="<%= @image.title %>">
+    </a>
+  </div>
+  <div class="image-footer">
+      <p>
+        <%= @image.description %>
+        <button class="btn btn-xs btn-primary">Edit description</button>
+      </p>
+      <p>
+        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
+        <%= @image.tags %>
+        <button class="btn btn-xs btn-primary">Edit tags</button>
+      </p>
+
+  </div>
+</div>

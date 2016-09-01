@@ -3,7 +3,7 @@ class AlbumController < ApplicationController
   def show
     find_by_id
 
-    @images = Image.where(album_id: @uuid)
+    @images = Image.where(album_id: @uuid).includes(:user)
     not_found if @images.empty?
 
     first_image = @images.first
@@ -11,7 +11,7 @@ class AlbumController < ApplicationController
     @album = @album || Album.new({
                                    id: first_image.album_id,
                                    user_id: first_image.user_id,
-                                   updated_at: first_image.updated_at,
+                                   created_at: first_image.created_at,
                                  })
 
     # @page.image = "#{BASE_URL}#{@image.web_thumb_path}"

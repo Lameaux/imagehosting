@@ -28,7 +28,7 @@ class ApplicationController < ActionController::Base
 
   def set_default_page
     @page = Page.new
-    @page.image = "#{BASE_URL}/image.png"
+    @page.image = "#{BASE_URL}/img/pngifcom.png"
     @page.image_width = 600
     @page.image_height = 315
     @page.url = request.original_fullpath

@@ -12,6 +12,7 @@ class CreateImages < ActiveRecord::Migration
       height int,
       user_id char(36) not null,
       album_id char(36) not null,
+      album_index int default 0,
       hidden int default 0,
       views int default 0,
       likes int default 0,
@@ -23,6 +24,9 @@ class CreateImages < ActiveRecord::Migration
     execute 'CREATE INDEX images_user_id ON images (user_id);'
     execute 'CREATE INDEX images_album_id ON images (album_id);'
     execute 'CREATE INDEX images_created_at ON images (created_at);'
+    execute 'CREATE INDEX images_likes ON images (likes);'
+    execute 'CREATE INDEX images_file_ext ON images (file_ext);'
+    execute 'CREATE INDEX images_width ON images (width);'
   end
 
   def down

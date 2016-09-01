@@ -13,8 +13,8 @@
   </p>
 
   <p>
-    <time datetime="<%= @album.updated_at.to_time.iso8601 %>" title="<%= @album.updated_at.to_time.iso8601 %>">
-      <%= distance_of_time_in_words @album.updated_at.to_time.to_i, Time.now.to_i %> ago
+    <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
+      <%= distance_of_time_in_words @album.created_at.to_time.to_i, Time.now.to_i %> ago
     </time>
     by
     <b>
@@ -27,6 +27,6 @@
   </p>
 </div>
 <% @images.each do | image | @image = image %>
-   <%= render 'shared/image' %>
+   <%= render 'shared/album_image' %>
 <% end %>
 
