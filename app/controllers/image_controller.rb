@@ -12,13 +12,16 @@ class ImageController < ApplicationController
   end
 
   def edit
-    find_by_id
-    @image.update(title: params[:title])
-    render plain: 'OK'
+    find_by_id_and_user_id
+    @image.title = params[:title] if params[:title]
+    @image.description = params[:description] if params[:description]
+    @image.tags = params[:tags] if params[:tags]
+    @image.save!
+    render json: @image
   end
 
   def delete
-    find_by_id
+    find_by_id_and_user_id
     @image.destroy!
 
     File.delete(@image.local_file_path)
@@ -31,6 +34,13 @@ class ImageController < ApplicationController
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
     @image = Image.includes(:user).find_by(id: uuid)
+    not_found unless @image
+  end
+
+  private def find_by_id_and_user_id
+    @id = params[:id]
+    uuid = ShortUUID.expand(@id)
+    @image = Image.includes(:user).find_by(id: uuid, user_id: session[:user_id])
     not_found unless @image
   end
 

@@ -226,7 +226,7 @@ function uploadFile(id) {
     formData.append('file_url', upload_files[id]);
   }
 
-  formData.append('file_name', $('#file_name_' + id).val());
+  formData.append('title', $('#file_name_' + id).val());
   formData.append('tags', $('#tags_' + id).val());
   formData.append('album_id', $('#album').data('album-id'));
   formData.append('album_index', id);
