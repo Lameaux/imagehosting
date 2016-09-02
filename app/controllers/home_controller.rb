@@ -17,7 +17,7 @@ class HomeController < ApplicationController
     params[:type] = params[:type] || 'all'
     params[:size] = params[:size] || 'all'
 
-    @images = Image.order(created_at: :desc).limit(12)
+    @images = Image.where(album_index: 0).order(created_at: :desc).limit(12)
 
     render :browse
   end
@@ -33,7 +33,7 @@ class HomeController < ApplicationController
     @page.section = 'my'
     @page.title = "My images on #{@page.site_name}"
 
-    @images = Image.includes(:user).where(user_id: session[:user_id]).order(created_at: :desc)
+    @images = Image.includes(:user).where(user_id: session[:user_id]).order(created_at: :desc, album_index: :desc)
 
     render :my
   end

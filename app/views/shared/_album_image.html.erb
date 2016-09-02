@@ -1,20 +1,43 @@
 <div>
-  <div  class="thumbnail image-detail">
-    <a href="<%= @image.web_file_path %>" data-toggle="lightbox" data-title="<%= @image.title %>">
-      <img class="zoom-in" src="<%= @image.web_file_path %>" alt="<%= @image.title %>" title="<%= @image.title %>">
-    </a>
+  <div class="thumbnail image-detail" title="<%= @image.title %>">
+    <% if @image.width > 800 %>
+      <a class="zoom-in" href="<%= @image.web_file_path %>" data-toggle="lightbox">
+    <% end %>
+      <img src="<%= @image.web_file_path %>" alt="<%= @image.title %>">
+    <% if @image.width > 800 %>
+      </a>
+    <% end %>
   </div>
   <div class="image-footer">
-      <h2><%= @image.title %> <button class="btn btn-xs btn-primary">Edit title</button></h2>
+      <h2><%= @image.title %>
+        <% if session[:user_id] == @image.user_id %>
+          <button class="btn btn-xs btn-primary">Edit title</button>
+        <% end %>
+      </h2>
 
       <p>
         <%= @image.description %>
-        <button class="btn btn-xs btn-primary">Edit description</button>
+        <% if session[:user_id] == @image.user_id %>
+          <% unless @image.description.nil? || @image.description.blank? %>
+            <button class="btn btn-xs btn-primary">Edit description</button>
+          <% else %>
+            <button class="btn btn-xs btn-primary">Add description</button>
+          <% end %>
+        <% end %>
       </p>
       <p>
-        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
-        <%= @image.tags %>
-        <button class="btn btn-xs btn-primary">Edit tags</button>
+        <% unless @image.tags.nil? || @image.tags.blank? %>
+          <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
+          <%= @image.tags %>
+        <% end %>
+
+        <% if session[:user_id] == @image.user_id %>
+          <% unless @image.tags.nil? || @image.tags.blank? %>
+            <button class="btn btn-xs btn-primary">Edit tags</button>
+          <% else %>
+            <button class="btn btn-xs btn-primary">Add tags</button>
+          <% end %>
+        <% end %>
       </p>
   </div>
 </div>

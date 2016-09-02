@@ -145,7 +145,7 @@
   padding: 20px;
 }
 
-.album-header {
+.album-header, .image-header {
   background-color: #777;
   padding: 5px 10px 5px 20px;
   border-top-left-radius: 4px;
@@ -163,13 +163,13 @@
   border-radius: 0px;
 }
 
-.album-header h1 {
+.album-header h1, .image-header h1 {
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;
 }
 
-.image-footer h2 {
+.image-footer h2{
   font-size: 20px;
   margin-top: 10px;
   margin-bottom: 10px;

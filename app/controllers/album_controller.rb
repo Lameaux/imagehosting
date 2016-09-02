@@ -3,7 +3,7 @@ class AlbumController < ApplicationController
   def show
     find_by_id
 
-    @images = Image.where(album_id: @uuid).includes(:user)
+    @images = Image.where(album_id: @uuid).includes(:user).order(:album_index)
     not_found if @images.empty?
 
     first_image = @images.first
@@ -14,9 +14,9 @@ class AlbumController < ApplicationController
                                    created_at: first_image.created_at,
                                  })
 
-    # @page.image = "#{BASE_URL}#{@image.web_thumb_path}"
-    # @page.image_width = Image::THUMBNAIL_WIDTH
-    # @page.image_height = Image::THUMBNAIL_HEIGHT
+    @page.image = "#{BASE_URL}#{first_image.web_thumb_path}"
+    @page.image_width = Image::THUMBNAIL_WIDTH
+    @page.image_height = Image::THUMBNAIL_HEIGHT
 
     @page.title = "Album #{@album.title} on #{@page.site_name}"
     render :show

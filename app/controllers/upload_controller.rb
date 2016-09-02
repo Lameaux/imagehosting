@@ -22,6 +22,7 @@ class UploadController < ApplicationController
     @image = Image.new(id: uuid)
     @image.user_id = session[:user_id]
     @image.album_id = SecureRandom.uuid
+    @image.album_index = 0
 
     if params[:file_url]
       download_url(params[:file_url])
@@ -36,9 +37,14 @@ class UploadController < ApplicationController
     @image.title = params[:file_name] if params[:file_name]
     @image.tags = params[:tags] if params[:tags]
     @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
+    @image.album_index = params[:album_index] if params[:album_index]
     @image.hidden = 1 if params[:hidden]
     set_image_dimensions!(@image)
     @image.save!
+
+    if params[:album_index].to_i > 0
+      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id)
+    end
 
     create_thumbnail(@image) unless params[:hidden]
 

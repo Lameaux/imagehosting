@@ -5,15 +5,23 @@
     <% else %>
       <%= @album.title %>
     <% end %>
-    <button class="btn btn-xs btn-primary">Edit title</button>
+    <% if session[:user_id] == @album.user_id %>
+      <button class="btn btn-xs btn-primary">Edit title</button>
+    <% end %>
   </h1>
   <p>
     <%= @album.description %>
-    <button class="btn btn-xs btn-primary">Edit description</button>
+    <% if session[:user_id] == @album.user_id %>
+      <% unless @album.description.nil? || @album.description.blank? %>
+        <button class="btn btn-xs btn-primary">Edit description</button>
+      <% else %>
+        <button class="btn btn-xs btn-primary">Add description</button>
+      <% end %>
+    <% end %>
   </p>
 
   <p>
-    <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
+    Uploaded <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
       <%= distance_of_time_in_words @album.created_at.to_time.to_i, Time.now.to_i %> ago
     </time>
     by

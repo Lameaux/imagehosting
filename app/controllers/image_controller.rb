@@ -30,7 +30,7 @@ class ImageController < ApplicationController
   private def find_by_id
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
-    @image = Image.find_by(id: uuid)
+    @image = Image.includes(:user).find_by(id: uuid)
     not_found unless @image
   end
 

@@ -229,6 +229,7 @@ function uploadFile(id) {
   formData.append('file_name', $('#file_name_' + id).val());
   formData.append('tags', $('#tags_' + id).val());
   formData.append('album_id', $('#album').data('album-id'));
+  formData.append('album_index', id);
 
   $.ajax({
     url : '/upload',
@@ -308,6 +309,9 @@ function continueUploading() {
 
   // redirect to album
   var redirect_url = '/album/' + $('#album').data('album-id');
+  if (upload_results.length == 1) {
+    redirect_url = upload_results[0].url;
+  }
   window.location.href = redirect_url;
 }
 

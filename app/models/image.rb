@@ -2,6 +2,7 @@ class Image < ApplicationRecord
   self.primary_key = 'id'
 
   belongs_to :user, primary_key: 'id', foreign_key: 'user_id', optional: true
+  belongs_to :album, primary_key: 'id', foreign_key: 'album_id', optional: true
 
   ORIGINAL_DIR = 'original'
   THUMBNAIL_DIR = 'thumbnail'
@@ -53,6 +54,18 @@ class Image < ApplicationRecord
 
   def web_thumb_path
     "#{web_thumbnail_path}/#{file_name}"
+  end
+
+  def link_to_album
+    "/album/#{short_album_id}"
+  end
+
+  def link_to_detail
+    if album.nil?
+      "/#{short_id}"
+    else
+      link_to_album
+    end
   end
 
 end

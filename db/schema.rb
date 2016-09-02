@@ -45,11 +45,12 @@ ActiveRecord::Schema.define(version: 3) do
     t.datetime "created_at",                default: -> { "CURRENT_TIMESTAMP" }, null: false
     t.datetime "updated_at",                                                     null: false
     t.index ["album_id"], name: "images_album_id", using: :btree
+    t.index ["album_index"], name: "images_album_index", using: :btree
     t.index ["created_at"], name: "images_created_at", using: :btree
     t.index ["file_ext"], name: "images_file_ext", using: :btree
     t.index ["id"], name: "images_id", using: :btree
-    t.index ["likes"], name: "images_likes", using: :btree
     t.index ["user_id"], name: "images_user_id", using: :btree
+    t.index ["views"], name: "images_views", using: :btree
     t.index ["width"], name: "images_width", using: :btree
   end
 
