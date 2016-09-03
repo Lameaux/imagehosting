@@ -113,32 +113,6 @@ function selectText() {
   this.setSelectionRange(0, this.value.length);
 }
 
-function copyToClipboard() {
-  var image_url = ($(this).parents('.thumb_status').find('.image-url'))[0];
-  image_url.setSelectionRange(0, image_url.value.length);
-  document.execCommand("copy");
-}
-
-function editImage() {
-
-  var id = $(this).data('id');
-  var index = $(this).data('index');
-
-  var formData = new FormData();
-  formData.append('title', $('#image_title_' + index).val());
-
-  $.ajax({
-    url: '/' + id,
-    type: 'PUT',
-    data: formData,
-    processData: false,
-    contentType: false,
-    success: function (data) {
-    }
-  });
-
-}
-
 function deleteImage() {
 
   var id = $(this).data('id');
@@ -261,8 +235,6 @@ function uploadFile(id) {
       var success = $(success_html);
 
       success.find('.image-url').click(selectText);
-      success.find('.clipboard-btn').click(copyToClipboard);
-      success.find('.edit-btn').click(editImage);
       success.find('.delete-btn').click(deleteImage);
 
 

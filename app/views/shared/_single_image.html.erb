@@ -26,6 +26,30 @@
         <% end %>
       </b>
     </p>
+
+    <p class="album-share-button">
+
+      <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box">
+        <span class="fa fa-share-alt"></span>
+      </a>
+
+      <a title="Share on Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/#{@image.short_id}") %>" class="btn share-button share-facebook"><span class="fa fa-facebook"></span></a>
+      <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/#{@image.short_id}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
+    </p>
+
+    <div id="album-share-box" class="album-share-box collapse">
+      <div class="input-group">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
+          <span class="hidden-xs">Link to image:</span>
+          </span>
+        <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/<%= @image.short_id %>">
+          <span class="input-group-btn">
+            <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
+          </span>
+      </div>
+    </div>
+
+
   </div>
 
   <div class="thumbnail image-detail" title="<%= @image.title %>">

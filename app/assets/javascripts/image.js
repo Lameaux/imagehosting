@@ -66,7 +66,24 @@
     });
 
 
+    function copyToClipboard() {
+      var image_url = ($(this).parents('.input-group').find('.image-url'))[0];
+      image_url.setSelectionRange(0, image_url.value.length);
+      document.execCommand("copy");
+    }
 
+    $('.image-url').click(selectText);
+    $('.clipboard-btn').click(copyToClipboard);
+
+    $('.share-facebook').click(function(){
+      window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=560,height=350');
+      return false;
+    });
+
+    $('.share-twitter').click(function(){
+      window.open(this.href,'targetWindow','toolbar=no,location=no,status=no,menubar=no,scrollbars=no,resizable=yes,width=560,height=260');
+      return false;
+    });
 
   });
 

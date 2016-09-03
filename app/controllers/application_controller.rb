@@ -1,6 +1,8 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
 
+  rescue_from ActionController::RoutingError, :with => :rescue_not_found
+
   before_action :set_user, :set_default_page
 
   BASE_URL = 'http://0.0.0.0:3000'
@@ -40,9 +42,13 @@ class ApplicationController < ActionController::Base
     @page.section = ''
     @page.category = nil
     @page.author = 'pngif.com'
-    @page.twitter = 'pngif_com'
-    @page.facebook = 'pngif_com'
+    @page.twitter = 'pngifcom'
+    @page.facebook = 'pngifcom'
     @page.base_url = BASE_URL
+  end
+
+  def raise_not_found!
+    not_found
   end
 
   def not_found
@@ -51,6 +57,12 @@ class ApplicationController < ActionController::Base
 
   def bad_request
     raise ActionController::BadRequest.new('Bad Request')
+  end
+
+  def rescue_not_found
+    @page.section = 'not-found'
+    @page.title = "404 Page not Found on #{@page.site_name}"
+    render 'errors/error404'
   end
 
 end

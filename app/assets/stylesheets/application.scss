@@ -11,7 +11,8 @@
  * It is generally better to create a new file per style scope.
  *
  */
-
+@import "font-awesome-sprockets";
+@import "font-awesome";
 @import "bootstrap-sprockets";
 @import "bootstrap";
 @import "lightbox-bootstrap";
@@ -216,4 +217,17 @@
   color: #fff;
   background-color: transparent;
   border-color: transparent;
+}
+
+.album-share-box {
+  padding-bottom: 10px;
+}
+
+.share-button {
+  font-size: 30px;
+  cursor: pointer;
+}
+
+.share-button:hover {
+  color: #333;
 }

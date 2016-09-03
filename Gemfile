@@ -17,6 +17,7 @@ gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 
 gem 'bootstrap-sass', '~> 3.3.6'
+gem 'font-awesome-sass'
 gem 'unidecoder', '~> 1.1.2'
 gem 'elasticsearch', '~> 2.0.0'
 gem 'shortuuid', '~> 0.2.0'

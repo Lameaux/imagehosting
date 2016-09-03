@@ -30,7 +30,15 @@ Rails.application.routes.draw do
   post '/register', to: 'user#register_post'
 
   get '/reset-password', to: 'user#reset_password'
+  post '/reset-password', to: 'user#reset_password_post'
+
+  get '/reset-password/:reset_code', to: 'user#reset_password_form', constraints: { reset_code: /[0-9a-zA-Z]+/ }
+  put '/reset-password/:reset_code', to: 'user#reset_password_form_put', constraints: { reset_code: /[0-9a-zA-Z]+/ }
+
+  get '/reset-password-sent', to: 'user#reset_password_sent'
   get '/change-password', to: 'user#change_password'
+  put '/change-password', to: 'user#change_password_put'
+  get '/password-changed', to: 'user#password_changed'
   get '/confirm-email', to: 'user#confirm_email'
   get '/confirm-email/:activation_code', to: 'user#confirm_email_ok', constraints: { activation_code: /[0-9a-zA-Z]+/ }
 
@@ -42,5 +50,7 @@ Rails.application.routes.draw do
   get '/album/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/album/:id', to: 'album#edit', constraints: { id: /[0-9a-zA-Z]+/ }
   delete '/album/:id', to: 'album#delete', constraints: { id: /[0-9a-zA-Z]+/ }
+
+  match '*unmatched_route', :to => 'application#raise_not_found!', :via => :all
 
 end
