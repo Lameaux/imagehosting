@@ -60,6 +60,8 @@ class UserController < ApplicationController
   end
 
   def confirm_email
+    @page.section = 'confirm-email'
+    @page.title = "Confirm Email on #{@page.site_name}"
     render :confirm_email
   end
 

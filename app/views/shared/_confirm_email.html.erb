@@ -1,0 +1,6 @@
+<% if logged_in? && current_user['active'] == 0 %>
+  <div class="alert alert-danger">
+    <a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+    <strong>Warning!</strong> You email is not verified. Please check your inbox and click the link to activate your account.
+  </div>
+<% end %>
