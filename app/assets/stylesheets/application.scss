@@ -16,7 +16,7 @@
 @import "bootstrap";
 @import "lightbox-bootstrap";
 @import "cover";
-
+@import "dark-lightbox";
 
 .logo-icon {
   color: greenyellow;
@@ -111,7 +111,7 @@
   margin-top: 20px;
 }
 
-.upload_buttons {
+.upload_buttons, .show_more_images {
   margin-top: 30px;
 }
 
@@ -129,6 +129,10 @@
 
 .zoom-in {
   cursor:zoom-in;
+}
+
+.zoom-out {
+  cursor:zoom-out;
 }
 
 .browse_thumbnail {
