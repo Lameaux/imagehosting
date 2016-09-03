@@ -42,6 +42,7 @@ class UserController < ApplicationController
     @user.id = session[:user_id]
     @user.activation_code = SecureRandom.uuid
     if @user.save
+      session[:user] = { id: @user.id, email: @user.email, username: @user.username, active: @user.active }
       redirect_to '/confirm-email'
     else
       render :register

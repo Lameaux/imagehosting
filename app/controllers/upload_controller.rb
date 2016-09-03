@@ -52,7 +52,7 @@ class UploadController < ApplicationController
     image_hash = @image.as_json
     image_hash[:id] = @image.short_id
     image_hash[:url] = "#{BASE_URL}/#{@image.short_id}"
-    image_hash[:thumb_url] = "#{BASE_URL}#{@image.web_thumb_path}"
+    image_hash[:thumb_url] = "#{@image.web_thumb_url}"
 
     session[:my_images] = session[:my_images] || []
     session[:my_images] << @image.id
@@ -72,6 +72,7 @@ class UploadController < ApplicationController
 
     @image.file_ext = MIME_TYPES[io.content_type]
     @image.title = url
+    FileUtils.mkdir_p(File.dirname(@image.local_file_path))
     IO.copy_stream(io, @image.local_file_path, FILE_SIZE_LIMIT)
   end
 
@@ -81,6 +82,7 @@ class UploadController < ApplicationController
 
     @image.file_ext = MIME_TYPES[io.content_type]
     @image.title = io.original_filename
+    FileUtils.mkdir_p(File.dirname(@image.local_file_path))
     IO.copy_stream(io.tempfile, @image.local_file_path, FILE_SIZE_LIMIT)
   end
 
@@ -99,6 +101,7 @@ class UploadController < ApplicationController
     end
 
     img.resize_to_fit!(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT)
+    FileUtils.mkdir_p(File.dirname(@image.local_thumb_path))
     target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(image.local_thumb_path)
   end
 

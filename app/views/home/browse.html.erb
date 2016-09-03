@@ -3,20 +3,20 @@
 
     <div class="btn-group">
       <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        popular
+        <%= {'popular' => 'popular', 'new' => 'recently added' }[params[:sort]] %>
       </button>
       <ul class="dropdown-menu">
         <li><a href="/browse/popular/<%= params[:type] %>/<%= params[:size] %>">popular</a></li>
-        <li><a href="/browse/recent/<%= params[:type] %>/<%= params[:size] %>">recently added</a></li>
+        <li><a href="/browse/new/<%= params[:type] %>/<%= params[:size] %>">recently added</a></li>
       </ul>
     </div> images,
     show
     <div class="btn-group">
       <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-       all types
+        <%= {'any' => 'any type', 'png' => 'only png', 'gif' => 'only gif', 'jpg' => 'only jpg' }[params[:type]] %>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="/browse/<%= params[:sort] %>/all/<%= params[:size] %>">all types</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/any/<%= params[:size] %>">any type</a></li>
         <li><a href="/browse/<%= params[:sort] %>/png/<%= params[:size] %>">only png</a></li>
         <li><a href="/browse/<%= params[:sort] %>/gif/<%= params[:size] %>">only gif</a></li>
         <li><a href="/browse/<%= params[:sort] %>/jpg/<%= params[:size] %>">only jpg</a></li>
@@ -27,20 +27,18 @@
 
     <div class="btn-group">
       <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        all sizes
+        <%= {'any' => 'any size', 'icon' => 'only icons', 'medium' => 'only medium size', 'large' => 'only large size' }[params[:size]] %>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/all">all sizes</a></li>
-        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/small">only small</a></li>
-        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/middle">only middle</a></li>
-        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/big">only big</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/any">any size</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/icon">only icons</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/medium">only medium size</a></li>
+        <li><a href="/browse/<%= params[:sort] %>/<%= params[:type] %>/large">only large size</a></li>
       </ul>
-    </div>.
+    </div>
 
   </h3>
-  <div class="row browse_filter">
-
-  </div>
+  <div class="browse_filter"></div>
 </div>
 
 <div class="row browse-list">
@@ -49,16 +47,19 @@
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
       <a href="<%= image.link_to_detail %>" title="<%= image.title %>">
-        <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+        <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_url %>')">
       </a>
       </div>
     </div>
   <% end %>
 
 </div>
+
+<% if @show_more %>
 <div class="show_more_images text-center">
-  <button class="btn btn-lg btn-success show-more"><span class="glyphicon glyphicon-refresh"></span> Show more images</button>
+  <a href="?offset=<%= params[:offset].to_i + @images.count %>" class="btn btn-lg btn-success show-more"><span class="glyphicon glyphicon-refresh"></span> Show more images</a>
 </div>
+<% end %>
 
 <div class="upload_buttons text-center">
   <a href="/upload" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-cloud-upload"></span> Upload new image</a>

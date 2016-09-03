@@ -8,6 +8,11 @@
           <button class="btn btn-xs btn-primary edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit title</button>
       <% end %>
     </h1>
+    <% if @image.album %>
+      <p>
+        Album: <b><a href="/a/<%= @image.short_album_id %>"><%= @image.album.title %></a></b>
+      </p>
+    <% end %>
     <p>
       Uploaded <time datetime="<%= @image.created_at.to_time.iso8601 %>" title="<%= @image.created_at.to_time.iso8601 %>">
         <%= distance_of_time_in_words @image.created_at.to_time.to_i, Time.now.to_i %> ago
@@ -25,9 +30,9 @@
 
   <div class="thumbnail image-detail" title="<%= @image.title %>">
     <% if @image.width > 800 %>
-      <a class="zoom-in" href="<%= @image.web_file_path %>" data-toggle="lightbox">
+      <a class="zoom-in" href="<%= @image.web_file_url %>" data-toggle="lightbox">
     <% end %>
-      <img src="<%= @image.web_file_path %>" alt="<%= @image.title %>">
+      <img src="<%= @image.web_file_url %>" alt="<%= @image.title %>">
     <% if @image.width > 800 %>
       </a>
     <% end %>

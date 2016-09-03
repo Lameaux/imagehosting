@@ -1,9 +1,9 @@
 <div>
   <div class="thumbnail image-detail" title="<%= @image.title %>">
     <% if @image.width > 800 %>
-      <a class="zoom-in" href="<%= @image.web_file_path %>" data-toggle="lightbox">
+      <a class="zoom-in" href="<%= @image.web_file_url %>" data-toggle="lightbox">
     <% end %>
-      <img src="<%= @image.web_file_path %>" alt="<%= @image.title %>">
+      <img src="<%= @image.web_file_url %>" alt="<%= @image.title %>">
     <% if @image.width > 800 %>
       </a>
     <% end %>

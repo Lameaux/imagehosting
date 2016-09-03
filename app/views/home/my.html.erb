@@ -22,7 +22,7 @@
   <% @images.each do |image| %>
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
-        <a href="<%= image.link_to_detail %>" title="<%= image.title %>">
+        <a href="<%= image.link_to_detail(@type) %>" title="<%= image.title %>">
           <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
         </a>
       </div>
@@ -31,4 +31,12 @@
 
 </div>
 
+<% if @show_more %>
+  <div class="show_more_images text-center">
+    <a href="?offset=<%= params[:offset].to_i + @images.count %>" class="btn btn-lg btn-success show-more"><span class="glyphicon glyphicon-refresh"></span> Show more images</a>
+  </div>
+<% end %>
 
+<div class="upload_buttons text-center">
+  <a href="/upload" class="btn btn-lg btn-primary"><span class="glyphicon glyphicon-cloud-upload"></span> Upload new image</a>
+</div>

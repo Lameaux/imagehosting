@@ -1,6 +1,8 @@
 class HomeController < ApplicationController
   include ActionView::Helpers::SanitizeHelper
 
+  IMAGES_PER_PAGE = 12
+
   def upload
     @page.section = 'upload'
     @page.title = "Upload image to #{@page.site_name}"
@@ -14,10 +16,34 @@ class HomeController < ApplicationController
     @page.title = "Browse images on #{@page.site_name}"
 
     params[:sort] = params[:sort] || 'popular'
-    params[:type] = params[:type] || 'all'
-    params[:size] = params[:size] || 'all'
+    params[:type] = params[:type] || 'any'
+    params[:size] = params[:size] || 'any'
 
-    @images = Image.where(album_index: 0).order(created_at: :desc).limit(12)
+    query = Image.where(album_index: 0)
+
+    if params[:sort] == 'new'
+      query.order!(created_at: :desc)
+    else
+      query.order!(views: :desc)
+    end
+
+    unless params[:type] == 'any'
+      query.where!(file_ext: params[:type])
+    end
+
+    case params[:size]
+      when 'icon'
+        query.where!('width <= 256')
+      when 'medium'
+        query.where!('width between 256 and 800')
+      when 'large'
+        query.where!('width > 800')
+      else
+        nil
+    end
+
+    @images = query.offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @show_more = @images.count == IMAGES_PER_PAGE
 
     render :browse
   end
@@ -29,17 +55,49 @@ class HomeController < ApplicationController
     render :search
   end
 
-  def my
+  def my_images
     @page.section = 'my'
     @page.title = "My images on #{@page.site_name}"
-
-    @images = Image.includes(:user).where(user_id: session[:user_id]).order(created_at: :desc, album_index: :desc)
-
+    @images = Image.includes(:user).where(user_id: session[:user_id])
+                .order(created_at: :desc, album_index: :desc)
+                .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @show_more = @images.count == IMAGES_PER_PAGE
+    @type = :images
     render :my
   end
 
-  def terms
+  def my_albums
     @page.section = 'my'
+    @page.title = "My albums on #{@page.site_name}"
+
+    @images = Image.includes(:user).includes(:album)
+                .where(user_id: session[:user_id], album_index: 0, albums: { user_id: session[:user_id] })
+                .order(created_at: :desc)
+                .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @show_more = @images.count == IMAGES_PER_PAGE
+    @type = :albums
+    render :my
+  end
+
+
+  def browse_user
+
+    user = User.find_by(username: params[:username]) or not_found
+
+    @page.section = 'user'
+    @page.title = "#{user.username} on #{@page.site_name}"
+
+    @images = Image.includes(:user).includes(:album)
+                .where(user_id: user.id, album_index: 0)
+                .order(created_at: :desc)
+                .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @show_more = @images.count == IMAGES_PER_PAGE
+    render :user_gallery
+  end
+
+
+  def terms
+    @page.section = 'terms'
     @page.title = "Terms of service - #{@page.site_name}"
 
     render :terms
@@ -70,7 +128,7 @@ class HomeController < ApplicationController
       image_description = strip_tags(image.description || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)
 
       image_description = "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
-        "<img alt=\"#{image_title}\" src=\"#{@page.base_url}#{image.web_thumb_path}\" />" <<
+        "<img alt=\"#{image_title}\" src=\"#{image.web_thumb_url}\" />" <<
         '</a>' <<
         '<p>' <<
         "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
@@ -113,7 +171,7 @@ class HomeController < ApplicationController
 
     Album.order(created_at: :desc).limit(1000).each do |album|
       output << "<url>
-                    <loc>#{@page.base_url}/album/#{album.short_id}</loc>
+                    <loc>#{@page.base_url}/a/#{album.short_id}</loc>
                     <lastmod>#{Time.now.strftime('%Y-%m-%d')}</lastmod>
                     <changefreq>weekly</changefreq>
                     <priority>0.8</priority>

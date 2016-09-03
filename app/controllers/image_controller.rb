@@ -3,10 +3,10 @@ class ImageController < ApplicationController
   def show
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
-    @image = Image.includes(:user).find_by(id: uuid)
+    @image = Image.includes(:user).includes(:album).find_by(id: uuid)
     not_found unless @image
 
-    @page.image = "#{BASE_URL}#{@image.web_thumb_path}"
+    @page.image = "#{@image.web_thumb_url}"
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
 

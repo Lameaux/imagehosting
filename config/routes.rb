@@ -6,10 +6,16 @@ Rails.application.routes.draw do
   get '/upload', to: 'home#upload'
   post '/upload', to: 'upload#create'
 
-  get '/browse(/:sort/:type/:size)', to: 'home#browse', defaults: { sort: 'popular', type: 'all', size: 'all' }
+  get '/browse(/:sort/:type/:size)',
+      to: 'home#browse',
+      defaults: { sort: 'popular', type: 'any', size: 'any' },
+      constraints: { sort: /popular|new/, type: /any|png|gif|jpg/, size: /any|icon|medium|large/ }
 
-  get '/search', to: 'home#search'
-  get '/my', to: 'home#my'
+  get '/user/:username', to: 'home#browse_user'
+
+  # get '/search', to: 'home#search'
+  get '/my(/images)', to: 'home#my_images'
+  get '/my/albums', to: 'home#my_albums'
 
   get '/terms', to: 'home#terms'
   get '/rss', to: 'home#rss'
@@ -31,6 +37,7 @@ Rails.application.routes.draw do
   put '/:id', to: 'image#edit', constraints: { id: /[0-9a-zA-Z]+/ }
   delete '/:id', to: 'image#delete', constraints: { id: /[0-9a-zA-Z]+/ }
 
+  get '/a/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
   get '/album/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/album/:id', to: 'album#edit', constraints: { id: /[0-9a-zA-Z]+/ }
   delete '/album/:id', to: 'album#delete', constraints: { id: /[0-9a-zA-Z]+/ }

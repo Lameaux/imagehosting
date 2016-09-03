@@ -17,7 +17,7 @@ class AlbumController < ApplicationController
                                    title: 'Untitled album',
                                  }) unless @album
 
-    @page.image = "#{BASE_URL}#{first_image.web_thumb_path}"
+    @page.image = "#{first_image.web_thumb_url}"
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
 

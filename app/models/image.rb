@@ -10,6 +10,9 @@ class Image < ApplicationRecord
   THUMBNAIL_WIDTH = 350
   THUMBNAIL_HEIGHT = 200
 
+  ORIGINAL_BASE_URL = 'http://0.0.0.0:3000'
+  THUMBNAIL_BASE_URL = 'http://0.0.0.0:3000'
+
   def short_id
     ShortUUID.shorten(id)
   end
@@ -22,6 +25,10 @@ class Image < ApplicationRecord
     "#{short_id}.#{file_ext}"
   end
 
+  def dir_prefix
+    "#{short_id[0]}/#{short_id[1]}"
+  end
+
   def local_original_path
     Rails.root.join('public', ORIGINAL_DIR)
   end
@@ -31,11 +38,11 @@ class Image < ApplicationRecord
   end
 
   def local_file_path
-    "#{local_original_path}/#{file_name}"
+    "#{local_original_path}/#{dir_prefix}/#{file_name}"
   end
 
   def local_thumb_path
-    "#{local_thumbnail_path}/#{file_name}"
+    "#{local_thumbnail_path}/#{dir_prefix}/#{file_name}"
   end
 
   def web_original_path
@@ -47,19 +54,27 @@ class Image < ApplicationRecord
   end
 
   def web_file_path
-    "#{web_original_path}/#{file_name}"
+    "#{web_original_path}/#{dir_prefix}/#{file_name}"
   end
 
   def web_thumb_path
-    "#{web_thumbnail_path}/#{file_name}"
+    "#{web_thumbnail_path}/#{dir_prefix}/#{file_name}"
+  end
+
+  def web_file_url
+    "#{ORIGINAL_BASE_URL}#{web_file_path}"
+  end
+
+  def web_thumb_url
+    "#{THUMBNAIL_BASE_URL}#{web_thumb_path}"
   end
 
   def link_to_album
-    "/album/#{short_album_id}"
+    "/a/#{short_album_id}"
   end
 
-  def link_to_detail
-    if album.nil?
+  def link_to_detail(type=nil)
+    if album.nil? || type == :images
       "/#{short_id}"
     else
       link_to_album

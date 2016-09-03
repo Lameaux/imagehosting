@@ -308,7 +308,7 @@ function continueUploading() {
   }
 
   // redirect to album
-  var redirect_url = '/album/' + $('#album').data('album-id');
+  var redirect_url = '/a/' + $('#album').data('album-id');
   if (upload_results.length == 1) {
     redirect_url = upload_results[0].url;
   }
