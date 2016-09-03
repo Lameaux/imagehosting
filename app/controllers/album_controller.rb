@@ -22,6 +22,7 @@ class AlbumController < ApplicationController
     @page.image_height = Image::THUMBNAIL_HEIGHT
 
     @page.title = "#{@album.title} on #{@page.site_name}"
+    @page.description = @album.description if @album.description
     render :show
   end
 

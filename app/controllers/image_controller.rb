@@ -11,6 +11,7 @@ class ImageController < ApplicationController
     @page.image_height = Image::THUMBNAIL_HEIGHT
 
     @page.title = "#{@image.title} on #{@page.site_name}"
+    @page.description = @image.description if @image.description
     render :show
   end
 
