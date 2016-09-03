@@ -43,6 +43,7 @@ class UserController < ApplicationController
     @user.activation_code = SecureRandom.uuid
     if @user.save
       session[:user] = { id: @user.id, email: @user.email, username: @user.username, active: @user.active }
+      UserNotifierMailer.send_signup_email(@user).deliver
       redirect_to '/confirm-email'
     else
       render :register
@@ -63,6 +64,22 @@ class UserController < ApplicationController
     @page.section = 'confirm-email'
     @page.title = "Confirm Email on #{@page.site_name}"
     render :confirm_email
+  end
+
+  def confirm_email_ok
+    @page.section = 'confirm-email'
+    @page.title = "Account activated on #{@page.site_name}"
+
+    @user = User.find_by(activation_code: ShortUUID.expand(params[:activation_code]), active: 0)
+    unless @user
+      redirect_to '/'
+      return
+    end
+
+    @user.update!(active: 1)
+    session[:user]['active'] = 1
+
+    render :confirm_email_ok
   end
 
   def login_facebook

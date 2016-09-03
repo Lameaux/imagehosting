@@ -32,6 +32,7 @@ Rails.application.routes.draw do
   get '/reset-password', to: 'user#reset_password'
   get '/change-password', to: 'user#change_password'
   get '/confirm-email', to: 'user#confirm_email'
+  get '/confirm-email/:activation_code', to: 'user#confirm_email_ok', constraints: { activation_code: /[0-9a-zA-Z]+/ }
 
   get '/:id', to: 'image#show', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/:id', to: 'image#edit', constraints: { id: /[0-9a-zA-Z]+/ }

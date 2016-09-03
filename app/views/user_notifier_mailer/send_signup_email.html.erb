@@ -1,0 +1,13 @@
+<h1>Thanks for signing up, <%= @user.username %>!</h1>
+<p>
+  Click below to verify your email and get started with <b>pngif.com</b>
+</p>
+<p>
+  <b><a href="http://pngif.com/confirm-email/<%= @user.short_activation_code %>">Confirm email</a></b>
+</p>
+<p>
+  or copy & paste the following link to your browser
+</p>
+<p>
+  http://pngif.com/confirm-email/<%= @user.short_activation_code %>
+</p>
