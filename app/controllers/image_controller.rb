@@ -1,7 +1,10 @@
 class ImageController < ApplicationController
 
   def show
-    find_by_id
+    @id = params[:id]
+    uuid = ShortUUID.expand(@id)
+    @image = Image.includes(:user).find_by(id: uuid)
+    not_found unless @image
 
     @page.image = "#{BASE_URL}#{@image.web_thumb_path}"
     @page.image_width = Image::THUMBNAIL_WIDTH
@@ -29,18 +32,10 @@ class ImageController < ApplicationController
     render plain: 'OK'
   end
 
-
-  private def find_by_id
-    @id = params[:id]
-    uuid = ShortUUID.expand(@id)
-    @image = Image.includes(:user).find_by(id: uuid)
-    not_found unless @image
-  end
-
   private def find_by_id_and_user_id
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
-    @image = Image.includes(:user).find_by(id: uuid, user_id: session[:user_id])
+    @image = Image.find_by(id: uuid, user_id: session[:user_id])
     not_found unless @image
   end
 

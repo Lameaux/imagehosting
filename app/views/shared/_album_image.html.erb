@@ -9,35 +9,42 @@
     <% end %>
   </div>
   <div class="image-footer">
-      <h2><%= @image.title %>
+      <h2>
+        <span class="image-title-<%= @image.short_id %>"><%= @image.title %></span>
         <% if session[:user_id] == @image.user_id %>
-          <button class="btn btn-xs btn-primary">Edit title</button>
+          <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.title %>">
+          <button class="btn btn-xs btn-primary edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit title</button>
         <% end %>
       </h2>
 
-      <p>
-        <%= @image.description %>
-        <% if session[:user_id] == @image.user_id %>
-          <% unless @image.description.nil? || @image.description.blank? %>
-            <button class="btn btn-xs btn-primary">Edit description</button>
-          <% else %>
-            <button class="btn btn-xs btn-primary">Add description</button>
-          <% end %>
-        <% end %>
-      </p>
-      <p>
-        <% unless @image.tags.nil? || @image.tags.blank? %>
-          <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
-          <%= @image.tags %>
-        <% end %>
+    <p>
+      <span class="image-description-<%= @image.short_id %>"><%= @image.description %></span>
+      <% if session[:user_id] == @image.user_id %>
 
-        <% if session[:user_id] == @image.user_id %>
-          <% unless @image.tags.nil? || @image.tags.blank? %>
-            <button class="btn btn-xs btn-primary">Edit tags</button>
-          <% else %>
-            <button class="btn btn-xs btn-primary">Add tags</button>
-          <% end %>
+        <textarea rows="3" placeholder="Description" class="form-control input-lg hidden edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>"><%= @image.description %></textarea>
+
+        <% unless @image.description.nil? || @image.description.blank? %>
+          <button class="btn btn-xs btn-primary edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit description</button>
+        <% else %>
+          <button class="btn btn-xs btn-primary edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Add description</button>
         <% end %>
-      </p>
+      <% end %>
+    </p>
+    <p>
+      <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
+      <span class="image-tags-<%= @image.short_id %>"><%= @image.tags %></span>
+
+      <% if session[:user_id] == @image.user_id %>
+
+        <input maxlength="255" placeholder="Tags" class="form-control input-lg hidden edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.tags %>">
+
+        <% unless @image.tags.nil? || @image.tags.blank? %>
+          <button class="btn btn-xs btn-primary edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit tags</button>
+        <% else %>
+          <button class="btn btn-xs btn-primary edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Add tags</button>
+        <% end %>
+      <% end %>
+    </p>
+
   </div>
 </div>

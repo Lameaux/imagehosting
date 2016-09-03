@@ -4,7 +4,7 @@
     <h1>
       <span class="image-title-<%= @image.short_id %>"><%= @image.title %></span>
       <% if session[:user_id] == @image.user_id %>
-          <input placeholder="Title" class="form-control input-lg hidden edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.title %>">
+          <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.title %>">
           <button class="btn btn-xs btn-primary edit-image-title image-title-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit title</button>
       <% end %>
     </h1>
@@ -33,6 +33,7 @@
     <% end %>
   </div>
   <div class="image-footer">
+
       <p>
         <span class="image-description-<%= @image.short_id %>"><%= @image.description %></span>
         <% if session[:user_id] == @image.user_id %>
@@ -47,13 +48,12 @@
         <% end %>
       </p>
       <p>
-
         <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
         <span class="image-tags-<%= @image.short_id %>"><%= @image.tags %></span>
 
         <% if session[:user_id] == @image.user_id %>
 
-          <input placeholder="Tags" class="form-control input-lg hidden edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.tags %>">
+          <input maxlength="255" placeholder="Tags" class="form-control input-lg hidden edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.tags %>">
 
           <% unless @image.tags.nil? || @image.tags.blank? %>
             <button class="btn btn-xs btn-primary edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit tags</button>

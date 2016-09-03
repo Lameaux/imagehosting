@@ -36,7 +36,7 @@ class UploadController < ApplicationController
     @image.file_size = File.size(@image.local_file_path)
     @image.title = params[:title] if params[:title]
     @image.tags = @image.file_ext
-    @image.tags << " #{params[:tags]}" if params[:tags]
+    @image.tags = "#{@image.file_ext} #{params[:tags]}".strip if params[:tags]
     @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
     @image.album_index = params[:album_index] if params[:album_index]
     @image.hidden = 1 if params[:hidden]
@@ -44,7 +44,7 @@ class UploadController < ApplicationController
     @image.save!
 
     if params[:album_index].to_i > 0
-      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id)
+      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id, title: 'Untitled album')
     end
 
     create_thumbnail(@image) unless params[:hidden]
