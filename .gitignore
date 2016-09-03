@@ -34,9 +34,9 @@
 /coverage
 
 #public original
-/public/original/*
-!/public/original/.keep
+/public/i/*
+!/public/i/.keep
 
 #public thumbnail
-/public/thumbnail/*
-!/public/thumbnail/.keep
+/public/t/*
+!/public/t/.keep
