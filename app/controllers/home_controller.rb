@@ -8,6 +8,8 @@ class HomeController < ApplicationController
     @page.title = "Upload image to #{@page.site_name}"
 
     @album_id = ShortUUID.shorten(SecureRandom.uuid)
+    @token_id = session[:token_id]
+
     render :upload
   end
 

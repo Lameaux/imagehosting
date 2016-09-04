@@ -91,6 +91,12 @@
           <% end %>
         <% end %>
       </p>
-
+      <% if session[:user_id] == @image.user_id %>
+        <p>
+          <button class="btn btn-danger delete-image" type="button" title="Remove image" data-image-id="<%= @image.short_id %>">
+            <span class="glyphicon glyphicon-trash"></span> Delete
+          </button>
+        </p>
+      <% end %>
   </div>
 </div>

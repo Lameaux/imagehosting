@@ -3,9 +3,13 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActionController::RoutingError, :with => :rescue_not_found
 
-  before_action :set_user, :set_default_page
+  before_action :set_user, :set_default_page, :set_token
 
-  BASE_URL = 'http://0.0.0.0:3000'
+  BASE_URL = Rails.env.production? ? 'http://pngif.com' : 'http://0.0.0.0:3000'
+
+  def set_token
+    session[:token_id] = Digest::MD5.hexdigest(Time.now.day.to_s)
+  end
 
   def set_user
     session[:user_id] = session[:user_id] || SecureRandom.uuid
@@ -31,8 +35,8 @@ class ApplicationController < ActionController::Base
   def set_default_page
     @page = Page.new
     @page.image = "#{BASE_URL}/img/pngifcom.png"
-    @page.image_width = 600
-    @page.image_height = 315
+    @page.image_width = Image::THUMBNAIL_WIDTH
+    @page.image_height = Image::THUMBNAIL_HEIGHT
     @page.url = request.original_fullpath
     @page.site_name = 'pngif.com'
     @page.site_domain = 'pngif.com'

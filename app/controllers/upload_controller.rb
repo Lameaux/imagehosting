@@ -17,6 +17,8 @@ class UploadController < ApplicationController
 
   def create
 
+    bad_request if params[:token_id] != session[:token_id]
+
     uuid = SecureRandom.uuid
     @id = ShortUUID.shorten(uuid)
     @image = Image.new(id: uuid)

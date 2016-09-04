@@ -1,4 +1,4 @@
-<div>
+<div id="image-<%= @image.short_id %>">
   <div class="thumbnail image-detail" title="<%= @image.title %>">
     <% if @image.width > 800 %>
       <a class="zoom-in" href="<%= @image.web_file_url %>" data-toggle="lightbox">
@@ -45,6 +45,13 @@
         <% end %>
       <% end %>
     </p>
+    <% if session[:user_id] == @image.user_id %>
+      <p>
+        <button class="btn btn-danger delete-album-image" type="button" title="Remove image" data-image-id="<%= @image.short_id %>">
+          <span class="glyphicon glyphicon-trash"></span> Delete
+        </button>
+      </p>
+    <% end %>
 
   </div>
 </div>

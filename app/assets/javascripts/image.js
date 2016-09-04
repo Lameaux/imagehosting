@@ -85,6 +85,47 @@
       return false;
     });
 
+    $('.delete-album-image').click(function(){
+
+      if (!confirm('Are you sure?')) {
+        return false;
+      }
+
+      var imageId = $(this).data('image-id');
+
+      $.ajax({
+        url: '/' + imageId,
+        type: 'DELETE',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $('#image-' + imageId).remove();
+        }
+      });
+
+    });
+
+    $('.delete-image').click(function() {
+
+      if (!confirm('Are you sure?')) {
+        return false;
+      }
+
+      var imageId = $(this).data('image-id');
+
+      $.ajax({
+        url: '/' + imageId,
+        type: 'DELETE',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          window.location.href = '/my';
+        }
+      });
+
+    });
+
+
   });
 
 }(window.jQuery);

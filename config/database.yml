@@ -51,4 +51,4 @@ production:
   <<: *default
   database: imagehosting
   username: root
-  password: ENV['DB_PASSWORD']
+  password: <%= ENV['DB_PASSWORD'] %>

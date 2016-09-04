@@ -10,8 +10,8 @@ class Image < ApplicationRecord
   THUMBNAIL_WIDTH = 300
   THUMBNAIL_HEIGHT = 300
 
-  ORIGINAL_BASE_URL = 'http://0.0.0.0:3000'
-  THUMBNAIL_BASE_URL = 'http://0.0.0.0:3000'
+  ORIGINAL_BASE_URL = Rails.env.production? ? 'http://pngif.com' : 'http://0.0.0.0:3000'
+  THUMBNAIL_BASE_URL = Rails.env.production? ? 'http://pngif.com' : 'http://0.0.0.0:3000'
 
   def short_id
     ShortUUID.shorten(id)

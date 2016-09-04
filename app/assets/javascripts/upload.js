@@ -203,6 +203,7 @@ function uploadFile(id) {
   formData.append('title', $('#file_name_' + id).val());
   formData.append('tags', $('#tags_' + id).val());
   formData.append('album_id', $('#album').data('album-id'));
+  formData.append('token_id', $('#album').data('token-id'));
   formData.append('album_index', id);
 
   $.ajax({
