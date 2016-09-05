@@ -60,6 +60,7 @@
 
       $(tagName + '.edit-' + entityName + '-' + propertyName).keypress(function(e) {
         if(e.which == 13) {
+          e.preventDefault();
           triggerSaveChanges(this, entityName, propertyName, tagName);
         }
       });

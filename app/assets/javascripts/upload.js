@@ -13,6 +13,10 @@ var IMAGE_TYPE = /image\/(gif|jpeg|png)/;
       alert('The File APIs are not fully supported in this browser.');
     }
 
+    $('#upload_form').submit(function() {
+      return false;
+    });
+
 
     $("#upload_files").change(function (){
       var files = $(this).prop('files');
@@ -42,6 +46,13 @@ var IMAGE_TYPE = /image\/(gif|jpeg|png)/;
 
     $('body').on('paste', '.container', handlePaste);
 
+
+    $('#paste_url').keypress(function(e) {
+      if(e.which == 13) {
+        e.preventDefault();
+        $('#paste_url_button').click();
+      }
+    });
 
     $('#paste_url_button').click(function(){
       var url = $('#paste_url').val();
