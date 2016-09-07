@@ -23,7 +23,7 @@ class AlbumController < ApplicationController
 
     @page.title = "#{@album.title} on #{@page.site_name}"
     @page.description = @album.description if @album.description
-    @page.keywords = @page.tags if @page.tags
+    @page.keywords = first_image.tags if first_image.tags
 
     render :show
   end
