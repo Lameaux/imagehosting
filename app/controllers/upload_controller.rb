@@ -98,13 +98,22 @@ class UploadController < ApplicationController
     img = Magick::Image.read(image.local_file_path).first
 
     target = Magick::Image.new(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT) do
-      self.background_color = 'transparent'
+      self.background_color = 'Transparent'
       self.format = image.file_ext
     end
 
     img.resize_to_fit!(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT)
     FileUtils.mkdir_p(File.dirname(@image.local_thumb_path))
-    target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp).write(image.local_thumb_path)
+    final = target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp)
+
+    if image.file_ext == 'gif'
+      mark = Magick::Image.read(Rails.root.join('public', 'img', 'play.png')).first
+      mark.background_color = 'Transparent'
+      final = final.watermark(mark, 0.2, 0.2, Magick::CenterGravity)
+    end
+
+    final.write(image.local_thumb_path)
+
   end
 
 end

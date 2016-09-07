@@ -137,7 +137,7 @@
 }
 
 .browse_thumbnail {
-  margin-bottom: 20px;
+  margin-bottom: 6px;
 }
 
 .browse_filter {
@@ -219,6 +219,10 @@
   border-color: transparent;
 }
 
+.album-share-button {
+ margin-bottom: 0px;
+}
+
 .album-share-box {
   padding-bottom: 10px;
 }
@@ -226,6 +230,7 @@
 .share-button {
   font-size: 30px;
   cursor: pointer;
+  padding: 4px 24px 4px 0px;
 }
 
 .share-button:hover {
@@ -260,4 +265,13 @@
 
 .image-delete-row {
   padding: 20px 0px 5px 0px;
+}
+
+  .browse-list .col-md-3, .browse-list .col-sm-4, .browse-list .col-xs-6 {
+    padding-left: 3px;
+    padding-right: 3px;
+  }
+
+.image-header h1, .album-header h1 {
+  overflow: hidden;
 }

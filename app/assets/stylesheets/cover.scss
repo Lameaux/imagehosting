@@ -183,6 +183,10 @@ body {
   padding-bottom: 15px;
 }
 
+a.logo:hover {
+  text-decoration: none;
+}
+
 @media (max-width: 767px) {
 
   .container {
@@ -197,4 +201,12 @@ body {
     padding-bottom: 5px;
   }
 
+  .masthead-brand {
+    margin-top: 0px;
+    margin-bottom: 5px;
+  }
+
+  .browse_filter {
+    display: none;
+  }
 }

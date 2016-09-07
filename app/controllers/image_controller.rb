@@ -28,8 +28,8 @@ class ImageController < ApplicationController
     find_by_id_and_user_id
     @image.destroy!
 
-    File.delete(@image.local_file_path)
-    File.delete(@image.local_thumb_path)
+    File.delete(@image.local_file_path) if File.exist?(@image.local_file_path)
+    File.delete(@image.local_thumb_path) if File.exist?(@image.local_thumb_path)
     render plain: 'OK'
   end
 
@@ -37,6 +37,7 @@ class ImageController < ApplicationController
     bad_request if params[:tag].blank?
     find_by_id_and_user_id
     tag = filter_tag(params[:tag])
+    bad_request if tag.blank?
     @image.tags = (Array(@image.tags_array) << tag).uniq.join(',')
     @image.save!
     render plain: tag
@@ -46,6 +47,7 @@ class ImageController < ApplicationController
     bad_request if params[:tag].blank?
     find_by_id_and_user_id
     tag = filter_tag(params[:tag])
+    bad_request if tag.blank?
     tags = Array(@image.tags_array)
     tags.delete(tag)
     @image.tags = tags.join(',')
