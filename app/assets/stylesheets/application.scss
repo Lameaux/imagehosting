@@ -276,6 +276,10 @@
   overflow: hidden;
 }
 
+.inline {
+  display:inline;
+}
+
 @media (max-width: 767px) {
   .browse_filter {
     padding-top: 0px;
