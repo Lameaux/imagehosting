@@ -231,3 +231,33 @@
 .share-button:hover {
   color: #333;
 }
+
+.image-tag {
+  border-radius: 6px;
+  padding: 4px 4px;
+  background-color: #4cae4c;
+  margin: 4px 4px 4px 0px;
+  white-space: nowrap;
+  font-weight: normal;
+  font-size: 10px;
+}
+
+.image-tag-text {
+  font-size: 12px;
+}
+
+.image-tag-remove {
+  cursor: pointer;
+}
+
+.image-tag-remove:hover {
+  color: #fff;
+}
+
+.image-footer-row {
+  padding: 5px 0px 5px 0px;
+}
+
+.image-delete-row {
+  padding: 20px 0px 5px 0px;
+}

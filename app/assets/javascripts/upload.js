@@ -162,9 +162,6 @@ function createThumbnail(file, index) {
               '<label for="file_name_' + index + '">Title</label> <input type="text" placeholder="Add Title" id="file_name_' + index + '" class="form-control input-lg" aria-label="Title" value="' + file_name + '">' +
             '</div>' +
             '<div class="thumb_detail_margin">' +
-            '<label for="tags_' + index + '">Tags, keywords</label> <input type="text" placeholder="Add tags, keywords" id="tags_' + index + '" class="form-control input-lg" aria-label="Tags" value="">' +
-            '</div>' +
-            '<div class="thumb_detail_margin">' +
               '<button class="btn btn-danger btn-lg preview-remove" type="button" title="Remove" data-id="' + index + '">' +
                 '<span class="glyphicon glyphicon-trash"></span> Delete' +
               '</button> ' +
@@ -212,7 +209,6 @@ function uploadFile(id) {
   }
 
   formData.append('title', $('#file_name_' + id).val());
-  formData.append('tags', $('#tags_' + id).val());
   formData.append('album_id', $('#album').data('album-id'));
   formData.append('token_id', $('#album').data('token-id'));
   formData.append('album_index', id);
@@ -228,9 +224,7 @@ function uploadFile(id) {
       upload_results[id] = data;
 
       var success_html = '<h3>' + data.title + '</h3>';
-      if (data.tags && data.tags.length > 0) {
-        success_html = success_html + '<h4>' + data.tags + '</h4>';
-      }
+
       success_html = success_html +
       '<div class="thumb_status_margin input-group input-group-lg">' +
           '<span class="input-group-addon"><span class="glyphicon glyphicon-link"></span></span>' +

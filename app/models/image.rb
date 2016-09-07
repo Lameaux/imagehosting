@@ -1,4 +1,6 @@
 class Image < ApplicationRecord
+  include ActionView::Helpers::TextHelper
+
   self.primary_key = 'id'
 
   belongs_to :user, primary_key: 'id', foreign_key: 'user_id', optional: true
@@ -12,6 +14,44 @@ class Image < ApplicationRecord
 
   ORIGINAL_BASE_URL = Rails.env.production? ? 'http://pngif.com' : 'http://0.0.0.0:3000'
   THUMBNAIL_BASE_URL = Rails.env.production? ? 'http://pngif.com' : 'http://0.0.0.0:3000'
+
+  def as_hash
+    {
+      id: id,
+      short_id: short_id,
+      title: title,
+      title_plain: title_plain,
+      description: description,
+      description_plain: description_plain,
+      tags: tags,
+      tags_array: tags_array,
+      file_ext: file_ext,
+      file_size: file_size,
+      width: width,
+      height: height,
+      user_id: user_id,
+      album_id: album_id,
+      short_album_id: short_album_id,
+      album_index: album_index,
+      hidden: hidden,
+      views: views,
+      likes: likes,
+      created_at: created_at,
+      updated_at: updated_at,
+    }
+  end
+
+  def title_plain
+    ActionView::Base.full_sanitizer.sanitize(title)
+  end
+
+  def description_plain
+    ActionView::Base.full_sanitizer.sanitize(description)
+  end
+
+  def tags_array
+    Array((tags || '').split(',').map {|x| x.strip.downcase}.delete_if {|x| x.blank?}).uniq
+  end
 
   def short_id
     ShortUUID.shorten(id)

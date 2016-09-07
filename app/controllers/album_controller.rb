@@ -28,10 +28,10 @@ class AlbumController < ApplicationController
 
   def edit
     find_by_id_and_user_id
-    @album.title = params[:title] if params[:title]
-    @album.description = params[:description] if params[:description]
+    @album.title = params[:title].strip if params[:title]
+    @album.description = params[:description].strip if params[:description]
     @album.save!
-    render json: @album
+    render json: @album.as_hash
   end
 
   def delete

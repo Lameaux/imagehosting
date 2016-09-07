@@ -17,11 +17,10 @@ class ImageController < ApplicationController
 
   def edit
     find_by_id_and_user_id
-    @image.title = params[:title] if params[:title]
-    @image.description = params[:description] if params[:description]
-    @image.tags = params[:tags] if params[:tags]
+    @image.title = params[:title].strip if params[:title]
+    @image.description = params[:description].strip if params[:description]
     @image.save!
-    render json: @image
+    render json: @image.as_hash
   end
 
   def delete
@@ -33,11 +32,35 @@ class ImageController < ApplicationController
     render plain: 'OK'
   end
 
+  def add_tag
+    bad_request if params[:tag].blank?
+    find_by_id_and_user_id
+    tag = params[:tag].to_ascii.parameterize
+    @image.tags = (Array(@image.tags_array) << tag).uniq.join(',')
+    @image.save!
+    render plain: tag
+  end
+
+  def delete_tag
+    bad_request if params[:tag].blank?
+    find_by_id_and_user_id
+    tag = params[:tag].to_ascii.parameterize
+    tags = Array(@image.tags_array)
+    tags.delete(tag)
+    @image.tags = tags.join(',')
+    @image.save!
+    render plain: 'OK'
+  end
+
   private def find_by_id_and_user_id
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
     @image = Image.find_by(id: uuid, user_id: session[:user_id])
     not_found unless @image
+  end
+
+  def slug(name)
+    name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') rescue ''
   end
 
 end

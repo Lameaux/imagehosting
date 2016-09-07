@@ -40,10 +40,10 @@
     <div id="album-share-box" class="album-share-box collapse">
       <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
-          <span class="hidden-xs">Link to image:</span>
+          <span>Link:</span>
           </span>
         <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/<%= @image.short_id %>">
-          <span class="input-group-btn">
+          <span class="input-group-btn hidden-xs">
             <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
           </span>
       </div>
@@ -62,41 +62,45 @@
     <% end %>
   </div>
   <div class="image-footer">
+      <div class="image-footer-row">
+        <span class="image-description-<%= @image.short_id %>"><%= nl2br(@image.description) %></span>
 
-      <p>
-        <span class="image-description-<%= @image.short_id %>"><%= @image.description %></span>
         <% if session[:user_id] == @image.user_id %>
-
-          <textarea rows="3" placeholder="Description" class="form-control input-lg hidden edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>"><%= @image.description %></textarea>
-
+          <div>
+          <textarea rows="4" placeholder="Description" class="form-control hidden edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>"><%= @image.description %></textarea>
           <% unless @image.description.nil? || @image.description.blank? %>
             <button class="btn btn-xs btn-primary edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit description</button>
           <% else %>
             <button class="btn btn-xs btn-primary edit-image-description image-description-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Add description</button>
           <% end %>
+          </div>
         <% end %>
-      </p>
-      <p>
-        <span class="glyphicon glyphicon-tags" aria-hidden="true"></span>&nbsp;
-        <span class="image-tags-<%= @image.short_id %>"><%= @image.tags %></span>
-
-        <% if session[:user_id] == @image.user_id %>
-
-          <input maxlength="255" placeholder="Tags" class="form-control input-lg hidden edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="<%= @image.tags %>">
-
-          <% unless @image.tags.nil? || @image.tags.blank? %>
-            <button class="btn btn-xs btn-primary edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Edit tags</button>
-          <% else %>
-            <button class="btn btn-xs btn-primary edit-image-tags image-tags-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">Add tags</button>
+      </div>
+      <div class="form-inline">
+        <span class="image-tags-<%= @image.short_id %>">
+          <% @image.tags_array.each do | tag_name | %>
+            <span class="badge image-tag">
+              <span class="fa fa-hashtag" aria-hidden="true"></span>
+              <span class="image-tag-text"><%= tag_name %></span>
+              <% if session[:user_id] == @image.user_id %>
+                <span title="Remove" class="image-tag-remove image-tag-remove-<%= @image.short_id %> fa fa-remove" data-image-id="<%= @image.short_id %>" data-tag-value="<%= tag_name %>"></span>
+              <% end %>
+            </span>
           <% end %>
-        <% end %>
-      </p>
-      <% if session[:user_id] == @image.user_id %>
-        <p>
-          <button class="btn btn-danger delete-image" type="button" title="Remove image" data-image-id="<%= @image.short_id %>">
-            <span class="glyphicon glyphicon-trash"></span> Delete
+        </span>
+        <% if session[:user_id] == @image.user_id %>
+          <input size="15" maxlength="20" placeholder="New tag" class="form-control hidden add-image-tag add-image-tag-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>" type="text" value="">
+          <button class="btn btn-primary btn-xs add-image-tag add-image-tag-<%= @image.short_id %>" data-image-id="<%= @image.short_id %>">
+            <span class="fa fa-hashtag" aria-hidden="true"></span> Add tag
           </button>
-        </p>
+        <% end %>
+      </div>
+      <% if session[:user_id] == @image.user_id %>
+        <div class="image-delete-row">
+          <button class="btn btn-danger btn-xs delete-image" type="button" title="Delete image" data-image-id="<%= @image.short_id %>">
+            <span class="glyphicon glyphicon-trash"></span> Delete image
+          </button>
+        </div>
       <% end %>
   </div>
 </div>

@@ -36,12 +36,12 @@ class UploadController < ApplicationController
 
     bad_request if File.size(@image.local_file_path) > FILE_SIZE_LIMIT
     @image.file_size = File.size(@image.local_file_path)
-    @image.title = params[:title] if params[:title]
+    @image.title = params[:title].strip if params[:title]
     @image.tags = @image.file_ext
-    @image.tags = "#{@image.file_ext} #{params[:tags]}".strip if params[:tags]
+    # @image.tags = "#{@image.file_ext}, #{params[:tags]}".strip if params[:tags]
     @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
     @image.album_index = params[:album_index] if params[:album_index]
-    @image.hidden = 1 if params[:hidden]
+    @image.hidden = params[:hidden].to_i if params[:hidden]
     set_image_dimensions!(@image)
     @image.save!
 

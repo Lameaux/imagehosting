@@ -17,7 +17,6 @@ gem 'coffee-rails', '~> 4.2'
 gem 'therubyracer', platforms: :ruby
 
 gem 'bootstrap-sass', '~> 3.3.6'
-gem 'font-awesome-sass'
 gem 'unidecoder', '~> 1.1.2'
 gem 'elasticsearch', '~> 2.0.0'
 gem 'shortuuid', '~> 0.2.0'
@@ -28,6 +27,9 @@ gem 'lightbox-bootstrap-rails', '~> 3.3.0'
 gem 'jquery-rails'
 # Turbolinks makes navigating your web application faster. Read more: https://github.com/turbolinks/turbolinks
 # gem 'turbolinks', '~> 5'
+
+gem 'font-awesome-sass'
+gem 'unidecoder', '~> 1.1.2'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'

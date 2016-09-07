@@ -28,7 +28,8 @@
         processData: false,
         contentType: false,
         success : function(data) {
-          $('span.' + entityName + '-' + propertyName + '-' + entityId).text(data[propertyName]);
+          var escaped = $('<div>').text(data[propertyName]).html();
+          $('span.' + entityName + '-' + propertyName + '-' + entityId).html(nl2br(escaped));
         }
       });
     }
@@ -42,7 +43,6 @@
     [
       ['image', 'title', 'input'],
       ['image', 'description', 'textarea'],
-      ['image', 'tags', 'input'],
       ['album', 'title', 'input'],
       ['album', 'description', 'textarea']
     ].forEach(function(element, index, array){
@@ -58,14 +58,90 @@
         triggerSaveChanges(this, entityName, propertyName, tagName);
       });
 
-      $(tagName + '.edit-' + entityName + '-' + propertyName).keypress(function(e) {
-        if(e.which == 13) {
-          e.preventDefault();
-          triggerSaveChanges(this, entityName, propertyName, tagName);
-        }
-      });
+      if (tagName != 'textarea') {
+        $(tagName + '.edit-' + entityName + '-' + propertyName).keypress(function(e) {
+          if(e.which == 13) {
+            e.preventDefault();
+            this.blur();
+          }
+        });
+      }
     });
 
+    function triggerAddTag(that) {
+      var imageId = $(that).data('image-id');
+      $('button.add-image-tag-' + imageId).removeClass('hidden');
+      $('input.add-image-tag-' + imageId).addClass('hidden');
+      var tagValue = $('input.add-image-tag-' + imageId).val();
+      if (tagValue == '') return;
+
+      $.ajax({
+        url: '/' + imageId + '/tags/' + tagValue,
+        type: 'POST',
+        processData: false,
+        contentType: false,
+        success: function (tagValue) {
+          var tag_html = '<span class="image-tag">' +
+              '<span class="fa fa-hashtag" aria-hidden="true"></span>&nbsp;' +
+              '<span class="image-tag-text">' + tagValue + '</span>&nbsp;' +
+              '<span title="Remove" class="image-tag-remove image-tag-remove-' + imageId + ' fa fa-remove" data-image-id="' + imageId + '" data-tag-value="' + tagValue + '"></span>' +
+              '</span>';
+          $('span.image-tags-' + imageId).append(tag_html);
+
+          $('.image-tag-remove-' + imageId).click(function(){
+            triggerRemoveTag(this);
+          });
+        }
+      });
+
+    }
+
+    function triggerRemoveTag(that) {
+      var imageId = $(that).data('image-id');
+      var tagValue = $(that).data('tag-value');
+      $.ajax({
+        url: '/' + imageId + '/tags/' + tagValue,
+        type: 'DELETE',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $(that).parent().remove();
+        }
+      });
+
+    }
+
+    $('button.add-image-tag').click(function(){
+      showTagEditor(this);
+    });
+
+    $('.image-tag-remove').click(function(){
+      triggerRemoveTag(this);
+    });
+
+    function showTagEditor(that){
+      var imageId = $(that).data('image-id');
+      var selector = 'add-image-tag-' + imageId;
+      $('input.' + selector).val('');
+      $('button.' + selector).addClass('hidden');
+      $('input.' + selector).removeClass('hidden');
+      $('input.' + selector).focus();
+    }
+
+    $('input.add-image-tag').focusout(function(){
+      triggerAddTag(this)
+    });
+
+    $('input.add-image-tag').keypress(function(e) {
+      if(e.which == 13) {
+        e.preventDefault();
+        this.blur();
+      }
+    });
+
+    function nl2br (str) {
+      return (str + '').replace(/([^>\r\n]?)(\r\n|\n\r|\r|\n)/g, '$1<br>$2');
+    }
 
     function copyToClipboard() {
       var image_url = ($(this).parents('.input-group').find('.image-url'))[0];
@@ -87,11 +163,9 @@
     });
 
     $('.delete-album-image').click(function(){
-
       if (!confirm('Are you sure?')) {
         return false;
       }
-
       var imageId = $(this).data('image-id');
 
       $.ajax({
@@ -107,13 +181,10 @@
     });
 
     $('.delete-image').click(function() {
-
       if (!confirm('Are you sure?')) {
         return false;
       }
-
       var imageId = $(this).data('image-id');
-
       $.ajax({
         url: '/' + imageId,
         type: 'DELETE',
@@ -123,9 +194,7 @@
           window.location.href = '/my';
         }
       });
-
     });
-
 
   });
 

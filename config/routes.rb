@@ -46,6 +46,10 @@ Rails.application.routes.draw do
   put '/:id', to: 'image#edit', constraints: { id: /[0-9a-zA-Z]+/ }
   delete '/:id', to: 'image#delete', constraints: { id: /[0-9a-zA-Z]+/ }
 
+  post '/:id/tags/:tag', to: 'image#add_tag', constraints: { id: /[0-9a-zA-Z]+/ }
+  delete '/:id/tags/:tag', to: 'image#delete_tag', constraints: { id: /[0-9a-zA-Z]+/ }
+
+
   get '/a/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
   get '/album/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/album/:id', to: 'album#edit', constraints: { id: /[0-9a-zA-Z]+/ }

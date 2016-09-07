@@ -7,7 +7,7 @@
     <% end %>
   </h1>
   <p>
-    <span class="album-description-<%= @album.short_id %>"><%= @album.description %></span>
+    <span class="album-description-<%= @album.short_id %>"><%= nl2br(@album.description) %></span>
     <% if session[:user_id] == @album.user_id %>
 
       <textarea rows="3" placeholder="Description" class="form-control input-lg hidden edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>"><%= @album.description %></textarea>
@@ -46,10 +46,10 @@
   <div id="album-share-box" class="album-share-box collapse">
     <div class="input-group">
           <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
-          <span class="hidden-xs">Link to album:</span>
+          <span>Link:</span>
           </span>
           <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/a/<%= @album.short_id %>">
-          <span class="input-group-btn">
+          <span class="input-group-btn hidden-xs">
             <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
           </span>
     </div>
