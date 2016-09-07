@@ -109,7 +109,7 @@ class UploadController < ApplicationController
     if image.file_ext == 'gif'
       mark = Magick::Image.read(Rails.root.join('public', 'img', 'play.png')).first
       mark.background_color = 'Transparent'
-      final = final.watermark(mark, 0.2, 0.2, Magick::CenterGravity)
+      final = final.watermark(mark, 0.8, 0, Magick::CenterGravity)
     end
 
     final.write(image.local_thumb_path)
