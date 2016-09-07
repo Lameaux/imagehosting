@@ -275,3 +275,17 @@
 .image-header h1, .album-header h1 {
   overflow: hidden;
 }
+
+@media (max-width: 767px) {
+  .browse_filter {
+    padding-top: 0px;
+    padding-bottom: 10px;
+  }
+  .navbar {
+    margin-bottom: 0px;
+  }
+
+  h3 {
+    margin-top: 0px;
+  }
+}
