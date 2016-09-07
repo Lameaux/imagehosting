@@ -12,6 +12,7 @@ class ImageController < ApplicationController
 
     @page.title = "#{@image.title} on #{@page.site_name}"
     @page.description = @image.description if @image.description
+    @page.keywords = @image.tags if @image.tags
     render :show
   end
 
@@ -35,7 +36,7 @@ class ImageController < ApplicationController
   def add_tag
     bad_request if params[:tag].blank?
     find_by_id_and_user_id
-    tag = params[:tag].to_ascii.parameterize
+    tag = filter_tag(params[:tag])
     @image.tags = (Array(@image.tags_array) << tag).uniq.join(',')
     @image.save!
     render plain: tag
@@ -44,7 +45,7 @@ class ImageController < ApplicationController
   def delete_tag
     bad_request if params[:tag].blank?
     find_by_id_and_user_id
-    tag = params[:tag].to_ascii.parameterize
+    tag = filter_tag(params[:tag])
     tags = Array(@image.tags_array)
     tags.delete(tag)
     @image.tags = tags.join(',')
@@ -59,8 +60,8 @@ class ImageController < ApplicationController
     not_found unless @image
   end
 
-  def slug(name)
-    name.downcase.strip.gsub(' ', '-').gsub(/[^\w-]/, '') rescue ''
+  def filter_tag(tag)
+    (tag || '').gsub(/[^\p{Alnum}\p{Space}_-]/, '').downcase
   end
 
 end

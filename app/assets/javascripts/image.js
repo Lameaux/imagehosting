@@ -75,9 +75,13 @@
       var tagValue = $('input.add-image-tag-' + imageId).val();
       if (tagValue == '') return;
 
+      var formData = new FormData();
+      formData.append('tag', tagValue);
+
       $.ajax({
-        url: '/' + imageId + '/tags/' + tagValue,
+        url: '/' + imageId + '/tags',
         type: 'POST',
+        data : formData,
         processData: false,
         contentType: false,
         success: function (tagValue) {
@@ -99,9 +103,14 @@
     function triggerRemoveTag(that) {
       var imageId = $(that).data('image-id');
       var tagValue = $(that).data('tag-value');
+
+      var formData = new FormData();
+      formData.append('tag', tagValue);
+
       $.ajax({
-        url: '/' + imageId + '/tags/' + tagValue,
-        type: 'DELETE',
+        url: '/' + imageId + '/tags',
+        type: 'PUT',
+        data : formData,
         processData: false,
         contentType: false,
         success: function (data) {

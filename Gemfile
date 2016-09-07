@@ -29,7 +29,6 @@ gem 'jquery-rails'
 # gem 'turbolinks', '~> 5'
 
 gem 'font-awesome-sass'
-gem 'unidecoder', '~> 1.1.2'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.5'

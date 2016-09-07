@@ -129,24 +129,27 @@ class HomeController < ApplicationController
       image_title = strip_tags(image.title || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)
       image_description = strip_tags(image.description || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)
 
-      image_description = "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
+      image_description_full = "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
         "<img alt=\"#{image_title}\" src=\"#{image.web_thumb_url}\" />" <<
         '</a>' <<
         '<p>' <<
         "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
         "#{image_title}" <<
         '</a>' <<
-        '</p>' <<
-        "<p>#{image_description}</p>"
+        '</p>'
+      image_description_full << "<p>#{image_description}</p>" unless image_description.blank?
 
       output << "
                   <item>
                       <title><![CDATA[#{image_title}]]></title>
                       <link>#{@page.base_url}/#{image.short_id}</link>
                       <guid>#{@page.base_url}/#{image.short_id}</guid>
-                      <description><![CDATA[#{image_description}]]></description>
-                      <category>#{image.tags}</category>
-                      <pubDate>#{image.created_at.utc.strftime('%a, %d %b %Y %H:%M:%S')} GMT</pubDate>
+                      <description><![CDATA[#{image_description_full}]]></description>"
+
+      image.tags_array.each do |tag|
+        output << "     <category>#{tag}</category>"
+      end
+      output << "     <pubDate>#{image.created_at.utc.strftime('%a, %d %b %Y %H:%M:%S')} GMT</pubDate>
                   </item>"
     end
 
