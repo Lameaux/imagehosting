@@ -85,11 +85,11 @@
         processData: false,
         contentType: false,
         success: function (tagValue) {
-          var tag_html = '<span class="image-tag">' +
+          var tag_html = ' <span class="badge image-tag">' +
               '<span class="fa fa-hashtag" aria-hidden="true"></span>&nbsp;' +
               '<span class="image-tag-text">' + tagValue + '</span>&nbsp;' +
               '<span title="Remove" class="image-tag-remove image-tag-remove-' + imageId + ' fa fa-remove" data-image-id="' + imageId + '" data-tag-value="' + tagValue + '"></span>' +
-              '</span>';
+              '</span> ';
           $('span.image-tags-' + imageId).append(tag_html);
 
           $('.image-tag-remove-' + imageId).click(function(){
