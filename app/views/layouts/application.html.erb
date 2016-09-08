@@ -74,9 +74,7 @@
           <li <%= @page.section == 'search' ? 'class="active"'.html_safe : '' %>><a href="/search"><span class="glyphicon glyphicon-search"></span> Search</a></li>
         <% end %>
 
-        <% if logged_in? || !session[:my_images].nil? && !session[:my_images].empty? %>
-          <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="glyphicon glyphicon-cloud"></span> My Uploads</a></li>
-        <% end %>
+        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="glyphicon glyphicon-cloud"></span> My Uploads</a></li>
 
         <% if logged_in? %>
 
