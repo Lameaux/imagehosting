@@ -24,14 +24,9 @@
     Uploaded <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
       <%= distance_of_time_in_words @album.created_at.to_time.to_i, Time.now.to_i %> ago
     </time>
-    by
-    <b>
-      <% if @album.user %>
-        <a href="/user/<%= @album.user.username %>"><%= @album.user.username %></a>
-      <% else %>
-        Anonymous
-      <% end %>
-    </b>
+    <% if @album.user %>
+      by <b><a href="/user/<%= @album.user.username %>"><%= @album.user.username %></a></b>
+    <% end %>
   </p>
   <p class="album-share-button">
 

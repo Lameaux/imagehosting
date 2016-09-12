@@ -17,16 +17,10 @@
       Uploaded <time datetime="<%= @image.created_at.to_time.iso8601 %>" title="<%= @image.created_at.to_time.iso8601 %>">
         <%= distance_of_time_in_words @image.created_at.to_time.to_i, Time.now.to_i %> ago
       </time>
-      by
-      <b>
-        <% if @image.user %>
-          <a href="/user/<%= @image.user.username %>"><%= @image.user.username %></a>
-        <% else %>
-          Anonymous
-        <% end %>
-      </b>
+      <% if @image.user %>
+        by <b><a href="/user/<%= @image.user.username %>"><%= @image.user.username %></a></b>
+      <% end %>
     </p>
-
     <p class="album-share-button">
 
       <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box">
