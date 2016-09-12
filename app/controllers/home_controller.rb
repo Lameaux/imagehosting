@@ -86,11 +86,16 @@ class HomeController < ApplicationController
 
     user = User.find_by(username: params[:username]) or not_found
 
+    if user.id == current_user_id
+      redirect_to '/my'
+      return
+    end
+
     @page.section = 'user'
     @page.title = "#{user.username} on #{@page.site_name}"
 
     @images = Image.includes(:user).includes(:album)
-                .where(user_id: user.id, album_index: 0)
+                .where(user_id: user.id, album_index: 0, hidden: 0)
                 .order(created_at: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
     @show_more = @images.count == IMAGES_PER_PAGE

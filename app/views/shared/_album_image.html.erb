@@ -51,6 +51,12 @@
       <% end %>
     </div>
     <% if session[:user_id] == @image.user_id %>
+      <div class="image-hidden-row">
+        <input id="hide-image-<%= @image.short_id %>" class="hide-image hide-image-<%= @image.short_id %>" type="checkbox" <%= @image.hidden == 1 ? 'checked="checked"' : '' %> value="1" data-image-id="<%= @image.short_id %>">
+        <label for="hide-image-<%= @image.short_id %>"> Private image</label>
+      </div>
+    <% end %>
+    <% if session[:user_id] == @image.user_id %>
       <div class="image-delete-row">
         <button class="btn btn-danger btn-xs delete-image" type="button" title="Delete image" data-image-id="<%= @image.short_id %>">
           <span class="glyphicon glyphicon-trash"></span> Delete image

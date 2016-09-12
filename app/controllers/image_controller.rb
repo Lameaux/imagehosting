@@ -20,6 +20,7 @@ class ImageController < ApplicationController
     find_by_id_and_user_id
     @image.title = params[:title].strip if params[:title]
     @image.description = params[:description].strip if params[:description]
+    @image.hidden = params[:hidden].to_i if params[:hidden]
     @image.save!
     render json: @image.as_hash
   end

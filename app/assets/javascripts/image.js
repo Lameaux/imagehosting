@@ -205,6 +205,24 @@
       });
     });
 
+    $('.hide-image').click(function() {
+      var imageId = $(this).data('image-id');
+      var selector = '#hide-image-' + imageId;
+      var hiddenValue = $(selector).prop('checked')
+      console.log(hiddenValue);
+
+      var formData = new FormData();
+      formData.append('hidden', hiddenValue ? '1' : '0');
+
+      $.ajax({
+        url: '/' + imageId,
+        type: 'PUT',
+        data: formData,
+        processData: false,
+        contentType: false
+      });
+    });
+
   });
 
 }(window.jQuery);
