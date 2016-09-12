@@ -17,6 +17,14 @@ class UploadController < ApplicationController
 
   def create
 
+    if params[:username]
+      user = User.find_by_username(params[:username])
+      if user && user.authenticate(params[:password])
+        params[:token_id] = session[:token_id]
+        session[:user_id] = user.id
+      end
+    end
+
     bad_request if params[:token_id] != session[:token_id]
 
     uuid = SecureRandom.uuid
