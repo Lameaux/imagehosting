@@ -21,7 +21,7 @@ class HomeController < ApplicationController
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
 
-    query = Image.where(album_index: 0)
+    query = Image.where(album_index: 0, hidden: 0)
 
     if params[:sort] == 'new'
       query.order!(created_at: :desc)
@@ -123,7 +123,7 @@ class HomeController < ApplicationController
     </image>
     '
 
-    @images = Image.order(created_at: :desc).limit(10).all
+    @images = Image.where(hidden: 0).order(created_at: :desc).limit(10).all
     @images.each do |image|
 
       image_title = strip_tags(image.title || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)

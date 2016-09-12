@@ -3,13 +3,13 @@
 
     <div class="btn-group">
       <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-        <%= {'popular' => 'popular', 'new' => 'recently added' }[params[:sort]] %>
+        <%= {'popular' => 'popular images', 'new' => 'new images' }[params[:sort]] %>
       </button>
       <ul class="dropdown-menu">
-        <li><a href="/browse/popular/<%= params[:type] %>/<%= params[:size] %>">popular</a></li>
-        <li><a href="/browse/new/<%= params[:type] %>/<%= params[:size] %>">recently added</a></li>
+        <li><a href="/browse/popular/<%= params[:type] %>/<%= params[:size] %>">popular images</a></li>
+        <li><a href="/browse/new/<%= params[:type] %>/<%= params[:size] %>">new images</a></li>
       </ul>
-    </div> images.
+    </div>.
     <div class="inline hidden-xs">
       <div class="btn-group">
         <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
