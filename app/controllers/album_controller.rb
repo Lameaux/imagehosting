@@ -1,11 +1,20 @@
 class AlbumController < ApplicationController
 
+  ALBUM_LIMIT = 10
+  IMAGES_PER_PAGE = 12
+
   def show
     @id = params[:id]
     @uuid = ShortUUID.expand(@id)
 
-    @images = Image.where(album_id: @uuid).includes(:user).order(:album_index).limit(10)
+    @images = Image.where(album_id: @uuid).includes(:user)
+                .order(:album_index)
+                .offset(params[:offset].to_i.abs)
+                .limit(IMAGES_PER_PAGE)
+
     not_found if @images.empty?
+
+    @show_more = @images.length == IMAGES_PER_PAGE
 
     first_image = @images.first
 
@@ -14,18 +23,18 @@ class AlbumController < ApplicationController
     @album = Album.new ({ id: first_image.album_id,
                                     user_id: first_image.user_id,
                                     created_at: first_image.created_at,
-                                   title: 'Untitled album',
                                  }) unless @album
 
     @page.image = "#{first_image.web_thumb_url}"
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
 
-    @page.title = "#{@album.title} on #{@page.site_name}"
+    @page.title = "#{@album.show_title} on #{@page.site_name}"
     @page.description = @album.description if @album.description
     @page.keywords = first_image.tags if first_image.tags
 
     render :show
+
   end
 
   def edit

@@ -45,7 +45,7 @@ class HomeController < ApplicationController
     end
 
     @images = query.offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
-    @show_more = @images.count == IMAGES_PER_PAGE
+    @show_more = @images.length == IMAGES_PER_PAGE
 
     render :browse
   end
@@ -63,7 +63,7 @@ class HomeController < ApplicationController
     @images = Image.includes(:user).where(user_id: session[:user_id])
                 .order(created_at: :desc, album_index: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
-    @show_more = @images.count == IMAGES_PER_PAGE
+    @show_more = @images.length == IMAGES_PER_PAGE
     @type = :images
     render :my
   end
@@ -76,32 +76,54 @@ class HomeController < ApplicationController
                 .where(user_id: session[:user_id], album_index: 0, albums: { user_id: session[:user_id] })
                 .order(created_at: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
-    @show_more = @images.count == IMAGES_PER_PAGE
+    @show_more = @images.length == IMAGES_PER_PAGE
     @type = :albums
     render :my
   end
 
 
-  def browse_user
+  def user_images
 
     user = User.find_by(username: params[:username]) or not_found
 
     if user.id == current_user_id
-      redirect_to '/my'
+      redirect_to '/my/images'
       return
     end
 
     @page.section = 'user'
-    @page.title = "#{user.username} on #{@page.site_name}"
+    @page.title = "#{user.username} images on #{@page.site_name}"
 
-    @images = Image.includes(:user).includes(:album)
-                .where(user_id: user.id, album_index: 0)
-                .order(created_at: :desc)
+    @images = Image.includes(:user).where(user_id: user.id)
+                .order(created_at: :desc, album_index: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
-    @show_more = @images.count == IMAGES_PER_PAGE
+    @show_more = @images.length == IMAGES_PER_PAGE
+    @type = :images
+
     render :user_gallery
   end
 
+  def user_albums
+
+    user = User.find_by(username: params[:username]) or not_found
+
+    if user.id == current_user_id
+      redirect_to '/my/albums'
+      return
+    end
+
+    @page.section = 'user'
+    @page.title = "#{user.username} albums on #{@page.site_name}"
+
+    @images = Image.includes(:user).includes(:album)
+                .where(user_id: user.id, album_index: 0, albums: { user_id: user.id })
+                .order(created_at: :desc)
+                .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @show_more = @images.length == IMAGES_PER_PAGE
+    @type = :albums
+
+    render :user_gallery
+  end
 
   def terms
     @page.section = 'terms'
@@ -179,17 +201,7 @@ class HomeController < ApplicationController
                 </url>
     "
 
-    Album.order(created_at: :desc).limit(1000).each do |album|
-      output << "<url>
-                    <loc>#{@page.base_url}/a/#{album.short_id}</loc>
-                    <lastmod>#{Time.now.strftime('%Y-%m-%d')}</lastmod>
-                    <changefreq>weekly</changefreq>
-                    <priority>0.8</priority>
-              </url>
-    "
-    end
-
-    Image.order(created_at: :desc).limit(1000).each do |image|
+    Image.where(hidden: 0).order(created_at: :desc).limit(40000).each do |image|
       output << "<url>
                     <loc>#{@page.base_url}/#{image.short_id}</loc>
                     <lastmod>#{Time.now.strftime('%Y-%m-%d')}</lastmod>

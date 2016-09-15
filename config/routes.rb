@@ -11,7 +11,8 @@ Rails.application.routes.draw do
       defaults: { sort: 'popular', type: 'any', size: 'any' },
       constraints: { sort: /popular|new/, type: /any|png|gif|jpg/, size: /any|icon|medium|large/ }
 
-  get '/user/:username', to: 'home#browse_user'
+  get '/user/:username(/images)', to: 'home#user_images'
+  get '/user/:username/albums', to: 'home#user_albums'
 
   # get '/search', to: 'home#search'
   get '/my(/images)', to: 'home#my_images'

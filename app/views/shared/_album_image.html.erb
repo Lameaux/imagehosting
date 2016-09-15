@@ -50,7 +50,7 @@
         </button>
       <% end %>
     </div>
-    <% if session[:user_id] == @image.user_id %>
+    <% if logged_in? && session[:user_id] == @image.user_id %>
       <div class="image-hidden-row">
         <input id="hide-image-<%= @image.short_id %>" class="hide-image hide-image-<%= @image.short_id %>" type="checkbox" <%= @image.hidden == 1 ? 'checked="checked"' : '' %> value="1" data-image-id="<%= @image.short_id %>">
         <label for="hide-image-<%= @image.short_id %>"> Private image</label>

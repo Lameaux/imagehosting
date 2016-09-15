@@ -1,6 +1,6 @@
 <div class="album-header">
   <h1>
-    <span class="album-title-<%= @album.short_id %>"><%= @album.title %></span>
+    <span class="album-title-<%= @album.short_id %>"><%= @album.show_title %></span>
     <% if session[:user_id] == @album.user_id %>
       <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>" type="text" value="<%= @album.title %>">
       <button class="btn btn-xs btn-primary edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit title</button>
@@ -51,23 +51,49 @@
   </div>
 
 </div>
-<% @images.each do | image | @image = image %>
-   <%= render 'shared/album_image' %>
+
+<% if @images.length > AlbumController::ALBUM_LIMIT || params[:offset] %>
+
+  <div class="row browse-list album-browse-list">
+
+    <% @images.each do |image| %>
+      <div class="col-md-3 col-sm-4 col-xs-6">
+        <div class="thumbnail browse_thumbnail">
+          <a href="<%= image.link_to_detail(:images) %>" title="<%= image.title %>">
+            <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+          </a>
+        </div>
+      </div>
+    <% end %>
+
+  </div>
+
+  <% if @show_more %>
+    <div class="show_more_images text-center">
+      <a href="?offset=<%= params[:offset].to_i + @images.length %>" class="btn btn-lg btn-success show-more"><span class="glyphicon glyphicon-refresh"></span> Show more images</a>
+    </div>
+  <% end %>
+
+<% else %>
+
+  <% @images.each do | image | @image = image %>
+     <%= render 'shared/album_image' %>
+  <% end %>
+
+  <div id="disqus_thread" class="image-footer"></div>
+  <script>
+     var disqus_config = function () {
+     this.page.url = '<%= @page.base_url %><%= @page.url %>';
+     this.page.identifier = '<%= @album.short_id %>';
+     };
+
+    (function() { // DON'T EDIT BELOW THIS LINE
+      var d = document, s = d.createElement('script');
+      s.src = '//pngif-com.disqus.com/embed.js';
+      s.setAttribute('data-timestamp', +new Date());
+      (d.head || d.body).appendChild(s);
+    })();
+  </script>
+  <noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
 <% end %>
-
-<div id="disqus_thread" class="image-footer"></div>
-<script>
-   var disqus_config = function () {
-   this.page.url = '<%= @page.base_url %><%= @page.url %>';
-   this.page.identifier = '<%= @album.short_id %>';
-   };
-
-  (function() { // DON'T EDIT BELOW THIS LINE
-    var d = document, s = d.createElement('script');
-    s.src = '//pngif-com.disqus.com/embed.js';
-    s.setAttribute('data-timestamp', +new Date());
-    (d.head || d.body).appendChild(s);
-  })();
-</script>
-<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
-

@@ -15,6 +15,10 @@ class Album < ApplicationRecord
     ActionView::Base.full_sanitizer.sanitize(description)
   end
 
+  def show_title
+    title.blank? ? 'Untitled' : title
+  end
+
   def as_hash
     {
       id: id,
