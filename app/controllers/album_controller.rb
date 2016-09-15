@@ -4,7 +4,7 @@ class AlbumController < ApplicationController
     @id = params[:id]
     @uuid = ShortUUID.expand(@id)
 
-    @images = Image.where(album_id: @uuid).includes(:user).order(:album_index)
+    @images = Image.where(album_id: @uuid).includes(:user).order(:album_index).limit(10)
     not_found if @images.empty?
 
     first_image = @images.first

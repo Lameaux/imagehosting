@@ -95,7 +95,7 @@ class HomeController < ApplicationController
     @page.title = "#{user.username} on #{@page.site_name}"
 
     @images = Image.includes(:user).includes(:album)
-                .where(user_id: user.id, album_index: 0, hidden: 0)
+                .where(user_id: user.id, album_index: 0)
                 .order(created_at: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
     @show_more = @images.count == IMAGES_PER_PAGE
