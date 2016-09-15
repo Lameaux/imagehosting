@@ -56,7 +56,11 @@ class UploadController < ApplicationController
     @image.save!
 
     if params[:album_index].to_i > 0
-      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id)
+      if params[:album_title]
+        Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id, title: params[:album_title])
+      else
+        Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id)
+      end
     end
 
     create_thumbnail(@image)
