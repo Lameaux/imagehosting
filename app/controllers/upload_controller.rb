@@ -56,7 +56,7 @@ class UploadController < ApplicationController
     @image.save!
 
     if params[:album_index].to_i > 0
-      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id, title: 'Untitled album')
+      Album.find_or_create_by(id: @image.album_id, user_id: @image.user_id)
     end
 
     create_thumbnail(@image)
@@ -70,6 +70,12 @@ class UploadController < ApplicationController
     session[:my_images] << @image.id
 
     render json: image_hash.to_json
+  rescue
+    if @image
+      @image.destroy
+      File.delete @image.local_file_path
+      File.delete @image.local_thumb_path
+    end
   end
 
   private
