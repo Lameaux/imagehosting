@@ -15,9 +15,10 @@ class HomeController < ApplicationController
 
   def browse
     @page.section = 'browse'
-    @page.title = "Browse images on #{@page.site_name}"
-
     params[:sort] = params[:sort] || 'popular'
+
+    @page.title = "#{params[:sort].capitalize} images on #{@page.site_name}"
+
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
 
