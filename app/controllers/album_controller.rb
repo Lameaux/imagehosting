@@ -12,26 +12,35 @@ class AlbumController < ApplicationController
                 .offset(params[:offset].to_i.abs)
                 .limit(IMAGES_PER_PAGE)
 
-    not_found if @images.empty?
+    @album = Album.find_by(id: @uuid)
+    not_found if @images.empty? && @album.nil?
 
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
 
     first_image = @images.first
-
-    @album = Album.find_by(id: first_image.album_id)
 
     @album = Album.new ({ id: first_image.album_id,
                                     user_id: first_image.user_id,
                                     created_at: first_image.created_at,
                                  }) unless @album
 
-    @page.image = "#{first_image.web_thumb_url}"
+    @next_post_id = next_album
+
+    if (first_image)
+      @page.image = "#{first_image.web_thumb_url}"
+      @page.keywords = first_image.tags if first_image.tags
+    end
+
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
 
     @page.title = "#{@album.show_title} on #{@page.site_name}"
     @page.description = @album.description if @album.description
-    @page.keywords = first_image.tags if first_image.tags
+
 
     render :show
 
@@ -51,7 +60,14 @@ class AlbumController < ApplicationController
     render plain: 'OK'
   end
 
-  private def find_by_id_and_user_id
+  private
+
+  def next_album
+    a = Album.where('created_at < ?', @album.created_at).limit(1).first || Album.order(created_at: :desc).limit(1).first
+    a.short_id
+  end
+
+  def find_by_id_and_user_id
 
     @id = params[:id]
     uuid = ShortUUID.expand(@id)

@@ -14,7 +14,6 @@ Rails.application.routes.draw do
   get '/user/:username(/images)', to: 'home#user_images'
   get '/user/:username/albums', to: 'home#user_albums'
 
-  # get '/search', to: 'home#search'
   get '/my(/images)', to: 'home#my_images'
   get '/my/albums', to: 'home#my_albums'
 

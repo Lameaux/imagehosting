@@ -2,6 +2,7 @@ class Album < ApplicationRecord
   self.primary_key = 'id'
 
   belongs_to :user, primary_key: 'id', foreign_key: 'user_id', optional: true
+  has_many :images, primary_key: 'id', foreign_key: 'album_id', class_name: 'Image'
 
   def short_id
     ShortUUID.shorten(id)

@@ -1,53 +1,66 @@
 <div class="album-header">
-  <h1>
-    <span class="album-title-<%= @album.short_id %>"><%= @album.show_title %></span>
-    <% if session[:user_id] == @album.user_id %>
-      <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>" type="text" value="<%= @album.title %>">
-      <button class="btn btn-xs btn-primary edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit title</button>
-    <% end %>
-  </h1>
-  <p>
-    <span class="album-description-<%= @album.short_id %>"><%= nl2br(@album.description) %></span>
-    <% if session[:user_id] == @album.user_id %>
 
-      <textarea rows="3" placeholder="Description" class="form-control input-lg hidden edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>"><%= @album.description %></textarea>
+  <div class="row">
+    <div class="col-md-10 col-sm-8">
 
-      <% unless @album.description.nil? || @album.description.blank? %>
-        <button class="btn btn-xs btn-primary edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit description</button>
-      <% else %>
-        <button class="btn btn-xs btn-primary edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Add description</button>
-      <% end %>
-    <% end %>
-  </p>
+      <h1>
+        <span class="album-title-<%= @album.short_id %>"><%= @album.show_title %></span>
+        <% if session[:user_id] == @album.user_id %>
+          <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>" type="text" value="<%= @album.title %>">
+          <button class="btn btn-xs btn-primary edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit title</button>
+        <% end %>
+      </h1>
+      <p>
+        <span class="album-description-<%= @album.short_id %>"><%= nl2br(@album.description) %></span>
+        <% if session[:user_id] == @album.user_id %>
 
-  <p>
-    Uploaded <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
-      <%= distance_of_time_in_words @album.created_at.to_time.to_i, Time.now.to_i %> ago
-    </time>
-    <% if @album.user %>
-      by <b><a href="/user/<%= @album.user.username %>"><%= @album.user.username %></a></b>
-    <% end %>
-  </p>
-  <p class="album-share-button">
+          <textarea rows="3" placeholder="Description" class="form-control input-lg hidden edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>"><%= @album.description %></textarea>
 
-    <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box">
-      <span class="fa fa-share-alt"></span>
-    </a>
+          <% unless @album.description.nil? || @album.description.blank? %>
+            <button class="btn btn-xs btn-primary edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit description</button>
+          <% else %>
+            <button class="btn btn-xs btn-primary edit-album-description album-description-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Add description</button>
+          <% end %>
+        <% end %>
+      </p>
 
-    <a title="Share on Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-facebook"><span class="fa fa-facebook"></span></a>
-    <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
-  </p>
+      <p>
+        Uploaded <time datetime="<%= @album.created_at.to_time.iso8601 %>" title="<%= @album.created_at.to_time.iso8601 %>">
+          <%= distance_of_time_in_words @album.created_at.to_time.to_i, Time.now.to_i %> ago
+        </time>
+        <% if @album.user %>
+          by <b><a href="/user/<%= @album.user.username %>"><%= @album.user.username %></a></b>
+        <% end %>
+      </p>
+      <p class="album-share-button">
 
-  <div id="album-share-box" class="album-share-box collapse">
-    <div class="input-group">
-          <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
-          <span>Link:</span>
-          </span>
-          <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/a/<%= @album.short_id %>">
-          <span class="input-group-btn hidden-xs">
-            <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
-          </span>
+        <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box">
+          <span class="fa fa-share-alt"></span>
+        </a>
+
+        <a title="Share on Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-facebook"><span class="fa fa-facebook"></span></a>
+        <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
+      </p>
+
+      <div id="album-share-box" class="album-share-box collapse">
+        <div class="input-group">
+              <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
+              <span>Link:</span>
+              </span>
+              <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/a/<%= @album.short_id %>">
+              <span class="input-group-btn hidden-xs">
+                <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
+              </span>
+        </div>
+      </div>
+
     </div>
+    <div class="col-md-2 col-sm-4 hidden-xs text-right">
+      <div class="next-post">
+        <a class="btn btn-primary btn-lg" href="/a/<%= @next_post_id %>">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+      </div>
+    </div>
+
   </div>
 
 </div>
@@ -80,6 +93,10 @@
   <% @images.each do | image | @image = image %>
      <%= render 'shared/album_image' %>
   <% end %>
+
+  <div class="image-footer text-center">
+    <a class="btn btn-success btn-lg" href="/a/<%= @next_post_id %>">Next Post <span class="glyphicon glyphicon-chevron-right"></span></a>
+  </div>
 
   <div id="disqus_thread" class="image-footer"></div>
   <script>

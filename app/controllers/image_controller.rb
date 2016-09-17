@@ -6,6 +6,12 @@ class ImageController < ApplicationController
     @image = Image.includes(:user).includes(:album).find_by(id: uuid)
     not_found unless @image
 
+    if @image.album.nil?
+      @next_post_id = next_image_by_id
+    else
+      @next_post_id = next_image_in_album
+    end
+
     @page.image = "#{@image.web_thumb_url}"
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
@@ -13,6 +19,7 @@ class ImageController < ApplicationController
     @page.title = "#{@image.title} on #{@page.site_name}"
     @page.description = @image.description if @image.description
     @page.keywords = @image.tags if @image.tags
+
     render :show
   end
 
@@ -27,7 +34,13 @@ class ImageController < ApplicationController
 
   def delete
     find_by_id_and_user_id
+    album_id = @image.album_id
     @image.destroy!
+
+    album = Album.find_by(id: album_id)
+    unless album.nil? || album.images.count > 0
+      album.destroy!
+    end
 
     File.delete(@image.local_file_path) if File.exist?(@image.local_file_path)
     File.delete(@image.local_thumb_path) if File.exist?(@image.local_thumb_path)
@@ -56,7 +69,20 @@ class ImageController < ApplicationController
     render plain: 'OK'
   end
 
-  private def find_by_id_and_user_id
+  private
+
+  def next_image_in_album
+    Image.where(album_id: @image.album.id)
+      .where('album_index in (?, 0)', @image.album_index + 1)
+      .order(album_index: :desc).limit(1).first_or_initialize(id: @image.id).short_id
+  end
+
+  def next_image_by_id
+    i = Image.where('created_at < ?', @image.created_at).limit(1).first || Image.order(created_at: :desc).limit(1).first
+    i.short_id
+  end
+
+  def find_by_id_and_user_id
     @id = params[:id]
     uuid = ShortUUID.expand(@id)
     @image = Image.find_by(id: uuid, user_id: session[:user_id])

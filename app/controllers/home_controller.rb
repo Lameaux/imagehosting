@@ -22,7 +22,7 @@ class HomeController < ApplicationController
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
 
-    query = Image.includes(:album).where(album_index: 0, hidden: 0)
+    query = Image.includes(:album).where(hidden: 0)
 
     if params[:sort] == 'new'
       query.order!(created_at: :desc)
@@ -45,17 +45,15 @@ class HomeController < ApplicationController
         nil
     end
 
-    @images = query.offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @images = query.group(:album_id).offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
 
     render :browse
-  end
-
-  def search
-    @page.section = 'search'
-    @page.title = "Search images on #{@page.site_name}"
-
-    render :search
   end
 
   def my_images
@@ -64,7 +62,13 @@ class HomeController < ApplicationController
     @images = Image.includes(:user).where(user_id: session[:user_id])
                 .order(created_at: :desc, album_index: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
+
     @type = :images
     render :my
   end
@@ -74,10 +78,17 @@ class HomeController < ApplicationController
     @page.title = "My albums on #{@page.site_name}"
 
     @images = Image.includes(:user).includes(:album)
-                .where(user_id: session[:user_id], album_index: 0, albums: { user_id: session[:user_id] })
+                .where(user_id: session[:user_id], albums: { user_id: session[:user_id] })
                 .order(created_at: :desc)
+                .group(:album_id)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
+
     @type = :albums
     render :my
   end
@@ -98,7 +109,13 @@ class HomeController < ApplicationController
     @images = Image.includes(:user).where(user_id: user.id)
                 .order(created_at: :desc, album_index: :desc)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
+
     @type = :images
 
     render :user_gallery
@@ -117,10 +134,17 @@ class HomeController < ApplicationController
     @page.title = "#{user.username} albums on #{@page.site_name}"
 
     @images = Image.includes(:user).includes(:album)
-                .where(user_id: user.id, album_index: 0, albums: { user_id: user.id })
+                .where(user_id: user.id, albums: { user_id: user.id })
                 .order(created_at: :desc)
+                .group(:album_id)
                 .offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+
     @show_more = @images.length == IMAGES_PER_PAGE
+    if @images.length == 0 && params[:offset]
+      redirect_to request.path
+      return
+    end
+
     @type = :albums
 
     render :user_gallery
