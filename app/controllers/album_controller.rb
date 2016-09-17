@@ -41,9 +41,13 @@ class AlbumController < ApplicationController
     @page.title = "#{@album.show_title} on #{@page.site_name}"
     @page.description = @album.description if @album.description
 
-
-    render :show
-
+    if params[:ajax]
+      @type = :images
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :show
+    end
   end
 
   def edit

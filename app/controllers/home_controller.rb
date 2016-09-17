@@ -53,7 +53,13 @@ class HomeController < ApplicationController
       return
     end
 
-    render :browse
+    if params[:ajax]
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :browse
+    end
+
   end
 
   def my_images
@@ -70,7 +76,14 @@ class HomeController < ApplicationController
     end
 
     @type = :images
-    render :my
+
+    if params[:ajax]
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :my
+    end
+
   end
 
   def my_albums
@@ -90,7 +103,14 @@ class HomeController < ApplicationController
     end
 
     @type = :albums
-    render :my
+
+    if params[:ajax]
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :my
+    end
+
   end
 
 
@@ -118,7 +138,13 @@ class HomeController < ApplicationController
 
     @type = :images
 
-    render :user_gallery
+    if params[:ajax]
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :user_gallery
+    end
+
   end
 
   def user_albums
@@ -147,7 +173,13 @@ class HomeController < ApplicationController
 
     @type = :albums
 
-    render :user_gallery
+    if params[:ajax]
+      body = render_to_string 'shared/_browse_ajax', layout: false
+      render json: {body: body, offset: params[:offset].to_i + @images.length, show_more: @show_more}
+    else
+      render :user_gallery
+    end
+
   end
 
   def terms
