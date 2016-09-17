@@ -49,6 +49,16 @@
   background-position: center;
 }
 
+.thumb_title {
+  position: absolute;
+  bottom: 6px;
+  right: 6px;
+  left: 6px;
+  white-space: nowrap;
+  padding: 6px 4px;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.9));
+}
+
 .thumb_detail, .thumb_status {
   overflow: hidden;
   font-size: 14px;
@@ -194,6 +204,10 @@
   background-color: transparent;
   border-color: transparent;
   border-bottom: 3px solid #398439;
+}
+
+.btn-footer {
+  font-size: 16px;
 }
 
 .btn-group.open .dropdown-toggle {

@@ -22,7 +22,7 @@ class HomeController < ApplicationController
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
 
-    query = Image.where(album_index: 0, hidden: 0)
+    query = Image.includes(:album).where(album_index: 0, hidden: 0)
 
     if params[:sort] == 'new'
       query.order!(created_at: :desc)

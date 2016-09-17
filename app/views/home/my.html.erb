@@ -24,8 +24,9 @@
   <% @images.each do |image| %>
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
-        <a href="<%= image.link_to_detail(@type) %>" title="<%= image.title %>">
-          <img class="thumb_cover" alt="<%= image.title %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+        <a href="<%= image.link_to_detail(@type) %>" title="<%= image.title_to_detail(@type) %>">
+          <img class="thumb_cover" alt="<%= image.title_to_detail(@type) %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_path %>')">
+          <span class="thumb_title"><%= image.title_to_detail(@type) %></span>
         </a>
       </div>
     </div>

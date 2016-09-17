@@ -121,4 +121,12 @@ class Image < ApplicationRecord
     end
   end
 
+  def title_to_detail(type=nil)
+    if album.nil? || type == :images
+      title
+    else
+      album.show_title
+    end
+  end
+
 end
