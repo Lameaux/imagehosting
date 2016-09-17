@@ -78,7 +78,7 @@ class ImageController < ApplicationController
   end
 
   def next_image_by_id
-    i = Image.where('created_at < ?', @image.created_at).limit(1).first || Image.order(created_at: :desc).limit(1).first
+    i = Image.where(hidden: 0).where('created_at < ?', @image.created_at).limit(1).first || Image.where(hidden: 0).order(created_at: :desc).limit(1).first
     i.short_id
   end
 

@@ -63,7 +63,7 @@ class AlbumController < ApplicationController
   private
 
   def next_album
-    a = Album.where('created_at < ?', @album.created_at).limit(1).first || Album.order(created_at: :desc).limit(1).first
+    a = Album.where(hidden: 0).where('created_at < ?', @album.created_at).limit(1).first || Album.where(hidden: 0).order(created_at: :desc).limit(1).first
     a.short_id
   end
 
