@@ -6,7 +6,7 @@
       <h1>
         <span class="album-title-<%= @album.short_id %>"><%= @album.show_title %></span>
         <% if session[:user_id] == @album.user_id %>
-          <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>" type="text" value="<%= @album.title %>">
+          <input maxlength="255" placeholder="Title" class="form-control input-lg hidden edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>" type="text" value="<%= @album.show_title %>">
           <button class="btn btn-xs btn-primary edit-album-title album-title-<%= @album.short_id %>" data-album-id="<%= @album.short_id %>">Edit title</button>
         <% end %>
       </h1>
@@ -94,7 +94,7 @@
      <%= render 'shared/album_image' %>
   <% end %>
 
-  <div class="image-footer text-center">
+  <div class="image-footer text-center next-bottom">
     <a class="btn btn-success btn-lg" href="/a/<%= @next_post_id %>">Next Post <span class="glyphicon glyphicon-chevron-right"></span></a>
   </div>
 
