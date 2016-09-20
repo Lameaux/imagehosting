@@ -14,6 +14,10 @@
           <p>
             Album: <b><a href="/a/<%= @image.short_album_id %>"><%= @image.album.show_title %></a></b>
           </p>
+        <% elsif session[:user_id] == @image.user_id  %>
+            <p>
+              <b><a href="/a/<%= @image.short_album_id %>">Create album from image</a></b>
+            </p>
         <% end %>
         <p>
           Uploaded

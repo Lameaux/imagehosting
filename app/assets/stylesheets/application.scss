@@ -96,7 +96,6 @@
   border: 2px dashed #bbb;
   border-radius: 5px;
   padding: 50px 15px;
-  text-align: center;
   color: #bbb;
   font-size: 18px;
   margin-bottom: 20px;
@@ -126,6 +125,7 @@
 
 .upload_buttons, .show_more_images {
   margin-top: 30px;
+  margin-bottom: 50px;
 }
 
 .input-group-addon {
@@ -330,4 +330,10 @@
   h3 {
     margin-top: 0px;
   }
+
+  #drop_zone {
+    padding: 20px 15px;
+    text-align: center;
+  }
+
 }

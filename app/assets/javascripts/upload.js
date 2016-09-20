@@ -208,10 +208,12 @@ function uploadFile(id) {
     formData.append('file_url', upload_files[id]);
   }
 
+  var albumNextIndex = parseInt($('#album').data('album-next-index'));
+
   formData.append('title', $('#file_name_' + id).val());
   formData.append('album_id', $('#album').data('album-id'));
   formData.append('token_id', $('#album').data('token-id'));
-  formData.append('album_index', id);
+  formData.append('album_index', albumNextIndex + id);
 
   $.ajax({
     url : '/upload',
@@ -287,9 +289,9 @@ function continueUploading() {
 
   // redirect to album
   var redirect_url = '/a/' + $('#album').data('album-id');
-  if (upload_results.length == 1) {
-    redirect_url = upload_results[0].url;
-  }
+  //if (upload_results.length == 1) {
+  //  redirect_url = upload_results[0].url;
+  //}
   window.location.href = redirect_url;
 }
 

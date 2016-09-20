@@ -1,47 +1,8 @@
 <%= render partial: 'shared/confirm_email' %>
 
 <div class="start_message text-center">
-  <h1>Upload PNG, JPG, GIF images</h1>
+  <h1>Upload images</h1>
   <h3 class="hidden-xs">Drag & drop, browse files, paste from clipboard or upload images from the web.</h3>
 </div>
 
-<div>
-
-  <form class="upload_form" action="/upload" method="post" enctype="multipart/form-data">
-
-    <div id="album" class="text-center hidden" data-album-id="<%= @album_id %>" data-token-id="<%= @token_id %>">
-      <button type="submit" class="upload_button btn btn-success btn-lg">
-        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
-      </button>
-    </div>
-
-    <%= render partial: 'shared/dropzone' %>
-
-    <div class="row" id="preview_files"></div>
-
-    <div id="album_link" class="text-center hidden">
-      <h2 class="visible-xs">Link to album:</h2>
-      <div class="input-group input-group-lg">
-        <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
-        <span class="hidden-xs">Link to album:</span>
-        </span>
-        <input type="text" class="form-control" value="<%= ApplicationController::BASE_URL %>/a/<%= @album_id %>">
-        <span class="input-group-btn">
-          <a title="Link" href="<%= ApplicationController::BASE_URL %>/a/<%= @album_id %>" class="btn btn-primary"><span class="glyphicon glyphicon-share-alt"></span></a>
-        </span>
-      </div>
-    </div>
-
-    <div class="upload_buttons hidden text-center">
-      <a href="/upload" class="btn btn-primary btn-lg hidden" id="new_upload_button">
-        <span class="glyphicon glyphicon-cloud-upload"></span> New Upload
-      </a>
-      <button type="submit" class="upload_button btn btn-success btn-lg">
-        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
-      </button>
-    </div>
-
-  </form>
-
-</div>
-
+<%= render partial: 'shared/dropzone' %>

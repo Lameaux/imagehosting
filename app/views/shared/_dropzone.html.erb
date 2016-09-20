@@ -1,26 +1,62 @@
-<div id="drop_zone">
+<div class="upload-more">
+  <form class="upload_form" action="/upload" method="post" enctype="multipart/form-data">
 
-  <div class="row">
-    <div class="col-md-3 hidden-sm hidden-xs">
-      <span class="drop-label">
-        <span class="glyphicon glyphicon-download-alt"></span> Drop files here
-      </span>
+    <div id="album" class="text-center hidden" data-album-id="<%= get_album_id %>" data-album-next-index="<%= get_album_next_index %>" data-token-id="<%= session[:token_id] %>">
+      <button type="submit" class="upload_button btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
+      </button>
     </div>
 
-  <div class="col-md-3 col-sm-4 col-xs-12">
-    <input type="file" name="file" id="upload_files" class="input_files" accept="image/*" multiple/>
-    <label for="upload_files" id="upload_files_label" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Browse images</label>
-  </div>
+    <div id="drop_zone">
 
-  <div class="col-md-6 col-sm-8 hidden-xs">
-    <div class="input-group input-group-lg">
-      <input type="text" placeholder="Paste link" class="form-control" id="paste_url" />
-      <span class="input-group-btn">
-        <button type="button" class="btn btn-primary" id="paste_url_button"><span class="glyphicon glyphicon-globe"></span> Upload from Web</button>
-      </span>
+      <div class="row">
+        <div class="col-md-3 hidden-sm hidden-xs">
+          <span class="drop-label">
+            <span class="glyphicon glyphicon-download-alt"></span> Drop files here
+          </span>
+        </div>
+
+      <div class="col-md-3 col-sm-4 col-xs-12">
+        <input type="file" name="file" id="upload_files" class="input_files" accept="image/*" multiple/>
+        <label for="upload_files" id="upload_files_label" class="btn btn-primary btn-lg"><span class="glyphicon glyphicon-folder-open"></span>&nbsp;&nbsp;Browse images</label>
+      </div>
+
+      <div class="col-md-6 col-sm-8 hidden-xs">
+        <div class="input-group input-group-lg">
+          <input type="text" placeholder="Paste link" class="form-control" id="paste_url" />
+          <span class="input-group-btn">
+            <button type="button" class="btn btn-primary" id="paste_url_button"><span class="glyphicon glyphicon-globe"></span> Upload from Web</button>
+          </span>
+        </div>
+      </div>
+
+      </div>
+
     </div>
-  </div>
 
-  </div>
+    <div class="row" id="preview_files"></div>
 
+    <div id="album_link" class="text-center hidden">
+      <h2 class="visible-xs">Link to album:</h2>
+      <div class="input-group input-group-lg">
+          <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
+          <span class="hidden-xs">Link to album:</span>
+          </span>
+        <input type="text" class="form-control" value="<%= ApplicationController::BASE_URL %>/a/<%= get_album_id %>">
+          <span class="input-group-btn">
+            <a title="Link" href="<%= ApplicationController::BASE_URL %>/a/<%= get_album_id %>" class="btn btn-primary"><span class="glyphicon glyphicon-share-alt"></span></a>
+          </span>
+      </div>
+    </div>
+
+    <div class="upload_buttons hidden text-center">
+      <a href="/upload" class="btn btn-primary btn-lg hidden" id="new_upload_button">
+        <span class="glyphicon glyphicon-cloud-upload"></span> New Upload
+      </a>
+      <button type="submit" class="upload_button btn btn-success btn-lg">
+        <span class="glyphicon glyphicon-cloud-upload"></span> Upload selected images
+      </button>
+    </div>
+
+  </form>
 </div>

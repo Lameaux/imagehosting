@@ -65,6 +65,8 @@
 
 </div>
 
+<%= render 'shared/upload_more' %>
+
 <% if @images.length > AlbumController::ALBUM_LIMIT || params[:offset] %>
 
   <div class="row browse-list album-browse-list">

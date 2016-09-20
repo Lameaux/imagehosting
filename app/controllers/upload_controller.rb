@@ -20,7 +20,7 @@ class UploadController < ApplicationController
   def create
 
     if params[:username]
-      user = User.find_by_username(params[:username])
+      user = User.find_by(username: params[:username], active: 1)
       if user && user.authenticate(params[:password])
         params[:token_id] = session[:token_id]
         session[:user_id] = user.id

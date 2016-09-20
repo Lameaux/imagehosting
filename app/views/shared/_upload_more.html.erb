@@ -1,0 +1,3 @@
+<% if session[:user_id] == @album.user_id %>
+  <%= render 'shared/dropzone' %>
+<% end %>
