@@ -40,9 +40,9 @@ class ApplicationController < ActionController::Base
     @page.url = request.original_fullpath
     @page.site_name = 'pngif.com'
     @page.site_domain = 'pngif.com'
-    @page.title = 'Upload PNG, JPG, GIF images and share'
-    @page.keywords = 'image, png, gif, jpeg, share, hosting'
-    @page.description = 'Upload PNG, JPG, GIF images. Drag & drop, browse files, paste from clipboard or upload images from the web.'
+    @page.title = 'Free Image hosting. Upload PNG, JPG, GIF images and share'
+    @page.keywords = 'image, png, gif, jpeg, share, hosting, free'
+    @page.description = 'Free Image Hosting. Upload and share PNG, JPG, GIF images. Drag & drop, browse files, paste from clipboard or upload images from the web.'
     @page.section = ''
     @page.category = nil
     @page.author = 'pngif.com'

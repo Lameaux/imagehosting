@@ -38,8 +38,8 @@
           <span class="fa fa-share-alt"></span>
         </a>
 
-        <a title="Share on Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-facebook"><span class="fa fa-facebook"></span></a>
-        <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}/a/#{@album.short_id}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
+        <a title="Share on Facebook" target="_blank" href="https://www.facebook.com/sharer/sharer.php?u=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}#{@album.share_link}") %>" class="btn share-button share-facebook"><span class="fa fa-facebook"></span></a>
+        <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}#{@album.share_link}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
       </p>
 
       <div id="album-share-box" class="album-share-box collapse">
@@ -47,7 +47,7 @@
               <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
               <span>Link:</span>
               </span>
-              <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %>/a/<%= @album.short_id %>">
+              <input type="text" class="form-control image-url" value="<%= ApplicationController::BASE_URL %><%= @album.share_link %>">
               <span class="input-group-btn hidden-xs">
                 <button title="Copy to clipboard" class="btn btn-primary clipboard-btn"><span class="glyphicon glyphicon-copy"></span></button>
               </span>

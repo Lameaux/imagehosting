@@ -77,9 +77,13 @@ class ImageController < ApplicationController
   private
 
   def next_image_in_album
-    Image.where(album_id: @image.album.id)
-      .where('album_index in (?, 0)', @image.album_index + 1)
-      .order(album_index: :desc).limit(1).first_or_initialize(id: @image.id).link_to_image
+    i = Image.where(album_id: @image.album.id)
+      .where('album_index > ?', @image.album_index)
+      .order(album_index: :asc).limit(1).first ||
+      Image.where(album_id: @image.album.id)
+        .where(album_index: 0).limit(1).first ||
+      Image.new(id: @image.id)
+    i.link_to_image
   end
 
   def next_image_by_id

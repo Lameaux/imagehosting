@@ -45,4 +45,12 @@ class Album < ApplicationRecord
     end
   end
 
+  def share_link
+    if images.count == 1
+      "/#{images.first.short_id}"
+    else
+      "/a/#{short_id}"
+    end
+  end
+
 end
