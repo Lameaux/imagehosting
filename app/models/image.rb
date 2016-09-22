@@ -110,12 +110,25 @@ class Image < ApplicationRecord
   end
 
   def link_to_album
-    "/a/#{short_album_id}"
+    if album && album.title
+      "/a/#{short_album_id}/#{album.title.to_ascii.parameterize}"
+    else
+      "/a/#{short_album_id}"
+    end
+  end
+
+  def link_to_image
+    if title
+      "/#{short_id}/#{title.to_ascii.parameterize}"
+    else
+      "/#{short_id}"
+    end
+
   end
 
   def link_to_detail(type=nil)
     if album.nil? || type == :images
-      "/#{short_id}"
+      link_to_image
     else
       link_to_album
     end

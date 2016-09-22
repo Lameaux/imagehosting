@@ -37,4 +37,12 @@ class Album < ApplicationRecord
     }
   end
 
+  def link_to_album
+    if title
+      "/a/#{short_id}/#{title.to_ascii.parameterize}"
+    else
+      "/a/#{short_id}"
+    end
+  end
+
 end

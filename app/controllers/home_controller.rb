@@ -212,11 +212,11 @@ class HomeController < ApplicationController
       image_title = strip_tags(image.title || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)
       image_description = strip_tags(image.description || '').gsub(/[<>]/, CGI::Util::TABLE_FOR_ESCAPE_HTML__)
 
-      image_description_full = "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
+      image_description_full = "<a href=\"#{@page.base_url}#{image.link_to_detail(:images)}\" alt=\"#{image_title}\">" <<
         "<img alt=\"#{image_title}\" src=\"#{image.web_thumb_url}\" />" <<
         '</a>' <<
         '<p>' <<
-        "<a href=\"#{@page.base_url}/#{image.short_id}\" alt=\"#{image_title}\">" <<
+        "<a href=\"#{@page.base_url}#{image.link_to_detail(:images)}\" alt=\"#{image_title}\">" <<
         "#{image_title}" <<
         '</a>' <<
         '</p>'
@@ -225,8 +225,8 @@ class HomeController < ApplicationController
       output << "
                   <item>
                       <title><![CDATA[#{image_title}]]></title>
-                      <link>#{@page.base_url}/#{image.short_id}</link>
-                      <guid>#{@page.base_url}/#{image.short_id}</guid>
+                      <link>#{@page.base_url}#{image.link_to_detail(:images)}</link>
+                      <guid>#{@page.base_url}#{image.link_to_detail(:images)}</guid>
                       <description><![CDATA[#{image_description_full}]]></description>"
 
       image.tags_array.each do |tag|
@@ -259,7 +259,7 @@ class HomeController < ApplicationController
 
     Image.where(hidden: 0).order(created_at: :desc).limit(40000).each do |image|
       output << "<url>
-                    <loc>#{@page.base_url}/#{image.short_id}</loc>
+                    <loc>#{@page.base_url}#{image.link_to_detail(:images)}</loc>
                     <lastmod>#{Time.now.strftime('%Y-%m-%d')}</lastmod>
                     <changefreq>weekly</changefreq>
                     <priority>0.8</priority>

@@ -14,7 +14,7 @@
           <p>
             Album: <b><a href="/a/<%= @image.short_album_id %>"><%= @image.album.show_title %></a></b>
           </p>
-        <% elsif session[:user_id] == @image.user_id  %>
+        <% elsif session[:user_id] == @image.user_id %>
             <p>
               <b><a href="/a/<%= @image.short_album_id %>">Create album from image</a></b>
             </p>
@@ -32,7 +32,7 @@
       </div>
       <div class="col-md-2 col-sm-4 hidden-xs text-right">
         <div class="next-post">
-          <a class="btn btn-primary btn-lg" href="/<%= @next_post_id %>">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
+          <a class="btn btn-primary btn-lg" href="<%= @next_post_id %>">Next <span class="glyphicon glyphicon-chevron-right"></span></a>
         </div>
       </div>
 

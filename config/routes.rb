@@ -42,18 +42,17 @@ Rails.application.routes.draw do
   get '/confirm-email', to: 'user#confirm_email'
   get '/confirm-email/:activation_code', to: 'user#confirm_email_ok', constraints: { activation_code: /[0-9a-zA-Z]+/ }
 
-  get '/:id', to: 'image#show', constraints: { id: /[0-9a-zA-Z]+/ }
+  get '/a/:id(/:slug)', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
+  get '/album/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
+  put '/album/:id', to: 'album#edit', constraints: { id: /[0-9a-zA-Z]+/ }
+  delete '/album/:id', to: 'album#delete', constraints: { id: /[0-9a-zA-Z]+/ }
+
+  get '/:id(/:slug)', to: 'image#show', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/:id', to: 'image#edit', constraints: { id: /[0-9a-zA-Z]+/ }
   delete '/:id', to: 'image#delete', constraints: { id: /[0-9a-zA-Z]+/ }
 
   post '/:id/tags', to: 'image#add_tag', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/:id/tags', to: 'image#delete_tag', constraints: { id: /[0-9a-zA-Z]+/ }
-
-
-  get '/a/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
-  get '/album/:id', to: 'album#show', constraints: { id: /[0-9a-zA-Z]+/ }
-  put '/album/:id', to: 'album#edit', constraints: { id: /[0-9a-zA-Z]+/ }
-  delete '/album/:id', to: 'album#delete', constraints: { id: /[0-9a-zA-Z]+/ }
 
   match '*unmatched_route', :to => 'application#raise_not_found!', :via => :all
 

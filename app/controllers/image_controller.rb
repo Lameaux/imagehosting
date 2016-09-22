@@ -6,6 +6,11 @@ class ImageController < ApplicationController
     @image = Image.includes(:user).includes(:album).find_by(id: uuid)
     not_found unless @image
 
+    if @image.title && params[:slug].nil?
+      redirect_to @image.link_to_image, status: :moved_permanently
+      return
+    end
+
     if @image.album.nil?
       @next_post_id = next_image_by_id
     else
@@ -74,13 +79,13 @@ class ImageController < ApplicationController
   def next_image_in_album
     Image.where(album_id: @image.album.id)
       .where('album_index in (?, 0)', @image.album_index + 1)
-      .order(album_index: :desc).limit(1).first_or_initialize(id: @image.id).short_id
+      .order(album_index: :desc).limit(1).first_or_initialize(id: @image.id).link_to_image
   end
 
   def next_image_by_id
     i = Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).where('images.created_at < ?', @image.created_at).limit(1).first ||
       Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).order(created_at: :desc).limit(1).first
-    i.short_id
+    i.link_to_image
   end
 
   def find_by_id_and_user_id

@@ -15,6 +15,11 @@ class AlbumController < ApplicationController
     @album = Album.find_by(id: @uuid)
     not_found if @images.empty? && @album.nil?
 
+    if @album && @album.title && params[:slug].nil?
+      redirect_to @album.link_to_album, status: :moved_permanently
+      return
+    end
+
     @show_more = @images.length == IMAGES_PER_PAGE
     if @images.length == 0 && params[:offset]
       redirect_to request.path
@@ -68,7 +73,7 @@ class AlbumController < ApplicationController
 
   def next_album
     a = Album.where(hidden: 0).where('created_at < ?', @album.created_at).limit(1).first || Album.where(hidden: 0).order(created_at: :desc).limit(1).first
-    a.short_id
+    a.link_to_album
   end
 
   def find_by_id_and_user_id
