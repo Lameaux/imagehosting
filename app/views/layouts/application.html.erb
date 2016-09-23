@@ -64,7 +64,7 @@
     <div class="text-center">
       <a class="logo" title="<%= @page.site_name %>" href="/"><h1 class="masthead-brand"><span class="glyphicon glyphicon-cloud-upload logo-icon"></span> <b>pngif</b>.com</h1></a>
       <ul class="nav masthead-nav">
-        <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/upload"><span class="glyphicon glyphicon-upload logo-icon"></span> Upload</a></li>
+        <li <%= @page.section == 'upload' ? 'class="active"'.html_safe : '' %>><a href="/upload"><span class="fa fa-cloud-upload logo-icon"></span> Upload</a></li>
 
         <li class="hidden-xs<%= @page.section == 'browse' ? ' active'.html_safe : '' %>"><a href="/browse"><span class="glyphicon glyphicon-list"></span> Browse</a></li>
 
@@ -72,7 +72,7 @@
           <li <%= @page.section == 'search' ? 'class="active"'.html_safe : '' %>><a href="/search"><span class="glyphicon glyphicon-search"></span> Search</a></li>
         <% end %>
 
-        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="glyphicon glyphicon-cloud"></span> My Uploads</a></li>
+        <li <%= @page.section == 'my' ? 'class="active"'.html_safe : '' %>><a href="/my"><span class="fa fa-image"></span> My Images</a></li>
 
         <% if logged_in? %>
 
@@ -92,7 +92,7 @@
           </li>
 
         <% else %>
-          <li <%= @page.section == 'login' ? 'class="active"'.html_safe : '' %>><a href="/login"><span class="glyphicon glyphicon-user"></span> Log in</a></li>
+          <li <%= @page.section == 'login' ? 'class="active"'.html_safe : '' %>><a href="/login"><span class="fa fa-sign-in"></span> Log in</a></li>
         <% end %>
       </ul>
     </div>

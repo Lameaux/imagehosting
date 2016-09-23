@@ -34,7 +34,7 @@
       </p>
       <p class="album-share-button">
 
-        <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box">
+        <a title="Share link" class="btn share-button" data-toggle="collapse" data-target="#album-share-box-<%= @album.short_id %>">
           <span class="fa fa-share-alt"></span>
         </a>
 
@@ -42,7 +42,7 @@
         <a title="Share on Twitter" target="_blank" href="https://twitter.com/home?status=<%= URI.encode_www_form_component("#{ApplicationController::BASE_URL}#{@album.share_link}") %>" class="btn share-button share-twitter"><span class="fa fa-twitter"></span></a>
       </p>
 
-      <div id="album-share-box" class="album-share-box collapse">
+      <div id="album-share-box-<%= @album.short_id %>" class="album-share-box collapse">
         <div class="input-group">
               <span class="input-group-addon"><span class="glyphicon glyphicon-link"></span>
               <span>Link:</span>

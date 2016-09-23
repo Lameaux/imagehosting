@@ -69,9 +69,6 @@ class UploadController < ApplicationController
     image_hash[:url] = "#{BASE_URL}/#{@image.short_id}"
     image_hash[:thumb_url] = "#{@image.web_thumb_url}"
 
-    session[:my_images] = session[:my_images] || []
-    session[:my_images] << @image.id
-
     render json: image_hash.to_json
   rescue
     if @image

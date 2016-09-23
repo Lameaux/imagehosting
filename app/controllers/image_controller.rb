@@ -74,6 +74,38 @@ class ImageController < ApplicationController
     render plain: 'OK'
   end
 
+  def add_like
+    @id = params[:id]
+    uuid = ShortUUID.expand(@id)
+    @image = Image.find_by(id: uuid)
+    not_found unless @image
+
+    session[:likes] = session[:likes] || []
+    bad_request if session[:likes].include? @image.id
+    session[:likes] << @image.id
+
+    @image.likes = @image.likes + 1
+    @image.save!
+
+    render plain: @image.likes
+  end
+
+  def delete_like
+    @id = params[:id]
+    uuid = ShortUUID.expand(@id)
+    @image = Image.find_by(id: uuid)
+    not_found unless @image
+
+    session[:likes] = session[:likes] || []
+    bad_request unless session[:likes].include? @image.id
+    session[:likes].delete(@image.id)
+
+    @image.likes = [0, @image.likes - 1].max
+    @image.save!
+
+    render plain: @image.likes
+  end
+
   private
 
   def next_image_in_album

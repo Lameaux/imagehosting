@@ -24,7 +24,6 @@ class UserController < ApplicationController
   def logout
     session[:user] = nil
     session[:user_id] = SecureRandom.uuid
-    session[:my_images] = nil
     redirect_to '/'
   end
 

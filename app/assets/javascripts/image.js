@@ -208,8 +208,7 @@
     $('.hide-image').click(function() {
       var imageId = $(this).data('image-id');
       var selector = '#hide-image-' + imageId;
-      var hiddenValue = $(selector).prop('checked')
-      console.log(hiddenValue);
+      var hiddenValue = $(selector).prop('checked');
 
       var formData = new FormData();
       formData.append('hidden', hiddenValue ? '1' : '0');
@@ -222,6 +221,27 @@
         contentType: false
       });
     });
+
+    $('.like-button').click(function() {
+      var imageId = $(this).data('image-id');
+      var liked = $(this).hasClass('liked');
+      var that = this;
+      $.ajax({
+        url: '/' + imageId + '/likes',
+        type: liked ? 'PUT' : 'POST',
+        processData: false,
+        contentType: false,
+        success: function (data) {
+          $(that).find('.likes').html(data);
+          if (liked) {
+            $(that).removeClass('liked');
+          } else {
+            $(that).addClass('liked');
+          }
+        }
+      });
+    })
+
 
   });
 

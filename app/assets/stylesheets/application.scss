@@ -28,6 +28,7 @@
 }
 
 #back-top {
+  display:none;
   position:fixed;
   bottom:10px;
   right:10px;
@@ -123,9 +124,14 @@
   margin-top: 20px;
 }
 
-.upload_buttons, .show_more_images {
+.show_more_images {
   margin-top: 30px;
   margin-bottom: 50px;
+}
+
+.upload_buttons {
+  margin-top: 30px;
+  margin-bottom: 20px;
 }
 
 .input-group-addon {
@@ -254,11 +260,31 @@
 .share-button {
   font-size: 30px;
   cursor: pointer;
-  padding: 4px 24px 4px 0px;
+  padding: 0px 0px;
+  margin: 4px 24px 4px 0px;
 }
 
 .share-button:hover {
   color: #333;
+}
+
+.like-button {
+  font-size: 30px;
+  cursor: pointer;
+  padding: 0px 0px;
+  margin: 4px 24px 4px 0px;
+}
+
+.like-button:hover {
+  color: #4cae4c;
+}
+
+.liked {
+  color: #4cae4c;
+}
+
+.liked:hover {
+  color: #fff;
 }
 
 .image-tag {

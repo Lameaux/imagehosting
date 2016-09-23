@@ -16,4 +16,13 @@ module ApplicationHelper
     return @album.images.maximum(:album_index) + 1
   end
 
+  def like_button_class(image)
+    session[:likes] = session[:likes] || []
+    if session[:likes].include? image.id
+      'like-button liked'
+    else
+      'like-button'
+    end
+  end
+
 end
