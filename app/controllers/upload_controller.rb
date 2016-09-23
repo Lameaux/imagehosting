@@ -14,8 +14,10 @@ class UploadController < ApplicationController
   MIME_TYPES = {
     'image/gif' => 'gif',
     'image/jpeg' => 'jpg',
+    'application/octet-stream' => 'jpg',
     'image/png' => 'png',
   }
+  MIME_TYPES.default = 'jpg'
 
   def create
 
@@ -70,11 +72,11 @@ class UploadController < ApplicationController
     image_hash[:thumb_url] = "#{@image.web_thumb_url}"
 
     render json: image_hash.to_json
-  rescue
+  rescue => e
     if @image
       @image.destroy
-      File.delete @image.local_file_path
-      File.delete @image.local_thumb_path
+      File.delete @image.local_file_path rescue nil
+      File.delete @image.local_thumb_path rescue nil
     end
   end
 
