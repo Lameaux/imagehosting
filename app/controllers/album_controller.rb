@@ -36,7 +36,7 @@ class AlbumController < ApplicationController
     @next_post_id = next_album
 
     if (first_image)
-      @page.image = "#{first_image.web_thumb_url}"
+      @page.image = "#{first_image.web_file_url}"
       @page.keywords = first_image.tags if first_image.tags
     end
 

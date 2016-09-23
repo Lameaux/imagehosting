@@ -17,7 +17,7 @@ class ImageController < ApplicationController
       @next_post_id = next_image_in_album
     end
 
-    @page.image = "#{@image.web_thumb_url}"
+    @page.image = "#{@image.web_file_url}"
     @page.image_width = Image::THUMBNAIL_WIDTH
     @page.image_height = Image::THUMBNAIL_HEIGHT
 

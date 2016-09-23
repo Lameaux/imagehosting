@@ -35,8 +35,6 @@ class ApplicationController < ActionController::Base
   def set_default_page
     @page = Page.new
     @page.image = "#{BASE_URL}/img/pngifcom.png"
-    @page.image_width = Image::THUMBNAIL_WIDTH
-    @page.image_height = Image::THUMBNAIL_HEIGHT
     @page.url = request.original_fullpath
     @page.site_name = 'pngif.com'
     @page.site_domain = 'pngif.com'
