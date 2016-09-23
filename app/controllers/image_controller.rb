@@ -119,8 +119,8 @@ class ImageController < ApplicationController
   end
 
   def next_image_by_id
-    i = Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).where('images.created_at < ?', @image.created_at).limit(1).first ||
-      Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).order(created_at: :desc).limit(1).first
+    i = Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).where('images.id < ?', @image.id).order('images.id DESC').limit(1).first ||
+      Image.includes(:album).where(albums: { id: nil }).where(hidden: 0).order('images.id DESC').limit(1).first
     i.link_to_image
   end
 
