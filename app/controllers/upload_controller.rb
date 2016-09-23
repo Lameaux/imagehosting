@@ -14,10 +14,9 @@ class UploadController < ApplicationController
   MIME_TYPES = {
     'image/gif' => 'gif',
     'image/jpeg' => 'jpg',
-    'application/octet-stream' => 'jpg',
     'image/png' => 'png',
   }
-  MIME_TYPES.default = 'jpg'
+  MIME_TYPES.default = ''
 
   def create
 
@@ -54,6 +53,7 @@ class UploadController < ApplicationController
     @image.album_id = ShortUUID.expand(params[:album_id]) if params[:album_id]
     @image.album_index = params[:album_index] if params[:album_index]
     @image.hidden = params[:hidden].to_i if params[:hidden]
+    set_image_format!(@image)
     set_image_dimensions!(@image)
     @image.save!
 
@@ -82,8 +82,22 @@ class UploadController < ApplicationController
 
   private
 
+  def set_image_format!(image)
+    if (image.file_ext.blank?)
+      img = Magick::Image.ping(image.local_file_path).first
+      bad_request unless supported_format img.format.downcase
+      old_file_name = image.local_file_path
+      image.file_ext = img.format.downcase
+      File.rename(old_file_name, image.local_file_path)
+    end
+  end
+
   def supported_content_type(content_type)
     MIME_TYPES.keys.include? content_type
+  end
+
+  def supported_format(format)
+    MIME_TYPES.values.include? format
   end
 
   def download_url(url)
