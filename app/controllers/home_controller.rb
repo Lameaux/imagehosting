@@ -26,7 +26,7 @@ class HomeController < ApplicationController
     if params[:sort] == 'new'
       query.order!(created_at: :desc)
     else
-      query.order!(views: :desc)
+      query.order!(views: :desc, id: :desc)
     end
 
     unless params[:type] == 'any'
@@ -51,8 +51,6 @@ class HomeController < ApplicationController
       redirect_to request.path
       return
     end
-
-    @images = @images.to_a.delete_if { |image| image.hidden == 1 }
 
     if params[:ajax]
       body = render_to_string 'shared/_browse_ajax', layout: false

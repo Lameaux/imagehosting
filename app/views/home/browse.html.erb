@@ -42,6 +42,7 @@
 <div class="row browse-list">
 
   <% @images.each do |image| %>
+    <% next if image.hidden == 1 %>
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
       <a href="<%= image.link_to_detail %>" class="thumb_link" title="<%= image.title_to_detail %>">
