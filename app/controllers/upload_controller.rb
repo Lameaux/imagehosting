@@ -15,6 +15,7 @@ class UploadController < ApplicationController
     'image/gif' => 'gif',
     'image/jpeg' => 'jpg',
     'image/png' => 'png',
+    'application/octet-stream' => '',
   }
   MIME_TYPES.default = ''
 
