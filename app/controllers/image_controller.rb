@@ -90,6 +90,23 @@ class ImageController < ApplicationController
     render plain: @image.likes
   end
 
+  def add_view
+    @id = params[:id]
+    uuid = ShortUUID.expand(@id)
+    @image = Image.find_by(id: uuid)
+    not_found unless @image
+
+    session[:views] = session[:views] || []
+    unless session[:views].include? @image.id
+      session[:views] << @image.id
+
+      @image.views = @image.views + 1
+      @image.save!
+    end
+
+    render plain: @image.views
+  end
+
   def delete_like
     @id = params[:id]
     uuid = ShortUUID.expand(@id)

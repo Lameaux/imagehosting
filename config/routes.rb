@@ -57,6 +57,8 @@ Rails.application.routes.draw do
   post '/:id/likes', to: 'image#add_like', constraints: { id: /[0-9a-zA-Z]+/ }
   put '/:id/likes', to: 'image#delete_like', constraints: { id: /[0-9a-zA-Z]+/ }
 
+  post '/:id/views', to: 'image#add_view', constraints: { id: /[0-9a-zA-Z]+/ }
+
   match '*unmatched_route', :to => 'application#raise_not_found!', :via => :all
 
 end

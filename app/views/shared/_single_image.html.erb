@@ -44,7 +44,7 @@
     <% if @image.width > 800 %>
       <a class="zoom-in" href="<%= @image.web_file_url %>" data-toggle="lightbox">
     <% end %>
-      <img src="<%= @image.web_file_url %>" alt="<%= @image.title %>">
+      <img class="count-view" data-image-id="<%= @image.short_id %>" src="<%= @image.web_file_url %>" alt="<%= @image.title %>">
     <% if @image.width > 800 %>
       </a>
     <% end %>

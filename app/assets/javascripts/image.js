@@ -240,8 +240,17 @@
           }
         }
       });
-    })
+    });
 
+    if ( $('img.count-view').length ) {
+      var imageId = $('img.count-view').data('image-id');
+      $.ajax({
+        url: '/' + imageId + '/views',
+        type: 'POST',
+        processData: false,
+        contentType: false,
+      });
+    }
 
   });
 
