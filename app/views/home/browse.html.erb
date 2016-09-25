@@ -46,9 +46,9 @@
     <% next if image.hidden == 1 %>
     <div class="col-md-3 col-sm-4 col-xs-6">
       <div class="thumbnail browse_thumbnail">
-      <a href="<%= image.link_to_image %>" class="thumb_link" title="<%= image.link_to_image %>">
-        <img class="thumb_cover" alt="<%= image.link_to_image %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_url %>')">
-        <span class="thumb_title"><%= image.link_to_image %></span>
+      <a href="<%= image.link_to_image %>" class="thumb_link" title="<%= image.title_to_detail %>">
+        <img class="thumb_cover" alt="<%= image.title_to_detail %>" src="/img/1px.gif" style="background-image: url('<%= image.web_thumb_url %>')">
+        <span class="thumb_title"><%= image.title_to_detail %></span>
       </a>
       </div>
     </div>
