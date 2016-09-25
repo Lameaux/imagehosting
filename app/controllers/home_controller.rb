@@ -14,7 +14,7 @@ class HomeController < ApplicationController
 
   def browse
     @page.section = 'browse'
-    params[:sort] = params[:sort] || 'popular'
+    params[:sort] = params[:sort] || 'new'
 
     @page.title = "#{params[:sort].capitalize} images on #{@page.site_name}"
 
@@ -24,7 +24,7 @@ class HomeController < ApplicationController
     query = Image.includes(:album)
 
     if params[:sort] == 'new'
-      query.order!(created_at: :desc)
+      query.order!(id: :desc)
     else
       query.order!(views: :desc, id: :desc)
     end

@@ -1,6 +1,6 @@
 <div class="text-center">
-  <h3>Browse
-
+  <h3>Browse new images.
+    <% if false %>
     <div class="btn-group">
       <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         <%= {'popular' => 'popular images', 'new' => 'new images' }[params[:sort]] %>
@@ -10,6 +10,7 @@
         <li><a href="/browse/new/<%= params[:type] %>/<%= params[:size] %>">new images</a></li>
       </ul>
     </div>.
+    <% end %>
     <div class="inline hidden-xs">
       <div class="btn-group">
         <button type="button" class="btn btn-browse dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
