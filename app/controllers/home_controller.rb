@@ -21,7 +21,7 @@ class HomeController < ApplicationController
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
 
-    query = Image.includes(:album)
+    query = Image.where(hidden: 0)
 
     if params[:sort] == 'new'
       query.order!(id: :desc)
@@ -44,7 +44,7 @@ class HomeController < ApplicationController
         nil
     end
 
-    @images = query.group(:album_id).offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
+    @images = query.offset(params[:offset].to_i.abs).limit(IMAGES_PER_PAGE)
 
     @show_more = @images.length == IMAGES_PER_PAGE
     if @images.length == 0 && params[:offset]
