@@ -39,10 +39,15 @@ class Album < ApplicationRecord
 
   def link_to_album
     if title
-      "/a/#{short_id}/#{title.to_ascii.parameterize}"
+      "/a/#{short_id}/#{slug}"
     else
       "/a/#{short_id}"
     end
+  end
+
+  def slug
+    return '' unless title
+    title.to_ascii.parameterize
   end
 
   def share_link

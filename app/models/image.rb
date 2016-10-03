@@ -119,11 +119,16 @@ class Image < ApplicationRecord
 
   def link_to_image
     if title
-      "/#{short_id}/#{title.to_ascii.parameterize}"
+      "/#{short_id}/#{slug}"
     else
       "/#{short_id}"
     end
 
+  end
+
+  def slug
+    return '' unless title
+    title.to_ascii.parameterize
   end
 
   def link_to_detail(type=nil)

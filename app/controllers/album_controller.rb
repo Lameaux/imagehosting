@@ -15,7 +15,7 @@ class AlbumController < ApplicationController
     @album = Album.find_by(id: @uuid)
     not_found if @images.empty? && @album.nil?
 
-    if @album && @album.title && params[:slug].nil?
+    if @album && @album.slug != '' && ( params[:slug].nil? || @album.slug != params[:slug] )
       redirect_to @album.link_to_album, status: :moved_permanently
       return
     end

@@ -6,7 +6,7 @@ class ImageController < ApplicationController
     @image = Image.includes(:user).includes(:album).find_by(id: uuid)
     not_found unless @image
 
-    if @image.title && params[:slug].nil?
+    if @image.slug != '' && ( params[:slug].nil? || @image.slug != params[:slug] )
       redirect_to @image.link_to_image, status: :moved_permanently
       return
     end
