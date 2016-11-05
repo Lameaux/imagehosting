@@ -136,7 +136,7 @@ class UploadController < ApplicationController
     end
 
     img.resize_to_fit!(Image::THUMBNAIL_WIDTH, Image::THUMBNAIL_HEIGHT)
-    FileUtils.mkdir_p(File.dirname(@image.local_thumb_path))
+    FileUtils.mkdir_p(File.dirname(image.local_thumb_path))
     final = target.composite(img, Magick::CenterGravity, Magick::CopyCompositeOp)
 
     if image.file_ext == 'gif'

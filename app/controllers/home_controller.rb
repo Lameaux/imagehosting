@@ -20,13 +20,14 @@ class HomeController < ApplicationController
 
     params[:type] = params[:type] || 'any'
     params[:size] = params[:size] || 'any'
+    params[:prefix] = params[:prefix] || %w(0 1 2 3 4 5 6 7 8 9 a b c d e f).sample
 
-    query = Image.where(hidden: 0)
+    query = Image.where(hidden: 0).where('id > ?', params[:prefix])
 
     if params[:sort] == 'new'
-      query.order!(id: :desc)
+      query.order!(id: :asc)
     else
-      query.order!(views: :desc, id: :desc)
+      query.order!(views: :desc, id: :asc)
     end
 
     unless params[:type] == 'any'
